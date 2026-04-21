@@ -1,13 +1,53 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
-<!--    App:        Amortization calculator
-        Element:    View
--->
+<ContentPage x:Class="FISSystem.Pages.AccountsReceivable"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:FISSystem.ViewModels"
+             Title="Accounts Receivable"
+             IconImageSource="home.png">
 
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            x:Class="FISSystem.Pages.AccountsReceivable"
-            Title="Accounts Receivable">
+
+    <ContentPage.BindingContext>
+        <viewModels:ARViewModel />
+    </ContentPage.BindingContext>
+
+    <!-- Input Fields -->
+    <VerticalStackLayout>
+
+        <!-- Tab Buttons -->
+        <HorizontalStackLayout Spacing="10" Padding="10">
+
+            <Button Text="Upcoming Payments"
+                    Command="{Binding ARViewSelectedCommand}"
+                    CommandParameter="upcomingPayments"
+                    BackgroundColor="{Binding UpcomingPaymentsButtonColor}"/>
+
+            <Button Text="Transactions"
+                    Command="{Binding ARViewSelectedCommand}"
+                    CommandParameter="transactions" 
+                    BackgroundColor="{Binding TransactionsButtonColor}"/>
+
+
+        </HorizontalStackLayout>
+
+        <VerticalStackLayout IsVisible="{Binding UpcomingPaymentsVisible}" 
+                             >
+
+            <Button Text="Upcoming Payments Button"
+            />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout IsVisible="{Binding TransactionsVisible}" 
+                             >
+
+            <Button Text="Transactions Button"
+           />
+        </VerticalStackLayout>
 
     
+
+    </VerticalStackLayout>
+
+
 </ContentPage>
