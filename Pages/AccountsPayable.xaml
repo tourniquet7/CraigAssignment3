@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+    
+
+
+<ContentPage x:Class="FISSystem.Pages.AccountsPayable"
+             Title="Accounts Payable"
+             IconImageSource="home.png">
+    <ContentPage.BindingContext>
+        <viewModels:LoanViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="16" RowSpacing="12">
+
+        <!-- Header -->
+        <Label Grid.Row="0" Text="Amortization Calculator" 
+           FontSize="32"
+           FontAttributes="Bold" 
+           HorizontalOptions="Center"
+           Margin="10"/>
+
+        <!-- Input Fields -->
+        <VerticalStackLayout Grid.Row="1" Spacing="8">
+            <Entry Placeholder="Loan Amount"
+               Keyboard="Numeric"
+               Text="{Binding LoanAmountText}" />
+            <Entry Placeholder="Annual Rate (%)"
+               Keyboard="Numeric"
+               Text="{Binding AnnualRateText}" />
+            <Entry Placeholder="Loan Years"
+               Keyboard="Numeric"
+               Text="{Binding LoanYearsText}" />
+
+            <Button Text="Generate Schedule"
+                Command="" />
+        </VerticalStackLayout>
+
+        <!-- Schedule Table -->
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Schedule}">
+            <CollectionView.Header>
+                <Grid ColumnDefinitions="40,*,*,*,*" Padding="4">
+                    <Label Text="#" FontAttributes="Bold" />
+                    <Label Text="Payment" Grid.Column="1" 
+                       FontAttributes="Bold" />
+                    <Label Text="Principal" Grid.Column="2" 
+                       FontAttributes="Bold" />
+                    <Label Text="Interest" Grid.Column="3" 
+                       FontAttributes="Bold" />
+                    <Label Text="Balance" Grid.Column="4" 
+                       FontAttributes="Bold" />
+                </Grid>
+            </CollectionView.Header>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="40,*,*,*,*" Padding="4">
+                        <Label Text="{Binding PayNumber}" />
+                        <Label Text="{Binding PayAmount, 
+                        StringFormat='{0:C}'}" Grid.Column="1" />
+                        <Label Text="{Binding Principal, 
+                        StringFormat='{0:C}'}" Grid.Column="2" />
+                        <Label Text="{Binding Interest, 
+                        StringFormat='{0:C}'}" Grid.Column="3" />
+                        <Label Text="{Binding Balance, 
+                        StringFormat='{0:C}'}" Grid.Column="4" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+</ContentPage>
+
+    
+
+    
+</ContentPage>
