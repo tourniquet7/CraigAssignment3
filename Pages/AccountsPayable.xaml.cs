@@ -2,7 +2,7 @@
 
 public partial class AccountsPayable : ContentPage
 {
-    int count = 0;
+    
 
     public AccountsPayable()
     {

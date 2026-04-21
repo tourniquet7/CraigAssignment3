@@ -3,10 +3,13 @@
 
 
 <ContentPage x:Class="FISSystem.Pages.AccountsPayable"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:FISSystem.ViewModels"
              Title="Accounts Payable"
              IconImageSource="home.png">
     <ContentPage.BindingContext>
-        <viewModels:LoanViewModel />
+        <viewModels:FISViewModel />
     </ContentPage.BindingContext>
 
     <Grid RowDefinitions="Auto,Auto,*" Padding="16" RowSpacing="12">
@@ -31,7 +34,7 @@
                Text="{Binding LoanYearsText}" />
 
             <Button Text="Generate Schedule"
-                Command="" />
+                 />
         </VerticalStackLayout>
 
         <!-- Schedule Table -->
@@ -68,9 +71,5 @@
         </CollectionView>
 
     </Grid>
-</ContentPage>
 
-    
-
-    
 </ContentPage>
