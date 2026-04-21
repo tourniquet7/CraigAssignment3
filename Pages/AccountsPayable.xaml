@@ -19,35 +19,38 @@
         <HorizontalStackLayout Spacing="10" Padding="10">
 
             <Button Text="Vendor Payables"
-                    Command="{Binding APViewSelected}"
-                    CommandParameter="vendor" />
+                    Command="{Binding APViewSelectedCommand}"
+                    CommandParameter="vendor"
+                    BackgroundColor="{Binding VendorButtonColor}"/>
 
             <Button Text="Employee Payables"
-                    Command="{Binding APViewSelected}"
-                    CommandParameter="employee" />
+                    Command="{Binding APViewSelectedCommand}"
+                    CommandParameter="employee" 
+                    BackgroundColor="{Binding EmployeeButtonColor}"/>
 
             <Button Text="Transactions"
-                    Command="{Binding APViewSelected}"
-                    CommandParameter="transactions"  />
+                    Command="{Binding APViewSelectedCommand}"
+                    CommandParameter="transactions" 
+                    BackgroundColor="{Binding TransactionsButtonColor}"/>
 
         </HorizontalStackLayout>
 
         <VerticalStackLayout IsVisible="{Binding VendorVisible}" 
-                             BackgroundColor="{Binding VendorButtonColor}">
+                             >
             
             <Button Text="Vendor Button"
             />
         </VerticalStackLayout>
 
         <VerticalStackLayout IsVisible="{Binding EmployeeVisible}" 
-                             BackgroundColor="{Binding EmployeeButtonColor}">
+                             >
             
             <Button Text="Employee Button"
            />
         </VerticalStackLayout>
 
         <VerticalStackLayout IsVisible="{Binding TransactionsVisible}" 
-                             BackgroundColor="{Binding TransactionsButtonColor}">
+                             >
             <Button Text="Transaction Button"
             />
         </VerticalStackLayout>

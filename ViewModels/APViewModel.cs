@@ -11,41 +11,39 @@ namespace FISSystem.ViewModels;
 public partial class APViewModel : ObservableObject
 {
     [ObservableProperty]
-    private bool vendorVisible;
+    private bool vendorVisible = true;
 
     [ObservableProperty]
-    private bool employeeVisible;
+    private bool employeeVisible = false;
 
     [ObservableProperty]
-    private bool transactionsVisible;
+    private bool transactionsVisible = false;
 
     [ObservableProperty]
-    private string vendorButtonColor;
+    private Color vendorButtonColor = Colors.Green;
 
     [ObservableProperty]
-    private string employeeButtonColor;
+    private Color employeeButtonColor = Colors.LightGray;
 
     [ObservableProperty]
-    private string transactionsButtonColor;
+    private Color transactionsButtonColor = Colors.LightGray;
 
 
     public ObservableCollection<ModelAccountsReceivable> Schedule { get; } = new();
 
     public APViewModel()
     {
-        APInvisible();
-        vendorVisible = true;
-        vendorButtonColor = "Green";
+        
     }
 
     private void APInvisible()
     {
-        transactionsVisible = false;
-        transactionsButtonColor = "LightGray";
-        vendorVisible = false;
-        vendorButtonColor = "LightGray";
-        employeeVisible = false;
-        employeeButtonColor = "LightGray";
+        TransactionsVisible = false;
+        TransactionsButtonColor = Colors.LightGray;
+        VendorVisible = false;
+        VendorButtonColor = Colors.LightGray;
+        EmployeeVisible = false;
+        EmployeeButtonColor = Colors.LightGray;
     }
 
     [RelayCommand]
@@ -54,18 +52,18 @@ public partial class APViewModel : ObservableObject
         APInvisible();
         if (view == "vendor")
         {
-            vendorVisible = true;
-            vendorButtonColor = "Green";
+            VendorVisible = true;
+            VendorButtonColor = Colors.Green;
         } 
         else if (view == "employee")
         {
-            employeeVisible = true;
-            employeeButtonColor = "Green";
+            EmployeeVisible = true;
+            EmployeeButtonColor = Colors.Green;
         } 
         else if (view == "transactions")
         {
-            transactionsVisible = true;
-            transactionsButtonColor = "Green";
+            TransactionsVisible = true;
+            TransactionsButtonColor = Colors.Green;
         }
     }
 }
