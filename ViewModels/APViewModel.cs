@@ -8,7 +8,7 @@ using FISSystem.Models;
 
 namespace FISSystem.ViewModels;
 
-public partial class FISViewModel : ObservableObject
+public partial class APViewModel : ObservableObject
 {
     [ObservableProperty]
     private string loanAmountText;
@@ -22,9 +22,9 @@ public partial class FISViewModel : ObservableObject
     [ObservableProperty]
     private decimal monthlyPayment;
 
-    public ObservableCollection<FISModel> Schedule { get; } = new();
+    public ObservableCollection<ModelAccountsReceivable> Schedule { get; } = new();
 
-    public FISViewModel()
+    public APViewModel()
     {
     }
 

@@ -3,7 +3,7 @@
 
 namespace FISSystem.Models;
 
-public class FISModel
+public class ModelAccountsPayable
 {
     public int PayNumber { get; set; }
     public decimal PayAmount { get; set; }

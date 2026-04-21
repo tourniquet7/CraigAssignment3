@@ -75,6 +75,9 @@
 	  <Compile Update="Pages\AccountsPayable.xaml.cs">
 	    <DependentUpon>AccountsPayable.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\AccountsReceivable.xaml.cs">
+	    <DependentUpon>AccountsReceivable.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>

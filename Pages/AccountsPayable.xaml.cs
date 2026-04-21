@@ -9,9 +9,5 @@ public partial class AccountsPayable : ContentPage
         InitializeComponent();
     }
 
-    private void OnCounterClicked(object? sender, EventArgs e)
-    {
-            
-    }
 }
 

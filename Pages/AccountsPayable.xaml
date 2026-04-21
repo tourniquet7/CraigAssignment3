@@ -1,18 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
     
-
-
 <ContentPage x:Class="FISSystem.Pages.AccountsPayable"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:FISSystem.ViewModels"
              Title="Accounts Payable"
              IconImageSource="home.png">
-    <ContentPage.BindingContext>
-        <viewModels:FISViewModel />
-    </ContentPage.BindingContext>
+    
 
-    <Grid RowDefinitions="Auto,Auto,*" Padding="16" RowSpacing="12">
+    
 
         <!-- Header -->
         <Label Grid.Row="0" Text="Amortization Calculator" 
@@ -70,6 +66,5 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-    </Grid>
 
 </ContentPage>
