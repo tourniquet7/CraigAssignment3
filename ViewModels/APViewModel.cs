@@ -11,43 +11,61 @@ namespace FISSystem.ViewModels;
 public partial class APViewModel : ObservableObject
 {
     [ObservableProperty]
-    private string loanAmountText;
+    private bool vendorVisible;
 
     [ObservableProperty]
-    private string annualRateText;
+    private bool employeeVisible;
 
     [ObservableProperty]
-    private string loanYearsText;
+    private bool transactionsVisible;
 
     [ObservableProperty]
-    private decimal monthlyPayment;
+    private string vendorButtonColor;
+
+    [ObservableProperty]
+    private string employeeButtonColor;
+
+    [ObservableProperty]
+    private string transactionsButtonColor;
+
 
     public ObservableCollection<ModelAccountsReceivable> Schedule { get; } = new();
 
     public APViewModel()
     {
+        APInvisible();
+        vendorVisible = true;
+        vendorButtonColor = "Green";
+    }
+
+    private void APInvisible()
+    {
+        transactionsVisible = false;
+        transactionsButtonColor = "LightGray";
+        vendorVisible = false;
+        vendorButtonColor = "LightGray";
+        employeeVisible = false;
+        employeeButtonColor = "LightGray";
     }
 
     [RelayCommand]
-    private void GenerateSchedule()
+    private void APViewSelected(string view)
     {
-        if (!decimal.TryParse(loanAmountText, out var loanAmount) || loanAmount <= 0) return;
-        if (!decimal.TryParse(annualRateText, out var annualRate) || annualRate <= 0) return;
-        if (!int.TryParse(loanYearsText, out var loanYears) || loanYears <= 0) return;
-
-        Schedule.Clear();
-
-        int numPayments = loanYears * 12;
-        decimal monthlyRate = annualRate / 100 / 12;
-
-        MonthlyPayment = loanAmount *
-            (monthlyRate * (decimal)Math.Pow(1 + (double)monthlyRate, numPayments)) /
-            ((decimal)Math.Pow(1 + (double)monthlyRate, numPayments) - 1);
-
-        decimal balance = loanAmount;
-
-        for (int i = 1; i <= numPayments; i++)
+        APInvisible();
+        if (view == "vendor")
         {
+            vendorVisible = true;
+            vendorButtonColor = "Green";
+        } 
+        else if (view == "employee")
+        {
+            employeeVisible = true;
+            employeeButtonColor = "Green";
+        } 
+        else if (view == "transactions")
+        {
+            transactionsVisible = true;
+            transactionsButtonColor = "Green";
         }
     }
 }

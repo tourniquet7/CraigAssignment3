@@ -6,65 +6,53 @@
              xmlns:viewModels="clr-namespace:FISSystem.ViewModels"
              Title="Accounts Payable"
              IconImageSource="home.png">
-    
 
-    
 
-        <!-- Header -->
-        <Label Grid.Row="0" Text="Amortization Calculator" 
-           FontSize="32"
-           FontAttributes="Bold" 
-           HorizontalOptions="Center"
-           Margin="10"/>
+    <ContentPage.BindingContext>
+        <viewModels:APViewModel />
+    </ContentPage.BindingContext>
 
-        <!-- Input Fields -->
-        <VerticalStackLayout Grid.Row="1" Spacing="8">
-            <Entry Placeholder="Loan Amount"
-               Keyboard="Numeric"
-               Text="{Binding LoanAmountText}" />
-            <Entry Placeholder="Annual Rate (%)"
-               Keyboard="Numeric"
-               Text="{Binding AnnualRateText}" />
-            <Entry Placeholder="Loan Years"
-               Keyboard="Numeric"
-               Text="{Binding LoanYearsText}" />
+    <!-- Input Fields -->
+    <VerticalStackLayout>
 
-            <Button Text="Generate Schedule"
-                 />
+        <!-- Tab Buttons -->
+        <HorizontalStackLayout Spacing="10" Padding="10">
+
+            <Button Text="Vendor Payables"
+                    Command="{Binding APViewSelected}"
+                    CommandParameter="vendor" />
+
+            <Button Text="Employee Payables"
+                    Command="{Binding APViewSelected}"
+                    CommandParameter="employee" />
+
+            <Button Text="Transactions"
+                    Command="{Binding APViewSelected}"
+                    CommandParameter="transactions"  />
+
+        </HorizontalStackLayout>
+
+        <VerticalStackLayout IsVisible="{Binding VendorVisible}" 
+                             BackgroundColor="{Binding VendorButtonColor}">
+            
+            <Button Text="Vendor Button"
+            />
         </VerticalStackLayout>
 
-        <!-- Schedule Table -->
-        <CollectionView Grid.Row="2" ItemsSource="{Binding Schedule}">
-            <CollectionView.Header>
-                <Grid ColumnDefinitions="40,*,*,*,*" Padding="4">
-                    <Label Text="#" FontAttributes="Bold" />
-                    <Label Text="Payment" Grid.Column="1" 
-                       FontAttributes="Bold" />
-                    <Label Text="Principal" Grid.Column="2" 
-                       FontAttributes="Bold" />
-                    <Label Text="Interest" Grid.Column="3" 
-                       FontAttributes="Bold" />
-                    <Label Text="Balance" Grid.Column="4" 
-                       FontAttributes="Bold" />
-                </Grid>
-            </CollectionView.Header>
+        <VerticalStackLayout IsVisible="{Binding EmployeeVisible}" 
+                             BackgroundColor="{Binding EmployeeButtonColor}">
+            
+            <Button Text="Employee Button"
+           />
+        </VerticalStackLayout>
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid ColumnDefinitions="40,*,*,*,*" Padding="4">
-                        <Label Text="{Binding PayNumber}" />
-                        <Label Text="{Binding PayAmount, 
-                        StringFormat='{0:C}'}" Grid.Column="1" />
-                        <Label Text="{Binding Principal, 
-                        StringFormat='{0:C}'}" Grid.Column="2" />
-                        <Label Text="{Binding Interest, 
-                        StringFormat='{0:C}'}" Grid.Column="3" />
-                        <Label Text="{Binding Balance, 
-                        StringFormat='{0:C}'}" Grid.Column="4" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+        <VerticalStackLayout IsVisible="{Binding TransactionsVisible}" 
+                             BackgroundColor="{Binding TransactionsButtonColor}">
+            <Button Text="Transaction Button"
+            />
+        </VerticalStackLayout>
+
+    </VerticalStackLayout>
 
 
 </ContentPage>
