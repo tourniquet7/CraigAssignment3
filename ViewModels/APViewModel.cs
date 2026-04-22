@@ -54,7 +54,7 @@ public partial class APViewModel : ObservableObject
 
     public ICommand OrderMaterial
     {
-        get; private set;
+        get;
     }
 
     public APViewModel()
