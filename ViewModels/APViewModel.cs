@@ -54,13 +54,13 @@ public partial class APViewModel : ObservableObject
 
     public ICommand OrderMaterial
     {
-        get;
+        get; private set;
     }
 
     public APViewModel()
     {
         ShowRawMaterials();
-        OrderMaterial = new Command(OrderMaterialFunction);
+        OrderMaterial = new Command<string>(OrderMaterialFunction);
     }
 
 
@@ -80,9 +80,6 @@ public partial class APViewModel : ObservableObject
 
             ShowRawMaterials();
         }
-
-        
-        // You can now use the rawMaterial JsonObject as needed
     }
 
     private void ShowRawMaterials()

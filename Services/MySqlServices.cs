@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FISSystem.Models;
+using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,30 @@ public class FisMySqlHelper
         "user=w109cdn;" +
         "database=w109cdn_Assignment3;" +
         "password=WRU0ZgM78H4;";
+
+
+    const string insertTransactionQuery = "INSERT INTO accounts_payable (" +
+            "RawMaterialID," +
+            "RawMaterialQty," +
+            "VendorID," +
+            "EmployeeId," +
+            "TransactionID," +
+            "Amount," +
+            "DueDate," +
+            "PaymentStatus" +
+        ")" +
+"       VALUES(" +
+            "@RAWMATERIALID," +
+            "@QUANTITYORDER," +
+            "@VENDORID," +
+            "@EMPLOYEEID," +
+            "@TRANSACTIONID," +
+
+            "@AMOUNT," +
+            "@DUEDATE," +
+            "@PAYMENTSTATUS" +
+        ");";
+
 
 
     public void PopulateRawMaterialsTable(JsonNode items)
@@ -76,9 +101,88 @@ public class FisMySqlHelper
         }
     }
 
+    private double GenerateRandomMoneyAmount()
+    {
+        Random rnd = new Random();
+
+        // Define range
+        double min = 200.0;
+        double max = 10000.0;
+
+        // Generate random number
+        double range = max - min;
+        double sample = rnd.NextDouble();
+        double scaled = (sample * range) + min;
+
+        // Round to 2 decimal places
+        double finalNumber = Math.Round(scaled, 2);
+
+        return finalNumber;
+    }
+
     public void CreateRawMaterialTransaction(string id, int orderAmount)
     {
+        using (MySqlConnection conn = new MySqlConnection(connStr))
+        {
 
+            const string selectIndividualQuery = "SELECT VendorID " +
+                "FROM raw_material " +
+                "WHERE RawMaterialID = @ID";
+
+            string vendorId = null;
+
+            using (MySqlCommand cmd = new MySqlCommand(selectIndividualQuery, conn))
+            {
+
+                cmd.Parameters.AddWithValue("@ID", int.Parse(id));
+
+                // open connection
+                conn.Open();
+
+                // run query
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        vendorId = reader["VendorID"] != DBNull.Value ? reader["VendorID"].ToString() : null;
+                        
+                    }
+                }
+
+                conn.Close();
+
+            }
+
+            using (MySqlCommand cmd = new MySqlCommand(insertTransactionQuery, conn))
+            {
+
+                var amount = GenerateRandomMoneyAmount();
+
+                DateTime today = DateTime.Now;
+
+                // Add 2 days
+                DateTime twoDaysFromNow = today.AddDays(2);
+
+                
+
+                // setup parameters for the INSERT statement
+                cmd.Parameters.AddWithValue("@RAWMATERIALID", id);
+                cmd.Parameters.AddWithValue("@QUANTITYORDER", orderAmount);
+                cmd.Parameters.AddWithValue("@VENDORID", vendorId);
+                cmd.Parameters.AddWithValue("@EMPLOYEEID", "");
+                cmd.Parameters.AddWithValue("@AMOUNT", amount);
+                cmd.Parameters.AddWithValue("@DUEDATE", twoDaysFromNow);
+                cmd.Parameters.AddWithValue("@PAYMENTSTATUS", "Incomplete");
+
+                // open connection
+                conn.Open();
+
+                // run query
+                cmd.ExecuteNonQuery();
+
+                conn.Close();
+            }
+        }
     }
 
     public void UpdateRawMaterialAfterOrder(string id, int orderAmount)

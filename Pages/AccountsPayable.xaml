@@ -90,7 +90,7 @@
                             <Label Grid.Column="4" Text="{Binding CurrentInventory}" FontSize="14" TextColor="{Binding CurrentInventoryColor}"/>
                             <Label Grid.Column="5" Text="{Binding LowInventoryLevel}" FontSize="14" TextColor="Gray"/>
                             <Label Grid.Column="6" Text="{Binding InventoryReplenishLevel}" FontSize="14" TextColor="Gray"/>
-                            <Button Grid.Column="7" Text="Order" Command="{Binding CalculateCommand}" IsVisible="{Binding ButtonIsVisible}" FontSize="14" BackgroundColor="Green" TextColor="White"/>
+                            <Button Grid.Column="7" Text="Order" Command="{Binding OrderMaterial}" CommandParameter="{Binding RawMaterialId}" IsVisible="{Binding ButtonIsVisible}" FontSize="14" BackgroundColor="Green" TextColor="White"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
