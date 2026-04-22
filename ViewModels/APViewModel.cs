@@ -4,10 +4,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FISSystem.Models;
+using FISSystem.Pages;
 using FISSystem.Services;
 using MySql.Data.MySqlClient;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Windows.Input;
 
@@ -48,8 +50,9 @@ public partial class APViewModel : ObservableObject
     DataTable raw_tbl = new DataTable("raw");
 
     public ObservableCollection<RawMaterial> RawMaterials { get; } = new();
-
-    public ObservableCollection<ModelAccountsReceivable> Schedule { get; } = new();
+    public ObservableCollection<AccountsPayableVendor> AccountsPayableVendor { get; } = new();
+    public ObservableCollection<Transaction> Transaction { get; } = new();
+ 
 
 
     public ICommand OrderMaterial
@@ -57,14 +60,26 @@ public partial class APViewModel : ObservableObject
         get;
     }
 
+    public ICommand VendorTransaction
+    {
+        get;
+    }
+
     public APViewModel()
     {
         
-        ShowRawMaterials();
-        ShowTransactions();
+        
         OrderMaterial = new Command<string>(OrderMaterialFunction);
+        VendorTransaction = new Command<string>(VendorTransactionFunction);
+        RefreshAccountsPayable();
     }
 
+    private void RefreshAccountsPayable()
+    {
+        ShowRawMaterials();
+        ShowAccountsPayable();
+        ShowTransactions();
+    }
 
     private void OrderMaterialFunction(string rawId)
     {
@@ -81,8 +96,24 @@ public partial class APViewModel : ObservableObject
             mysqlHelper.CreateRawMaterialTransaction(rawId, numberToOrder);
             mysqlHelper.UpdateRawMaterialAfterOrder(rawId, numberToOrder);
 
-            ShowRawMaterials();
+            RefreshAccountsPayable();
         }
+    }
+
+    private void VendorTransactionFunction(string id)
+    {
+        var accountPayable = mysqlHelper.GetAccountPayable(id);
+        if (accountPayable == null) return;
+        string accountsPayableID = (accountPayable["AccountsPayableID"]?.ToString());
+        string vendorID = (accountPayable["VendorID"]?.ToString());
+        double amount = double.Parse(accountPayable["Amount"]?.ToString() ?? "0"); 
+        
+        mysqlHelper.CreateAccountsPayableTransaction(accountsPayableID, vendorID, amount, "vendor");
+        mysqlHelper.UpdateAccountsPayableAfterTransaction(accountsPayableID);
+
+        RefreshAccountsPayable();
+
+
     }
 
     private void ShowRawMaterials()
@@ -132,52 +163,82 @@ public partial class APViewModel : ObservableObject
 
     }
 
-    private void ShowTransactions()
+    private void ShowAccountsPayable()
     {
-        var response = mysqlHelper.GetRawMaterials();
+        var response = mysqlHelper.GetAccountsPayableVendor();
         if (response == null || response.Count == 0)
             return;
 
-        RawMaterials.Clear();
+        AccountsPayableVendor.Clear();
 
-        foreach (var rawMaterial in response.AsArray())
+        foreach (var accountPayable in response.AsArray())
         {
+            
+
+            string accountsPayableID = JsonSerialier.Deserialize<string>(accountPayable["AccountsPayableID"]?.ToJsonString());
+            double amount = double.Parse(accountPayable["Amount"]?.ToString() ?? "0");
+            DateTime dueDate = ((DateTime)accountPayable["DueDate"]);
+            string paymentStatus = accountPayable["PaymentStatus"]?.ToString();
+            string rawMaterialID = accountPayable["RawMaterialID"]?.ToString();
+            int rawMaterialQty = ((int)accountPayable["RawMaterialQty"]);
+            string vendorID = accountPayable["VendorID"]?.ToString();
 
 
+            bool isVisible = false;
+            Color pastDueColor = Colors.Gray;
+            DateTime today = DateTime.Now;
 
-            var rawMaterialId = rawMaterial["RawMaterialID"]?.ToString();
-            var preferredVendorId = rawMaterial["PreferredVendorID"]?.ToString();
-            var name = rawMaterial["Name"]?.ToString();
-            var unitOfMeasurement = rawMaterial["UnitOfMeasurement"]?.ToString();
-            var currentInventory = ((int)rawMaterial["CurrentInventory"]);
-            var lowInventoryLevel = ((int)rawMaterial["LowInventoryLevel"]);
-            var inventoryReplenishLevel = ((int)rawMaterial["InventoryReplenishLevel"]);
-            var currentInventoryPlusOrdered = ((int)rawMaterial["CurrentInventoryPlusOrdered"]);
+            string dueDateString = dueDate.ToShortDateString();
 
-            var isVisible = false;
-            var inventoryTextColor = Colors.Gray;
-
-            if (currentInventoryPlusOrdered < lowInventoryLevel)
+            if (today >= dueDate)
             {
                 isVisible = true;
-                inventoryTextColor = Colors.Red;
+                pastDueColor = Colors.Red;
             }
 
 
-            RawMaterials.Add(new RawMaterial { 
-                RawMaterialId = rawMaterialId, 
-                PreferredVendorId = preferredVendorId, 
-                Name = name, 
-                UnitOfMeasurement = unitOfMeasurement, 
-                CurrentInventory = currentInventory, 
-                LowInventoryLevel = lowInventoryLevel, 
-                InventoryReplenishLevel = inventoryReplenishLevel, 
-                ButtonIsVisible = isVisible, 
-                CurrentInventoryColor = inventoryTextColor,
-                CurrentInventoryPlusOrdered = currentInventoryPlusOrdered
+            AccountsPayableVendor.Add(new AccountsPayableVendor
+            {
+                AccountsPayableID = accountsPayableID,
+                Amount = amount,
+                DueDate = dueDateString,
+                PaymentStatus = paymentStatus,
+                RawMaterialID = rawMaterialID,
+                RawMaterialQty = rawMaterialQty,
+                VendorID = vendorID,
+                ButtonIsVisible = isVisible,
+                PastDueColor = pastDueColor
             });
         }
 
+    }
+
+    private void ShowTransactions()
+    {
+        var response = mysqlHelper.GetAccountsPayableTransactions();
+        if (response == null || response.Count == 0)
+            return;
+
+        Transaction.Clear();
+
+        foreach (var transactions in response.AsArray())
+        {
+            var transactionID = transactions["TransactionID"]?.ToString();
+            var accountsPayableID = transactions["AccountsPayableID"]?.ToString();
+            double amount = double.Parse(transactions["Amount"]?.ToString() ?? "0");
+            DateTime date = ((DateTime)transactions["Date"]);
+            var employeeID = transactions["EmployeeID"]?.ToString();
+            var vendorID = transactions["VendorID"]?.ToString();
+
+            Transaction.Add(new Transaction {
+                TransactionID = transactionID, 
+                AccountsPayableID = accountsPayableID, 
+                Amount = amount, 
+                Date = date, 
+                EmployeeId = employeeID, 
+                VendorID = vendorID
+            });
+        }
     }
 
     private void APInvisible()

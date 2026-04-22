@@ -1,4 +1,6 @@
-﻿using FISSystem.Models;
+﻿
+using FISSystem.Models;
+using FISSystem.Pages;
 using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
 using Mysqlx.Crud;
@@ -17,6 +19,8 @@ public class FisMySqlHelper
         "user=w109cdn;" +
         "database=w109cdn_Assignment3;" +
         "password=WRU0ZgM78H4;";
+
+    bool setPastDueNextTime = true;
 
 
     public void DeleteTableData()
@@ -176,9 +180,19 @@ public class FisMySqlHelper
                 DateTime today = DateTime.Now;
 
                 // Add 2 days
-                DateTime twoDaysFromNow = today.AddDays(2);
+                DateTime twoDaysFromNow;
 
-                
+                if (setPastDueNextTime)
+                {
+                    twoDaysFromNow = today.AddDays(2);
+                } else
+                {
+                    twoDaysFromNow = today.AddDays(-2);
+                }
+
+                setPastDueNextTime = !setPastDueNextTime;
+
+
 
                 // setup parameters for the INSERT statement
                 cmd.Parameters.AddWithValue("@RAWMATERIALID", id);
@@ -187,6 +201,67 @@ public class FisMySqlHelper
                 cmd.Parameters.AddWithValue("@AMOUNT", amount);
                 cmd.Parameters.AddWithValue("@DUEDATE", twoDaysFromNow);
                 cmd.Parameters.AddWithValue("@PAYMENTSTATUS", "Incomplete");
+
+                // open connection
+                conn.Open();
+
+                // run query
+                cmd.ExecuteNonQuery();
+
+                conn.Close();
+            }
+        }
+    }
+
+    public void CreateAccountsPayableTransaction(string accountsID, string payeeID, double amount, string transactionType)
+    {
+        using (MySqlConnection conn = new MySqlConnection(connStr))
+        {
+            string insertTransactionQuery;
+
+            if (transactionType == "vendor")
+            {
+                insertTransactionQuery = "INSERT INTO transactions (" +
+                    "AccountsPayableID," +
+                    "Amount," +
+                    "Date," +
+                    "VendorID" +
+                ") " +
+                "VALUES (" +
+                    "@ACCOUNTSID," +
+                    "@AMOUNT," +
+                    "@DATE," +
+                    "@PAYEEID" +
+                ");";
+            } else
+            {
+                insertTransactionQuery = "INSERT INTO transactions (" +
+                    "AccountsReceivableID," +
+                    "Amount," +
+                    "Date," +
+                    "VendorID" +
+                ")" +
+                " VALUES (" +
+                    "@ACCOUNTSID," +
+                    "@AMOUNT," +
+                    "@DATE," +
+                    "@PAYEEID" +
+                ");";
+            }
+
+            
+
+
+            using (MySqlCommand cmd = new MySqlCommand(insertTransactionQuery, conn))
+            {
+
+                DateTime today = DateTime.Now;
+
+                // setup parameters for the INSERT statement
+                cmd.Parameters.AddWithValue("@ACCOUNTSID", accountsID);
+                cmd.Parameters.AddWithValue("@AMOUNT", amount);
+                cmd.Parameters.AddWithValue("@DATE", today);
+                cmd.Parameters.AddWithValue("@PAYEEID", payeeID);
 
                 // open connection
                 conn.Open();
@@ -213,6 +288,31 @@ public class FisMySqlHelper
                 // setup parameters for the INSERT statement
                 cmd.Parameters.AddWithValue("@ID", id);
                 cmd.Parameters.AddWithValue("@ORDERAMOUNT", orderAmount);
+
+                // open connection
+                conn.Open();
+
+                // run query
+                cmd.ExecuteNonQuery();
+
+                conn.Close();
+            }
+        }
+    }
+
+    public void UpdateAccountsPayableAfterTransaction(string id)
+    {
+        using (MySqlConnection conn = new MySqlConnection(connStr))
+        {
+            const string updateOrderedQuery = "UPDATE accounts_payable " +
+                "SET PaymentStatus = 'Paid' " +
+                "WHERE RawMaterialID = @ID;";
+
+            using (MySqlCommand cmd = new MySqlCommand(updateOrderedQuery, conn))
+            {
+
+                // setup parameters for the INSERT statement
+                cmd.Parameters.AddWithValue("@ID", id);
 
                 // open connection
                 conn.Open();
@@ -260,6 +360,43 @@ public class FisMySqlHelper
         return result;
     }
 
+    public JsonObject GetAccountPayable(string id)
+    {
+        var result = new JsonObject();
+        using (MySqlConnection conn = new MySqlConnection(connStr))
+        {
+            const string selectIndividualQuery = "SELECT * " +
+                "FROM accounts_payable " +
+                "WHERE AccountsPayableID = @ID";
+            using (MySqlCommand cmd = new MySqlCommand(selectIndividualQuery, conn))
+            {
+
+                cmd.Parameters.AddWithValue("@ID", int.Parse(id));
+
+                // open connection
+                conn.Open();
+
+                // run query
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        result["AccountsPayableID"] = reader["AccountsPayableID"] != DBNull.Value ? JsonValue.Create(reader["AccountsPayableID"]) : null;
+                        result["VendorID"] = reader["VendorID"] != DBNull.Value ? JsonValue.Create(reader["VendorID"]) : null;
+                        result["EmployeeId"] = reader["EmployeeId"] != DBNull.Value ? JsonValue.Create(reader["EmployeeId"]) : null; ;
+                        result["Amount"] = reader["Amount"] != DBNull.Value ? JsonValue.Create(reader["Amount"]) : null;
+                    }
+                }
+
+                conn.Close();
+
+            }
+        }
+        return result;
+    }
+
+
+
     public JsonArray GetRawMaterials()
     {
         var results = new JsonArray();
@@ -267,6 +404,95 @@ public class FisMySqlHelper
         using (MySqlConnection conn = new MySqlConnection(connStr))
         {
             const string selectQuery = "SELECT * FROM raw_material";
+            using (MySqlCommand cmd = new MySqlCommand(selectQuery, conn))
+            {
+                conn.Open();
+
+                // Use ExecuteReader to fetch rows (ExecuteNonQuery returns affected rows count)
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var obj = new JsonObject();
+
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            var name = reader.GetName(i);
+                            if (reader.IsDBNull(i))
+                            {
+                                obj[name] = null;
+                            }
+                            else
+                            {
+                                var value = reader.GetValue(i);
+                                obj[name] = JsonValue.Create(value);
+                            }
+                        }
+
+                        results.Add(obj);
+                    }
+                }
+
+                conn.Close();
+            }
+        }
+
+        return results;
+    }
+
+    public JsonArray GetAccountsPayableVendor()
+    {
+        var results = new JsonArray();
+
+        using (MySqlConnection conn = new MySqlConnection(connStr))
+        {
+            const string selectQuery = "SELECT * FROM accounts_payable " +
+                "WHERE VendorID IS NOT NULL " +
+                "ORDER BY DueDate ASC;";
+            using (MySqlCommand cmd = new MySqlCommand(selectQuery, conn))
+            {
+                conn.Open();
+
+                // Use ExecuteReader to fetch rows (ExecuteNonQuery returns affected rows count)
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var obj = new JsonObject();
+
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            var name = reader.GetName(i);
+                            if (reader.IsDBNull(i))
+                            {
+                                obj[name] = null;
+                            }
+                            else
+                            {
+                                var value = reader.GetValue(i);
+                                obj[name] = JsonValue.Create(value);
+                            }
+                        }
+
+                        results.Add(obj);
+                    }
+                }
+
+                conn.Close();
+            }
+        }
+
+        return results;
+    }
+
+    public JsonArray GetAccountsPayableTransactions()
+    {
+        var results = new JsonArray();
+
+        using (MySqlConnection conn = new MySqlConnection(connStr))
+        {
+            const string selectQuery = "SELECT * FROM transactions " +
+                "WHERE AccountsPayableID IS NOT NULL;";
             using (MySqlCommand cmd = new MySqlCommand(selectQuery, conn))
             {
                 conn.Open();

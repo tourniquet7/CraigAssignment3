@@ -7,7 +7,7 @@
     "CurrentInventory": 50,
     "LowInventoryLevel": 100,
     "InventoryReplenishLevel": 600,
-    "CurrentInventoryPlusOrdered": 600
+    "CurrentInventoryPlusOrdered": 50
   },
   {
     "RawMaterialID": 2,
@@ -58,5 +58,105 @@
     "LowInventoryLevel": 30,
     "InventoryReplenishLevel": 80,
     "CurrentInventoryPlusOrdered": 10
+  },
+  {
+    "RawMaterialID": 7,
+    "PreferredVendorID": 107,
+    "Name": "Aluminum Sheet 12x12",
+    "UnitOfMeasurement": "units",
+    "CurrentInventory": 4,
+    "LowInventoryLevel": 10,
+    "InventoryReplenishLevel": 20,
+    "CurrentInventoryPlusOrdered": 4
+  },
+  {
+    "RawMaterialID": 8,
+    "PreferredVendorID": 108,
+    "Name": "Door Knobs",
+    "UnitOfMeasurement": "units",
+    "CurrentInventory": 20,
+    "LowInventoryLevel": 40,
+    "InventoryReplenishLevel": 100,
+    "CurrentInventoryPlusOrdered": 20
+  },
+  {
+    "RawMaterialID": 9,
+    "PreferredVendorID": 109,
+    "Name": "Steel Screws",
+    "UnitOfMeasurement": "units",
+    "CurrentInventory": 1000,
+    "LowInventoryLevel": 2000,
+    "InventoryReplenishLevel": 5000,
+    "CurrentInventoryPlusOrdered": 1000
+  },
+  {
+    "RawMaterialID": 10,
+    "PreferredVendorID": 110,
+    "Name": "Hex Bolts",
+    "UnitOfMeasurement": "units",
+    "CurrentInventory": 800,
+    "LowInventoryLevel": 1500,
+    "InventoryReplenishLevel": 4000,
+    "CurrentInventoryPlusOrdered": 800
+  },
+  {
+    "RawMaterialID": 11,
+    "PreferredVendorID": 111,
+    "Name": "Industrial Nuts",
+    "UnitOfMeasurement": "units",
+    "CurrentInventory": 1200,
+    "LowInventoryLevel": 2000,
+    "InventoryReplenishLevel": 6000,
+    "CurrentInventoryPlusOrdered": 1200
+  },
+  {
+    "RawMaterialID": 12,
+    "PreferredVendorID": 112,
+    "Name": "Ball Bearings",
+    "UnitOfMeasurement": "units",
+    "CurrentInventory": 300,
+    "LowInventoryLevel": 800,
+    "InventoryReplenishLevel": 2000,
+    "CurrentInventoryPlusOrdered": 300
+  },
+  {
+    "RawMaterialID": 13,
+    "PreferredVendorID": 113,
+    "Name": "Industrial Paint",
+    "UnitOfMeasurement": "liters",
+    "CurrentInventory": 60,
+    "LowInventoryLevel": 150,
+    "InventoryReplenishLevel": 400,
+    "CurrentInventoryPlusOrdered": 60
+  },
+  {
+    "RawMaterialID": 14,
+    "PreferredVendorID": 114,
+    "Name": "Welding Rods",
+    "UnitOfMeasurement": "kg",
+    "CurrentInventory": 45,
+    "LowInventoryLevel": 100,
+    "InventoryReplenishLevel": 300,
+    "CurrentInventoryPlusOrdered": 45
+  },
+  {
+    "RawMaterialID": 15,
+    "PreferredVendorID": 115,
+    "Name": "Insulation Foam",
+    "UnitOfMeasurement": "units",
+    "CurrentInventory": 25,
+    "LowInventoryLevel": 60,
+    "InventoryReplenishLevel": 150,
+    "CurrentInventoryPlusOrdered": 25
+  },
+  {
+    "RawMaterialID": 16,
+    "PreferredVendorID": 116,
+    "Name": "Packaging Boxes",
+    "UnitOfMeasurement": "units",
+    "CurrentInventory": 500,
+    "LowInventoryLevel": 1000,
+    "InventoryReplenishLevel": 3000,
+    "CurrentInventoryPlusOrdered": 500
   }
 ]
