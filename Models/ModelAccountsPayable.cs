@@ -12,6 +12,8 @@ public class RawMaterial
     public int CurrentInventory { get; set; }
     public int LowInventoryLevel { get; set; }
     public int InventoryReplenishLevel { get; set; }
+    public bool ButtonIsVisible { get; set; }
+    public Color CurrentInventoryColor { get; set; }
 
 }
 

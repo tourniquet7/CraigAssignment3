@@ -38,7 +38,7 @@ namespace FISSystem
             var jsonParse = JsonNode.Parse(json);
 
             FisMySqlHelper mysqlHelper = new FisMySqlHelper();
-            mysqlHelper.PopulateRawMaterials(jsonParse);
+            mysqlHelper.PopulateRawMaterialsTable(jsonParse);
 
 
         }

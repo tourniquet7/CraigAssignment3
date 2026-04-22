@@ -17,7 +17,7 @@ public class FisMySqlHelper
         "password=WRU0ZgM78H4;";
 
 
-    public void PopulateRawMaterials(JsonNode items)
+    public void PopulateRawMaterialsTable(JsonNode items)
     {
         using (MySqlConnection conn = new MySqlConnection(connStr))
         {
