@@ -1,0 +1,56 @@
+[
+  {
+    "RawMaterialID": 1,
+    "PreferredVendorID": 101,
+    "Name": "Steel Sheet",
+    "UnitOfMeasurement": "kg",
+    "CurrentInventory": 500,
+    "LowInventoryLevel": 100,
+    "InventoryReplenishLevel": 600
+  },
+  {
+    "RawMaterialID": 2,
+    "PreferredVendorID": 102,
+    "Name": "Aluminum Rod",
+    "UnitOfMeasurement": "kg",
+    "CurrentInventory": 25,
+    "LowInventoryLevel": 50,
+    "InventoryReplenishLevel": 150
+  },
+  {
+    "RawMaterialID": 3,
+    "PreferredVendorID": 103,
+    "Name": "Copper Wire",
+    "UnitOfMeasurement": "meters",
+    "CurrentInventory": 200,
+    "LowInventoryLevel": 300,
+    "InventoryReplenishLevel": 700
+  },
+  {
+    "RawMaterialID": 4,
+    "PreferredVendorID": 104,
+    "Name": "Plastic Resin",
+    "UnitOfMeasurement": "kg",
+    "CurrentInventory": 800,
+    "LowInventoryLevel": 200,
+    "InventoryReplenishLevel": 500
+  },
+  {
+    "RawMaterialID": 5,
+    "PreferredVendorID": 105,
+    "Name": "Rubber Compound",
+    "UnitOfMeasurement": "kg",
+    "CurrentInventory": 350,
+    "LowInventoryLevel": 100,
+    "InventoryReplenishLevel": 250
+  },
+  {
+    "RawMaterialID": 6,
+    "PreferredVendorID": 106,
+    "Name": "Glass Panels",
+    "UnitOfMeasurement": "units",
+    "CurrentInventory": 10,
+    "LowInventoryLevel": 30,
+    "InventoryReplenishLevel": 80
+  }
+]
