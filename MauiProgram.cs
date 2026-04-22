@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Text.Json;
+using System.Text.Json.Nodes;
+using FISSystem.Services;
+using MySql.Data.MySqlClient;
 
 namespace FISSystem
 {
@@ -20,7 +23,7 @@ namespace FISSystem
             builder.Logging.AddDebug();
 #endif
 
-
+            LoadConfig();
 
             return builder.Build();
         }
@@ -32,7 +35,12 @@ namespace FISSystem
             using var reader = new StreamReader(stream);
             var json = reader.ReadToEnd();
 
-            var test = JsonSerializer.Deserialize(json);
+            var jsonParse = JsonNode.Parse(json);
+
+            FisMySqlHelper mysqlHelper = new FisMySqlHelper();
+            mysqlHelper.PopulateRawMaterials(jsonParse);
+
+
         }
     }
 }
