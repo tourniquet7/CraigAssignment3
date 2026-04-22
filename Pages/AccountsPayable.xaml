@@ -61,7 +61,7 @@
                 <Label Grid.Column="4" Text="Current Inventory" FontSize="14" TextColor="Black"/>
                 <Label Grid.Column="5" Text="Low Inventory Level" FontSize="14" TextColor="Black"/>
                 <Label Grid.Column="6" Text="Inventory Replenish Level" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="6" Text="Action" FontSize="14" TextColor="Black"/>
+                <Label Grid.Column="7" Text="Action" FontSize="14" TextColor="Black"/>
             </Grid>
         
 

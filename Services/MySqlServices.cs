@@ -76,26 +76,46 @@ public class FisMySqlHelper
         }
     }
 
-    public void GetRawMaterials()
+    public JsonArray GetRawMaterials()
     {
+        var results = new JsonArray();
 
         using (MySqlConnection conn = new MySqlConnection(connStr))
         {
-
-            string deleteQuery = "SELECT * FROM raw_material";
-            using (MySqlCommand cmd = new MySqlCommand(deleteQuery, conn))
+            const string selectQuery = "SELECT * FROM raw_material";
+            using (MySqlCommand cmd = new MySqlCommand(selectQuery, conn))
             {
                 conn.Open();
 
-                // run query
-                var response = cmd.ExecuteNonQuery();
+                // Use ExecuteReader to fetch rows (ExecuteNonQuery returns affected rows count)
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var obj = new JsonObject();
 
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            var name = reader.GetName(i);
+                            if (reader.IsDBNull(i))
+                            {
+                                obj[name] = null;
+                            }
+                            else
+                            {
+                                var value = reader.GetValue(i);
+                                obj[name] = JsonValue.Create(value);
+                            }
+                        }
 
+                        results.Add(obj);
+                    }
+                }
 
                 conn.Close();
-
-                
             }
         }
+
+        return results;
     }
 }
