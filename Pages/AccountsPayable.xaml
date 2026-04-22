@@ -18,6 +18,11 @@
         <!-- Tab Buttons -->
         <HorizontalStackLayout Spacing="10" Padding="10">
 
+            <Button Text="Raw Materials"
+                Command="{Binding APViewSelectedCommand}"
+                CommandParameter="raw"
+                BackgroundColor="{Binding RawButtonColor}"/>
+
             <Button Text="Vendor Payables"
                     Command="{Binding APViewSelectedCommand}"
                     CommandParameter="vendor"
@@ -34,6 +39,13 @@
                     BackgroundColor="{Binding TransactionsButtonColor}"/>
 
         </HorizontalStackLayout>
+
+        <VerticalStackLayout IsVisible="{Binding RawVisible}" 
+                     >
+
+            <Button Text="Raw Button"
+    />
+        </VerticalStackLayout>
 
         <VerticalStackLayout IsVisible="{Binding VendorVisible}" 
                              >

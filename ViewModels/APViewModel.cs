@@ -11,7 +11,10 @@ namespace FISSystem.ViewModels;
 public partial class APViewModel : ObservableObject
 {
     [ObservableProperty]
-    private bool vendorVisible = true;
+    private bool rawVisible = true;
+
+    [ObservableProperty]
+    private bool vendorVisible = false;
 
     [ObservableProperty]
     private bool employeeVisible = false;
@@ -20,7 +23,10 @@ public partial class APViewModel : ObservableObject
     private bool transactionsVisible = false;
 
     [ObservableProperty]
-    private Color vendorButtonColor = Colors.Green;
+    private Color rawButtonColor = Colors.Green;
+
+    [ObservableProperty]
+    private Color vendorButtonColor = Colors.LightGray;
 
     [ObservableProperty]
     private Color employeeButtonColor = Colors.LightGray;
@@ -38,6 +44,8 @@ public partial class APViewModel : ObservableObject
 
     private void APInvisible()
     {
+        RawVisible = false;
+        RawButtonColor = Colors.LightGray;
         TransactionsVisible = false;
         TransactionsButtonColor = Colors.LightGray;
         VendorVisible = false;
@@ -50,7 +58,13 @@ public partial class APViewModel : ObservableObject
     private void APViewSelected(string view)
     {
         APInvisible();
-        if (view == "vendor")
+
+        if (view == "raw")
+        {
+            RawVisible = true;
+            RawButtonColor = Colors.Green;
+        }
+        else if (view == "vendor")
         {
             VendorVisible = true;
             VendorButtonColor = Colors.Green;
