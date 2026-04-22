@@ -40,31 +40,77 @@
 
         </HorizontalStackLayout>
 
-        <VerticalStackLayout IsVisible="{Binding RawVisible}" 
-                     >
+        <VerticalStackLayout IsVisible="{Binding RawVisible}">
 
-            <Button Text="Raw Button"
-    />
+            <Grid Padding="12,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{Binding width}" />
+                    <ColumnDefinition Width="{Binding width}" />
+                    <ColumnDefinition Width="{Binding width}" />
+                    <ColumnDefinition Width="{Binding width}" />
+                    <ColumnDefinition Width="{Binding width}" />
+                    <ColumnDefinition Width="{Binding width}" />
+                    <ColumnDefinition Width="{Binding width}" />
+                    <ColumnDefinition Width="{Binding width}" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Text="Raw Material ID" FontSize="14" TextColor="Black"/>
+                <Label Grid.Column="1" Text="Preferred Vendor ID" FontSize="14" TextColor="Black"/>
+                <Label Grid.Column="2" Text="Name" FontSize="14" TextColor="Black"/>
+                <Label Grid.Column="3" Text="Unit Of Measurement" FontSize="14" TextColor="Black"/>
+                <Label Grid.Column="4" Text="Current Inventory" FontSize="14" TextColor="Black"/>
+                <Label Grid.Column="5" Text="Low Inventory Level" FontSize="14" TextColor="Black"/>
+                <Label Grid.Column="6" Text="Inventory Replenish Level" FontSize="14" TextColor="Black"/>
+                <Label Grid.Column="6" Text="Action" FontSize="14" TextColor="Black"/>
+            </Grid>
+        
+
+
+            <CollectionView ItemsSource="{Binding RawMaterials}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+
+
+                        <Grid Padding="12,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{Binding width}" />
+                                <ColumnDefinition Width="{Binding width}" />
+                                <ColumnDefinition Width="{Binding width}" />
+                                <ColumnDefinition Width="{Binding width}" />
+                                <ColumnDefinition Width="{Binding width}" />
+                                <ColumnDefinition Width="{Binding width}" />
+                                <ColumnDefinition Width="{Binding width}" />
+                                <ColumnDefinition Width="{Binding width}" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Column="0" Text="{Binding RawMaterialId}" FontSize="14"/>
+                            <Label Grid.Column="1" Text="{Binding PreferredVendorId}" FontSize="14" TextColor="Gray"/>
+                            <Label Grid.Column="2" Text="{Binding Name}" FontSize="14" TextColor="Gray"/>
+                            <Label Grid.Column="3" Text="{Binding UnitOfMeasurement}" FontSize="14" TextColor="Gray"/>
+                            <Label Grid.Column="4" Text="{Binding CurrentInventory}" FontSize="14" TextColor="Gray"/>
+                            <Label Grid.Column="5" Text="{Binding LowInventoryLevel}" FontSize="14" TextColor="Gray"/>
+                            <Label Grid.Column="6" Text="{Binding InventoryReplenishLevel}" FontSize="14" TextColor="Gray"/>
+                            <Button Grid.Column="7" Text="Test" FontSize="14" BackgroundColor="Green" TextColor="Black"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                
+            </CollectionView>
+    
         </VerticalStackLayout>
 
-        <VerticalStackLayout IsVisible="{Binding VendorVisible}" 
-                             >
+        <VerticalStackLayout IsVisible="{Binding VendorVisible}">
             
-            <Button Text="Vendor Button"
-            />
-        </VerticalStackLayout>
-
-        <VerticalStackLayout IsVisible="{Binding EmployeeVisible}" 
-                             >
             
-            <Button Text="Employee Button"
-           />
         </VerticalStackLayout>
 
-        <VerticalStackLayout IsVisible="{Binding TransactionsVisible}" 
-                             >
-            <Button Text="Transaction Button"
-            />
+        <VerticalStackLayout IsVisible="{Binding EmployeeVisible}">
+            
+           
+        </VerticalStackLayout>
+
+        <VerticalStackLayout IsVisible="{Binding TransactionsVisible}">
+            
         </VerticalStackLayout>
 
     </VerticalStackLayout>

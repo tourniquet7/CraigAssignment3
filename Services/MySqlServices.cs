@@ -15,7 +15,7 @@ public class FisMySqlHelper
         "user=w109cdn;" +
         "database=w109cdn_Assignment3;" +
         "password=WRU0ZgM78H4;";
-    
+
 
     public void PopulateRawMaterials(JsonNode items)
     {
@@ -39,7 +39,8 @@ public class FisMySqlHelper
             string insertQuery = "INSERT INTO raw_material (RawMaterialID, PreferredVendorID, Name, UnitOfMeasurement, CurrentInventory, LowInventoryLevel, InventoryReplenishLevel)" +
                 "VALUES (@RAWMATERIALID, @PREFERREDVENDORID, @NAME, @UNITOFMEASUREMENT, @CURRENTINVENTORY, @LOWINVENTORYLEVEL, @INVENTORYREPLENISHLEVEL);";
 
-            foreach (var item in items.AsArray()) {
+            foreach (var item in items.AsArray())
+            {
                 var rawId = item["RawMaterialID"]?.GetValue<int>() ?? 0;
                 var prefVendor = item["PreferredVendorID"]?.GetValue<int>() ?? 0;
                 var name = item["Name"]?.GetValue<string>() ?? string.Empty;
@@ -48,7 +49,7 @@ public class FisMySqlHelper
                 var lowInv = item["LowInventoryLevel"]?.GetValue<decimal>() ?? 0m;
                 var replenish = item["InventoryReplenishLevel"]?.GetValue<decimal>() ?? 0m;
 
-         
+
                 using (MySqlCommand cmd = new MySqlCommand(insertQuery, conn))
                 {
 
@@ -71,7 +72,30 @@ public class FisMySqlHelper
                 }
             }
 
-            
+
+        }
+    }
+
+    public void GetRawMaterials()
+    {
+
+        using (MySqlConnection conn = new MySqlConnection(connStr))
+        {
+
+            string deleteQuery = "SELECT * FROM raw_material";
+            using (MySqlCommand cmd = new MySqlCommand(deleteQuery, conn))
+            {
+                conn.Open();
+
+                // run query
+                var response = cmd.ExecuteNonQuery();
+
+
+
+                conn.Close();
+
+                
+            }
         }
     }
 }

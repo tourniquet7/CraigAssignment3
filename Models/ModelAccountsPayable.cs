@@ -3,11 +3,15 @@
 
 namespace FISSystem.Models;
 
-public class ModelAccountsPayable
+public class RawMaterial
 {
-    public int PayNumber { get; set; }
-    public decimal PayAmount { get; set; }
-    public decimal Principal { get; set; }
-    public decimal Interest { get; set; }
-    public decimal Balance { get; set; }
+    public string RawMaterialId { get; set; }
+    public string PreferredVendorId { get; set; }
+    public string Name { get; set; }
+    public string UnitOfMeasurement { get; set; }
+    public int CurrentInventory { get; set; }
+    public int LowInventoryLevel { get; set; }
+    public int InventoryReplenishLevel { get; set; }
+
 }
+

@@ -1,15 +1,21 @@
 ﻿// App:     Amortization calculator
 // Element: ViewModel
 
-using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FISSystem.Models;
+using FISSystem.Services;
+using MySql.Data.MySqlClient;
+using System.Collections.ObjectModel;
+using System.Data;
 
 namespace FISSystem.ViewModels;
 
 public partial class APViewModel : ObservableObject
 {
+
+    FisMySqlHelper mysqlHelper = new FisMySqlHelper();
+
     [ObservableProperty]
     private bool rawVisible = true;
 
@@ -34,12 +40,24 @@ public partial class APViewModel : ObservableObject
     [ObservableProperty]
     private Color transactionsButtonColor = Colors.LightGray;
 
+    public int width = 200;
+
+    [ObservableProperty]
+    DataTable raw_tbl = new DataTable("raw");
+
+    public ObservableCollection<RawMaterial> RawMaterials { get; } = new();
 
     public ObservableCollection<ModelAccountsReceivable> Schedule { get; } = new();
 
     public APViewModel()
     {
-        
+        PopulateRawMaterials();
+    }
+
+    private void PopulateRawMaterials()
+    {
+
+        var response = mysqlHelper.GetRawMaterials();
     }
 
     private void APInvisible()
