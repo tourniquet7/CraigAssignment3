@@ -1,6 +1,8 @@
 ﻿using FISSystem.Models;
+using Java.Util;
 using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,8 +56,8 @@ public class FisMySqlHelper
             
 
             // define the SQL query to be used to get records
-            string insertQuery = "INSERT INTO raw_material (RawMaterialID, PreferredVendorID, Name, UnitOfMeasurement, CurrentInventory, LowInventoryLevel, InventoryReplenishLevel)" +
-                "VALUES (@RAWMATERIALID, @PREFERREDVENDORID, @NAME, @UNITOFMEASUREMENT, @CURRENTINVENTORY, @LOWINVENTORYLEVEL, @INVENTORYREPLENISHLEVEL);";
+            string insertQuery = "INSERT INTO raw_material (RawMaterialID, PreferredVendorID, Name, UnitOfMeasurement, CurrentInventory, LowInventoryLevel, InventoryReplenishLevel, CurrentInventoryPlusOrdered)" +
+                "VALUES (@RAWMATERIALID, @PREFERREDVENDORID, @NAME, @UNITOFMEASUREMENT, @CURRENTINVENTORY, @LOWINVENTORYLEVEL, @INVENTORYREPLENISHLEVEL, @CURRENTINVENTORYPLUSORDERED);";
 
             foreach (var item in items.AsArray())
             {
@@ -66,6 +68,7 @@ public class FisMySqlHelper
                 var currentInv = item["CurrentInventory"]?.GetValue<decimal>() ?? 0m;
                 var lowInv = item["LowInventoryLevel"]?.GetValue<decimal>() ?? 0m;
                 var replenish = item["InventoryReplenishLevel"]?.GetValue<decimal>() ?? 0m;
+                var currentInventoryPlusOrdered = item["CurrentInventoryPlusOrdered"]?.GetValue<int>() ?? 0m;
 
 
                 using (MySqlCommand cmd = new MySqlCommand(insertQuery, conn))
@@ -79,6 +82,7 @@ public class FisMySqlHelper
                     cmd.Parameters.AddWithValue("@CURRENTINVENTORY", currentInv);
                     cmd.Parameters.AddWithValue("@LOWINVENTORYLEVEL", lowInv);
                     cmd.Parameters.AddWithValue("@INVENTORYREPLENISHLEVEL", replenish);
+                    cmd.Parameters.AddWithValue("@CURRENTINVENTORYPLUSORDERED", currentInventoryPlusOrdered);
 
                     // open connection
                     conn.Open();
@@ -207,6 +211,32 @@ public class FisMySqlHelper
 
     public void UpdateRawMaterialAfterOrder(string id, int orderAmount)
     {
+        using (MySqlConnection conn = new MySqlConnection(connStr))
+        {
+            const string updateOrderedQuery = "UPDATE raw_material " +
+                "SET CurrentInventoryPlusOrdered = CurrentInventory + @ORDERAMOUNT" +
+                "WHERE RawMaterialID = @ID;";
+
+            using (MySqlCommand cmd = new MySqlCommand(updateOrderedQuery, conn))
+            {
+
+               
+
+
+
+                // setup parameters for the INSERT statement
+                cmd.Parameters.AddWithValue("@ID", id);
+                cmd.Parameters.AddWithValue("@ORDERAMOUNT", orderAmount);
+
+                // open connection
+                conn.Open();
+
+                // run query
+                cmd.ExecuteNonQuery();
+
+                conn.Close();
+            }
+        }
     }
 
     public JsonObject GetRawMaterial(string id)
@@ -214,7 +244,7 @@ public class FisMySqlHelper
         var result = new JsonObject();
         using (MySqlConnection conn = new MySqlConnection(connStr))
         {
-            const string selectIndividualQuery = "SELECT CurrentInventory, LowInventoryLevel, InventoryReplenishLevel " +
+            const string selectIndividualQuery = "SELECT CurrentInventory, LowInventoryLevel, InventoryReplenishLevel, CurrentInventoryPlusOrdered " +
                 "FROM raw_material " +
                 "WHERE RawMaterialID = @ID";
             using (MySqlCommand cmd = new MySqlCommand(selectIndividualQuery, conn))
@@ -233,6 +263,7 @@ public class FisMySqlHelper
                         result["CurrentInventory"] = reader["CurrentInventory"] != DBNull.Value ? JsonValue.Create(reader["CurrentInventory"]) : null;
                         result["LowInventoryLevel"] = reader["LowInventoryLevel"] != DBNull.Value ? JsonValue.Create(reader["LowInventoryLevel"]) : null;
                         result["InventoryReplenishLevel"] = reader["InventoryReplenishLevel"] != DBNull.Value ? JsonValue.Create(reader["InventoryReplenishLevel"]) : null;
+                        result["CurrentInventoryPlusOrdered"] = reader["CurrentInventoryPlusOrdered"] != DBNull.Value ? JsonValue.Create(reader["CurrentInventoryPlusOrdered"]) : null;
                     }
                 }
 

@@ -70,14 +70,14 @@ public partial class APViewModel : ObservableObject
     {
         var rawMaterial = mysqlHelper.GetRawMaterial(rawId);
         if (rawMaterial == null) return;
-        int currentInventory = ((int)rawMaterial["CurrentInventory"]);
+        int currentInventoryPlusOrdered = ((int)rawMaterial["CurrentInventoryPlusOrdered"]);
         int lowInventoryLevel = ((int)rawMaterial["LowInventoryLevel"]);
         int inventoryReplenishLevel = ((int)rawMaterial["InventoryReplenishLevel"]);
 
 
-        if (currentInventory < lowInventoryLevel)
+        if (currentInventoryPlusOrdered < lowInventoryLevel)
         {
-            int numberToOrder = inventoryReplenishLevel - currentInventory;
+            int numberToOrder = inventoryReplenishLevel - currentInventoryPlusOrdered;
             mysqlHelper.CreateRawMaterialTransaction(rawId, numberToOrder);
             mysqlHelper.UpdateRawMaterialAfterOrder(rawId, numberToOrder);
 
@@ -105,6 +105,7 @@ public partial class APViewModel : ObservableObject
             var currentInventory = ((int)rawMaterial["CurrentInventory"]);
             var lowInventoryLevel = ((int)rawMaterial["LowInventoryLevel"]);
             var inventoryReplenishLevel = ((int)rawMaterial["InventoryReplenishLevel"]);
+            var currentInventoryPlusOrdered = ((int)rawMaterial["CurrentInventoryPlusOrdered"]);
 
             var isVisible = false;
             var inventoryTextColor = Colors.Gray;
@@ -116,7 +117,17 @@ public partial class APViewModel : ObservableObject
             }
 
 
-            RawMaterials.Add(new RawMaterial { RawMaterialId = rawMaterialId, PreferredVendorId = preferredVendorId, Name = name, UnitOfMeasurement = unitOfMeasurement, CurrentInventory = currentInventory, LowInventoryLevel = lowInventoryLevel, InventoryReplenishLevel = inventoryReplenishLevel, ButtonIsVisible = isVisible, CurrentInventoryColor = inventoryTextColor});
+            RawMaterials.Add(new RawMaterial { RawMaterialId = rawMaterialId, 
+                PreferredVendorId = preferredVendorId, 
+                Name = name, 
+                UnitOfMeasurement = unitOfMeasurement, 
+                CurrentInventory = currentInventory, 
+                LowInventoryLevel = lowInventoryLevel, 
+                InventoryReplenishLevel = inventoryReplenishLevel, 
+                ButtonIsVisible = isVisible, 
+                CurrentInventoryColor = inventoryTextColor,
+                CurrentInventoryPlusOrdered = currentInventoryPlusOrdered
+            });
         }
 
     }
@@ -141,6 +152,7 @@ public partial class APViewModel : ObservableObject
             var currentInventory = ((int)rawMaterial["CurrentInventory"]);
             var lowInventoryLevel = ((int)rawMaterial["LowInventoryLevel"]);
             var inventoryReplenishLevel = ((int)rawMaterial["InventoryReplenishLevel"]);
+            var currentInventoryPlusOrdered = ((int)rawMaterial["CurrentInventoryPlusOrdered"]);
 
             var isVisible = false;
             var inventoryTextColor = Colors.Gray;

@@ -4,9 +4,10 @@
     "PreferredVendorID": 101,
     "Name": "Steel Sheet",
     "UnitOfMeasurement": "kg",
-    "CurrentInventory": 500,
+    "CurrentInventory": 50,
     "LowInventoryLevel": 100,
-    "InventoryReplenishLevel": 600
+    "InventoryReplenishLevel": 600,
+    "CurrentInventoryPlusOrdered": 600
   },
   {
     "RawMaterialID": 2,
@@ -15,7 +16,8 @@
     "UnitOfMeasurement": "kg",
     "CurrentInventory": 25,
     "LowInventoryLevel": 50,
-    "InventoryReplenishLevel": 150
+    "InventoryReplenishLevel": 150,
+    "CurrentInventoryPlusOrdered": 25
   },
   {
     "RawMaterialID": 3,
@@ -24,16 +26,18 @@
     "UnitOfMeasurement": "meters",
     "CurrentInventory": 200,
     "LowInventoryLevel": 300,
-    "InventoryReplenishLevel": 700
+    "InventoryReplenishLevel": 700,
+    "CurrentInventoryPlusOrdered": 600
   },
   {
     "RawMaterialID": 4,
     "PreferredVendorID": 104,
     "Name": "Plastic Resin",
     "UnitOfMeasurement": "kg",
-    "CurrentInventory": 800,
+    "CurrentInventory": 500,
     "LowInventoryLevel": 200,
-    "InventoryReplenishLevel": 500
+    "InventoryReplenishLevel": 500,
+    "CurrentInventoryPlusOrdered": 500
   },
   {
     "RawMaterialID": 5,
@@ -42,7 +46,8 @@
     "UnitOfMeasurement": "kg",
     "CurrentInventory": 350,
     "LowInventoryLevel": 100,
-    "InventoryReplenishLevel": 250
+    "InventoryReplenishLevel": 250,
+    "CurrentInventoryPlusOrdered": 350
   },
   {
     "RawMaterialID": 6,
@@ -51,6 +56,7 @@
     "UnitOfMeasurement": "units",
     "CurrentInventory": 10,
     "LowInventoryLevel": 30,
-    "InventoryReplenishLevel": 80
+    "InventoryReplenishLevel": 80,
+    "CurrentInventoryPlusOrdered": 10
   }
 ]
