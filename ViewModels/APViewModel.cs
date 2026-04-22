@@ -110,7 +110,7 @@ public partial class APViewModel : ObservableObject
             var isVisible = false;
             var inventoryTextColor = Colors.Gray;
 
-            if (currentInventory < lowInventoryLevel)
+            if (currentInventoryPlusOrdered < lowInventoryLevel)
             {
                 isVisible = true;
                 inventoryTextColor = Colors.Red;
@@ -157,14 +157,25 @@ public partial class APViewModel : ObservableObject
             var isVisible = false;
             var inventoryTextColor = Colors.Gray;
 
-            if (currentInventory < lowInventoryLevel)
+            if (currentInventoryPlusOrdered < lowInventoryLevel)
             {
                 isVisible = true;
                 inventoryTextColor = Colors.Red;
             }
 
 
-            RawMaterials.Add(new RawMaterial { RawMaterialId = rawMaterialId, PreferredVendorId = preferredVendorId, Name = name, UnitOfMeasurement = unitOfMeasurement, CurrentInventory = currentInventory, LowInventoryLevel = lowInventoryLevel, InventoryReplenishLevel = inventoryReplenishLevel, ButtonIsVisible = isVisible, CurrentInventoryColor = inventoryTextColor });
+            RawMaterials.Add(new RawMaterial { 
+                RawMaterialId = rawMaterialId, 
+                PreferredVendorId = preferredVendorId, 
+                Name = name, 
+                UnitOfMeasurement = unitOfMeasurement, 
+                CurrentInventory = currentInventory, 
+                LowInventoryLevel = lowInventoryLevel, 
+                InventoryReplenishLevel = inventoryReplenishLevel, 
+                ButtonIsVisible = isVisible, 
+                CurrentInventoryColor = inventoryTextColor,
+                CurrentInventoryPlusOrdered = currentInventoryPlusOrdered
+            });
         }
 
     }

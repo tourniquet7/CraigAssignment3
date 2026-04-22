@@ -1,5 +1,4 @@
 ﻿using FISSystem.Models;
-using Java.Util;
 using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
 using Mysqlx.Crud;
@@ -68,7 +67,7 @@ public class FisMySqlHelper
                 var currentInv = item["CurrentInventory"]?.GetValue<decimal>() ?? 0m;
                 var lowInv = item["LowInventoryLevel"]?.GetValue<decimal>() ?? 0m;
                 var replenish = item["InventoryReplenishLevel"]?.GetValue<decimal>() ?? 0m;
-                var currentInventoryPlusOrdered = item["CurrentInventoryPlusOrdered"]?.GetValue<int>() ?? 0m;
+                var currentInventoryPlusOrdered = item["CurrentInventoryPlusOrdered"]?.GetValue<int>() ?? 0;
 
 
                 using (MySqlCommand cmd = new MySqlCommand(insertQuery, conn))
@@ -110,19 +109,10 @@ public class FisMySqlHelper
 
     private double GenerateRandomMoneyAmount()
     {
-        Random rnd = new Random();
-
-        // Define range
-        double min = 200.0;
-        double max = 10000.0;
-
-        // Generate random number
-        double range = max - min;
-        double sample = rnd.NextDouble();
-        double scaled = (sample * range) + min;
-
-        // Round to 2 decimal places
-        double finalNumber = Math.Round(scaled, 2);
+        int min = 200;
+        int max = 10000;
+        double randomNumber = System.Random.Shared.Next(min, max);
+        double finalNumber = Math.Round(randomNumber, 2);
 
         return finalNumber;
     }
@@ -175,7 +165,7 @@ public class FisMySqlHelper
                     "@AMOUNT," +
                     "@DUEDATE," +
                     "@PAYMENTSTATUS" +
-                ");";
+                ");";    
 
 
             using (MySqlCommand cmd = new MySqlCommand(insertTransactionQuery, conn))
@@ -214,15 +204,11 @@ public class FisMySqlHelper
         using (MySqlConnection conn = new MySqlConnection(connStr))
         {
             const string updateOrderedQuery = "UPDATE raw_material " +
-                "SET CurrentInventoryPlusOrdered = CurrentInventory + @ORDERAMOUNT" +
+                "SET CurrentInventoryPlusOrdered = CurrentInventory + @ORDERAMOUNT " +
                 "WHERE RawMaterialID = @ID;";
 
             using (MySqlCommand cmd = new MySqlCommand(updateOrderedQuery, conn))
             {
-
-               
-
-
 
                 // setup parameters for the INSERT statement
                 cmd.Parameters.AddWithValue("@ID", id);
