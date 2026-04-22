@@ -17,16 +17,8 @@ public class FisMySqlHelper
         "password=WRU0ZgM78H4;";
     
 
-    public void PopulateRawMaterials(JsonNode json)
+    public void PopulateRawMaterials(JsonNode items)
     {
-
-        // define the SQL query to be used to get records
-        string query = "INSERT INTO raw_material (RawMaterialID, PreferredVendorID, Name, UnitOfMeasurement, CurrentInventory, LowInventoryLevel, InventoryReplenishLevel)" +
-            "VALUES (@RAWMATERIALID, @PREFERREDVENDORID, @NAME, @UNITOFMEASUREMENT, @CURRENTINVENTORY, @LOWINVENTORYLEVEL, @INVENTORYREPLENISHLEVEL);";
-
-
-
-
         using (MySqlConnection conn = new MySqlConnection(connStr))
         {
 
@@ -41,6 +33,42 @@ public class FisMySqlHelper
                 cmd.ExecuteNonQuery();
 
                 conn.Close();
+            }
+
+            // define the SQL query to be used to get records
+            string insertQuery = "INSERT INTO raw_material (RawMaterialID, PreferredVendorID, Name, UnitOfMeasurement, CurrentInventory, LowInventoryLevel, InventoryReplenishLevel)" +
+                "VALUES (@RAWMATERIALID, @PREFERREDVENDORID, @NAME, @UNITOFMEASUREMENT, @CURRENTINVENTORY, @LOWINVENTORYLEVEL, @INVENTORYREPLENISHLEVEL);";
+
+            foreach (var item in items.AsArray()) {
+                var rawId = item["RawMaterialID"]?.GetValue<int>() ?? 0;
+                var prefVendor = item["PreferredVendorID"]?.GetValue<int>() ?? 0;
+                var name = item["Name"]?.GetValue<string>() ?? string.Empty;
+                var unit = item["UnitOfMeasurement"]?.GetValue<string>() ?? string.Empty;
+                var currentInv = item["CurrentInventory"]?.GetValue<decimal>() ?? 0m;
+                var lowInv = item["LowInventoryLevel"]?.GetValue<decimal>() ?? 0m;
+                var replenish = item["InventoryReplenishLevel"]?.GetValue<decimal>() ?? 0m;
+
+         
+                using (MySqlCommand cmd = new MySqlCommand(insertQuery, conn))
+                {
+
+                    // setup parameters for the INSERT statement
+                    cmd.Parameters.AddWithValue("@RAWMATERIALID", rawId);
+                    cmd.Parameters.AddWithValue("@PREFERREDVENDORID", prefVendor);
+                    cmd.Parameters.AddWithValue("@NAME", name);
+                    cmd.Parameters.AddWithValue("@UNITOFMEASUREMENT", unit);
+                    cmd.Parameters.AddWithValue("@CURRENTINVENTORY", currentInv);
+                    cmd.Parameters.AddWithValue("@LOWINVENTORYLEVEL", lowInv);
+                    cmd.Parameters.AddWithValue("@INVENTORYREPLENISHLEVEL", replenish);
+
+                    // open connection
+                    conn.Open();
+
+                    // run query
+                    cmd.ExecuteNonQuery();
+
+                    conn.Close();
+                }
             }
 
             
