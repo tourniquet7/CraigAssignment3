@@ -76,6 +76,48 @@ public class FisMySqlHelper
         }
     }
 
+    public void CreateRawMaterialTransaction(string id, int orderAmount)
+    {
+
+    }
+
+    public void UpdateRawMaterialAfterOrder(string id, int orderAmount)
+    {
+    }
+
+    public JsonObject GetRawMaterial(string id)
+    {
+        var result = new JsonObject();
+        using (MySqlConnection conn = new MySqlConnection(connStr))
+        {
+            const string selectIndividualQuery = "SELECT CurrentInventory, LowInventoryLevel, InventoryReplenishLevel " +
+                "FROM raw_material " +
+                "WHERE RawMaterialID = @ID";
+            using (MySqlCommand cmd = new MySqlCommand(selectIndividualQuery, conn))
+            {
+
+                cmd.Parameters.AddWithValue("@ID", int.Parse(id));
+
+                // open connection
+                conn.Open();
+
+                // run query
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        result["CurrentInventory"] = reader["CurrentInventory"] != DBNull.Value ? JsonValue.Create(reader["CurrentInventory"]) : null;
+                        result["LowInventoryLevel"] = reader["LowInventoryLevel"] != DBNull.Value ? JsonValue.Create(reader["LowInventoryLevel"]) : null;
+                    }
+                }
+
+                conn.Close();
+
+            }
+        }
+        return result;
+    }
+
     public JsonArray GetRawMaterials()
     {
         var results = new JsonArray();

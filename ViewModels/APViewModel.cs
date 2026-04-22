@@ -9,6 +9,7 @@ using MySql.Data.MySqlClient;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Text.Json.Nodes;
+using System.Windows.Input;
 
 namespace FISSystem.ViewModels;
 
@@ -50,9 +51,38 @@ public partial class APViewModel : ObservableObject
 
     public ObservableCollection<ModelAccountsReceivable> Schedule { get; } = new();
 
+
+    public ICommand OrderMaterial
+    {
+        get;
+    }
+
     public APViewModel()
     {
         ShowRawMaterials();
+        OrderMaterial = new Command(OrderMaterialFunction);
+    }
+
+
+    private void OrderMaterialFunction(string rawId)
+    {
+        var rawMaterial = mysqlHelper.GetRawMaterial(rawId);
+        int currentInventory = ((int)rawMaterial["CurrentInventory"]);
+        int lowInventoryLevel = ((int)rawMaterial["LowInventoryLevel"]);
+        var inventoryReplenishLevel = ((int)rawMaterial["InventoryReplenishLevel"]);
+
+
+        if (currentInventory < lowInventoryLevel)
+        {
+            var numberToOrder = inventoryReplenishLevel - currentInventory;
+            mysqlHelper.CreateRawMaterialTransaction(rawId, numberToOrder);
+            mysqlHelper.UpdateRawMaterialAfterOrder(rawId, numberToOrder);
+
+            ShowRawMaterials();
+        }
+
+        
+        // You can now use the rawMaterial JsonObject as needed
     }
 
     private void ShowRawMaterials()
