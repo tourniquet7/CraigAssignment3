@@ -18,28 +18,7 @@ public class FisMySqlHelper
         "password=WRU0ZgM78H4;";
 
 
-    const string insertTransactionQuery = "INSERT INTO accounts_payable (" +
-            "RawMaterialID," +
-            "RawMaterialQty," +
-            "VendorID," +
-            "EmployeeId," +
-            "TransactionID," +
-            "Amount," +
-            "DueDate," +
-            "PaymentStatus" +
-        ")" +
-"       VALUES(" +
-            "@RAWMATERIALID," +
-            "@QUANTITYORDER," +
-            "@VENDORID," +
-            "@EMPLOYEEID," +
-            "@TRANSACTIONID," +
-
-            "@AMOUNT," +
-            "@DUEDATE," +
-            "@PAYMENTSTATUS" +
-        ");";
-
+    
 
 
     public void PopulateRawMaterialsTable(JsonNode items)
@@ -125,7 +104,7 @@ public class FisMySqlHelper
         using (MySqlConnection conn = new MySqlConnection(connStr))
         {
 
-            const string selectIndividualQuery = "SELECT VendorID " +
+            const string selectIndividualQuery = "SELECT PreferredVendorID " +
                 "FROM raw_material " +
                 "WHERE RawMaterialID = @ID";
 
@@ -144,7 +123,7 @@ public class FisMySqlHelper
                 {
                     if (reader.Read())
                     {
-                        vendorId = reader["VendorID"] != DBNull.Value ? reader["VendorID"].ToString() : null;
+                        vendorId = reader["PreferredVendorID"] != DBNull.Value ? reader["PreferredVendorID"].ToString() : null;
                         
                     }
                 }
@@ -152,6 +131,24 @@ public class FisMySqlHelper
                 conn.Close();
 
             }
+
+            const string insertTransactionQuery = "INSERT INTO accounts_payable (" +
+                    "RawMaterialID," +
+                    "RawMaterialQty," +
+                    "VendorID," +
+                    "Amount," +
+                    "DueDate," +
+                    "PaymentStatus" +
+                ")" +
+                "VALUES(" +
+                    "@RAWMATERIALID," +
+                    "@QUANTITYORDER," +
+                    "@VENDORID," +
+                    "@AMOUNT," +
+                    "@DUEDATE," +
+                    "@PAYMENTSTATUS" +
+                ");";
+
 
             using (MySqlCommand cmd = new MySqlCommand(insertTransactionQuery, conn))
             {
@@ -169,7 +166,6 @@ public class FisMySqlHelper
                 cmd.Parameters.AddWithValue("@RAWMATERIALID", id);
                 cmd.Parameters.AddWithValue("@QUANTITYORDER", orderAmount);
                 cmd.Parameters.AddWithValue("@VENDORID", vendorId);
-                cmd.Parameters.AddWithValue("@EMPLOYEEID", "");
                 cmd.Parameters.AddWithValue("@AMOUNT", amount);
                 cmd.Parameters.AddWithValue("@DUEDATE", twoDaysFromNow);
                 cmd.Parameters.AddWithValue("@PAYMENTSTATUS", "Incomplete");
@@ -212,6 +208,7 @@ public class FisMySqlHelper
                     {
                         result["CurrentInventory"] = reader["CurrentInventory"] != DBNull.Value ? JsonValue.Create(reader["CurrentInventory"]) : null;
                         result["LowInventoryLevel"] = reader["LowInventoryLevel"] != DBNull.Value ? JsonValue.Create(reader["LowInventoryLevel"]) : null;
+                        result["InventoryReplenishLevel"] = reader["InventoryReplenishLevel"] != DBNull.Value ? JsonValue.Create(reader["InventoryReplenishLevel"]) : null;
                     }
                 }
 

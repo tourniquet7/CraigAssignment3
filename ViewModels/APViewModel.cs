@@ -67,14 +67,15 @@ public partial class APViewModel : ObservableObject
     private void OrderMaterialFunction(string rawId)
     {
         var rawMaterial = mysqlHelper.GetRawMaterial(rawId);
+        if (rawMaterial == null) return;
         int currentInventory = ((int)rawMaterial["CurrentInventory"]);
         int lowInventoryLevel = ((int)rawMaterial["LowInventoryLevel"]);
-        var inventoryReplenishLevel = ((int)rawMaterial["InventoryReplenishLevel"]);
+        int inventoryReplenishLevel = ((int)rawMaterial["InventoryReplenishLevel"]);
 
 
         if (currentInventory < lowInventoryLevel)
         {
-            var numberToOrder = inventoryReplenishLevel - currentInventory;
+            int numberToOrder = inventoryReplenishLevel - currentInventory;
             mysqlHelper.CreateRawMaterialTransaction(rawId, numberToOrder);
             mysqlHelper.UpdateRawMaterialAfterOrder(rawId, numberToOrder);
 
