@@ -31,13 +31,17 @@ namespace FISSystem
 
         private static void LoadConfig()
         {
+
+            FisMySqlHelper mysqlHelper = new FisMySqlHelper();
+            mysqlHelper.DeleteTableData();
+
             using var stream = FileSystem.OpenAppPackageFileAsync("RawMaterials.json").Result;
             using var reader = new StreamReader(stream);
             var json = reader.ReadToEnd();
 
             var jsonParse = JsonNode.Parse(json);
 
-            FisMySqlHelper mysqlHelper = new FisMySqlHelper();
+            
             mysqlHelper.PopulateRawMaterialsTable(jsonParse);
 
 

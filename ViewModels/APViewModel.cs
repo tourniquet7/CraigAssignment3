@@ -59,7 +59,9 @@ public partial class APViewModel : ObservableObject
 
     public APViewModel()
     {
+        
         ShowRawMaterials();
+        ShowTransactions();
         OrderMaterial = new Command<string>(OrderMaterialFunction);
     }
 
@@ -115,6 +117,42 @@ public partial class APViewModel : ObservableObject
 
 
             RawMaterials.Add(new RawMaterial { RawMaterialId = rawMaterialId, PreferredVendorId = preferredVendorId, Name = name, UnitOfMeasurement = unitOfMeasurement, CurrentInventory = currentInventory, LowInventoryLevel = lowInventoryLevel, InventoryReplenishLevel = inventoryReplenishLevel, ButtonIsVisible = isVisible, CurrentInventoryColor = inventoryTextColor});
+        }
+
+    }
+
+    private void ShowTransactions()
+    {
+        var response = mysqlHelper.GetRawMaterials();
+        if (response == null || response.Count == 0)
+            return;
+
+        RawMaterials.Clear();
+
+        foreach (var rawMaterial in response.AsArray())
+        {
+
+
+
+            var rawMaterialId = rawMaterial["RawMaterialID"]?.ToString();
+            var preferredVendorId = rawMaterial["PreferredVendorID"]?.ToString();
+            var name = rawMaterial["Name"]?.ToString();
+            var unitOfMeasurement = rawMaterial["UnitOfMeasurement"]?.ToString();
+            var currentInventory = ((int)rawMaterial["CurrentInventory"]);
+            var lowInventoryLevel = ((int)rawMaterial["LowInventoryLevel"]);
+            var inventoryReplenishLevel = ((int)rawMaterial["InventoryReplenishLevel"]);
+
+            var isVisible = false;
+            var inventoryTextColor = Colors.Gray;
+
+            if (currentInventory < lowInventoryLevel)
+            {
+                isVisible = true;
+                inventoryTextColor = Colors.Red;
+            }
+
+
+            RawMaterials.Add(new RawMaterial { RawMaterialId = rawMaterialId, PreferredVendorId = preferredVendorId, Name = name, UnitOfMeasurement = unitOfMeasurement, CurrentInventory = currentInventory, LowInventoryLevel = lowInventoryLevel, InventoryReplenishLevel = inventoryReplenishLevel, ButtonIsVisible = isVisible, CurrentInventoryColor = inventoryTextColor });
         }
 
     }

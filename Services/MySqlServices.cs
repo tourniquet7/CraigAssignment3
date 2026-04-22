@@ -18,15 +18,18 @@ public class FisMySqlHelper
         "password=WRU0ZgM78H4;";
 
 
-    
-
-
-    public void PopulateRawMaterialsTable(JsonNode items)
+    public void DeleteTableData()
     {
         using (MySqlConnection conn = new MySqlConnection(connStr))
         {
 
-            string deleteQuery = "DELETE FROM raw_material";
+
+            string deleteQuery = "SET FOREIGN_KEY_CHECKS = 0;" +
+                "TRUNCATE TABLE transactions;" +
+                "TRUNCATE TABLE accounts_payable;" +
+                "TRUNCATE TABLE accounts_receivable;" +
+                "TRUNCATE TABLE raw_material;" +
+                "SET FOREIGN_KEY_CHECKS = 1;";
             using (MySqlCommand cmd = new MySqlCommand(deleteQuery, conn))
             {
 
@@ -38,6 +41,17 @@ public class FisMySqlHelper
 
                 conn.Close();
             }
+
+        }
+    }
+
+
+    public void PopulateRawMaterialsTable(JsonNode items)
+    {
+        using (MySqlConnection conn = new MySqlConnection(connStr))
+        {
+
+            
 
             // define the SQL query to be used to get records
             string insertQuery = "INSERT INTO raw_material (RawMaterialID, PreferredVendorID, Name, UnitOfMeasurement, CurrentInventory, LowInventoryLevel, InventoryReplenishLevel)" +
@@ -79,6 +93,16 @@ public class FisMySqlHelper
 
         }
     }
+
+    public void PopulateTransactions(JsonNode items)
+    {
+        using (MySqlConnection conn = new MySqlConnection(connStr))
+        {
+
+            
+        }
+    }
+
 
     private double GenerateRandomMoneyAmount()
     {
