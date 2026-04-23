@@ -34,6 +34,11 @@
             </HorizontalStackLayout>
 
             <VerticalStackLayout IsVisible="{Binding RawVisible}">
+                <HorizontalStackLayout Spacing="10" Padding="10">
+                    <Button Text="Generate Raw Materials Order XML"
+                        Command="{Binding CreateRawMaterialsOrdersCommand}"
+                        BackgroundColor="Blue"/>
+                </HorizontalStackLayout>
                 <Grid Padding="12,8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="{Binding width}" />

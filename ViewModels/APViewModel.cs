@@ -1,11 +1,9 @@
-﻿// App:     Amortization calculator
-// Element: ViewModel
-
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FISSystem.Models;
 using FISSystem.Services;
 using System.Collections.ObjectModel;
+using System.Text.Json;
 using System.Windows.Input;
 namespace FISSystem.ViewModels;
 
@@ -280,6 +278,15 @@ public partial class APViewModel : ObservableObject
         }
     }
 
+    [RelayCommand]
+    private void CreateRawMaterialsOrders(string view)
+    {
+        string json;
+
+        json = JsonSerializer.Serialize(AccountsPayableVendor);
+       
+        File.WriteAllText("rawMaterialOrders.json", json);
+    }
     private void APInvisible()
     {
         RawVisible = false;
