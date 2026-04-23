@@ -256,7 +256,7 @@ public partial class ReportsViewModel : ObservableObject
             });
         }
 
-        var revenueMinusExpenses = totalReceived - totalPaid;
+        var revenueMinusExpenses = totalReceived + totalPaid;
 
         TrTotalPaid = totalPaid;
         TrTotalReceived = totalReceived;

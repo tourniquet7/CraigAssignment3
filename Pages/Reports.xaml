@@ -161,7 +161,7 @@
                     <Label Text="{Binding TrTotalPaid}" />
                     <Label Text="    Total Received = " />
                     <Label Text="{Binding TrTotalReceived}" />
-                    <Label Text="    Amount Past Due = " />
+                    <Label Text="    Revenue Minus Expenses = " />
                     <Label Text="{Binding TrRevenueMinusExpenses}" />
                 </HorizontalStackLayout>
                 <Grid Padding="12,8">
