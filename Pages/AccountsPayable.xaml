@@ -114,17 +114,17 @@
                     <ColumnDefinition Width="{Binding width}" />
                     <ColumnDefinition Width="{Binding width}" />
                     <ColumnDefinition Width="{Binding width}" />
-                    
-                    
+                    <ColumnDefinition Width="{Binding width}" />
                 </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" Text="AccountsPayableID" FontSize="14" TextColor="Black"/>
+                <Label Grid.Column="0" Text="Accounts Payable ID" FontSize="14" TextColor="Black"/>
                 <Label Grid.Column="1" Text="Amount" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="2" Text="DueDate" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="3" Text="RawMaterialID" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="4" Text="RawMaterialQty" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="5" Text="VendorID" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="6" Text="Pay Invoice" FontSize="14" TextColor="Black"/>
+                <Label Grid.Column="2" Text="Due Date" FontSize="14" TextColor="Black"/>
+                <Label Grid.Column="3" Text="Raw Material ID" FontSize="14" TextColor="Black"/>
+                <Label Grid.Column="4" Text="Raw Material Qty" FontSize="14" TextColor="Black"/>
+                <Label Grid.Column="5" Text="Vendor ID" FontSize="14" TextColor="Black"/>
+                <Label Grid.Column="6" Text="Payment Status" FontSize="14" TextColor="Black"/>
+                <Label Grid.Column="7" Text="Pay Invoice" FontSize="14" TextColor="Black"/>
              
             </Grid>
 
@@ -144,6 +144,7 @@
                                 <ColumnDefinition Width="{Binding width}" />
                                 <ColumnDefinition Width="{Binding width}" />
                                 <ColumnDefinition Width="{Binding width}" />
+                                <ColumnDefinition Width="{Binding width}" />
                             </Grid.ColumnDefinitions>
 
                             <Label Grid.Column="0" Text="{Binding AccountsPayableID}" FontSize="14"/>
@@ -152,7 +153,9 @@
                             <Label Grid.Column="3" Text="{Binding RawMaterialID}" FontSize="14" TextColor="Gray"/>
                             <Label Grid.Column="4" Text="{Binding RawMaterialQty}" FontSize="14" TextColor="{Binding CurrentInventoryColor}"/>
                             <Label Grid.Column="5" Text="{Binding VendorID}" FontSize="14" TextColor="Gray"/>
-                            <Button Grid.Column="6" Text="Pay Vendor" Command="{Binding BindingContext.VendorTransaction, Source={x:Reference RootPage}}" CommandParameter="{Binding AccountsPayableID}" IsVisible="{Binding ButtonIsVisible}" FontSize="14" BackgroundColor="Green" TextColor="White"/>
+                            <Label Grid.Column="6" Text="{Binding PaymentStatus}" FontSize="14" TextColor="Gray"/>
+                            
+                            <Button Grid.Column="7" Text="Pay Vendor" Command="{Binding BindingContext.VendorTransaction, Source={x:Reference RootPage}}" CommandParameter="{Binding AccountsPayableID}" IsVisible="{Binding ButtonIsVisible}" FontSize="14" BackgroundColor="Green" TextColor="White"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

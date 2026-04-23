@@ -24,7 +24,7 @@ public class RawMaterial
 public class AccountsPayable
 {
     public string AccountsPayableID { get; set; }
-    public string Amount { get; set; }
+    public double Amount { get; set; }
     public string DueDate { get; set; }
     public string PaymentStatus { get; set; }
     public bool ButtonIsVisible { get; set; }

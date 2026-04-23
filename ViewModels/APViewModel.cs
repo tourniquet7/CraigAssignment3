@@ -175,13 +175,13 @@ public partial class APViewModel : ObservableObject
         {
             
 
-            string accountsPayableID = JsonSerialier.Deserialize<string>(accountPayable["AccountsPayableID"]?.ToJsonString());
-            double amount = double.Parse(accountPayable["Amount"]?.ToString() ?? "0");
+            string accountsPayableID = (accountPayable["AccountsPayableID"]?.ToString()?.Trim('"'));
+            double amount = double.Parse(accountPayable["Amount"]?.ToString()?.Trim('"') ?? "0");
             DateTime dueDate = ((DateTime)accountPayable["DueDate"]);
-            string paymentStatus = accountPayable["PaymentStatus"]?.ToString();
-            string rawMaterialID = accountPayable["RawMaterialID"]?.ToString();
+            string paymentStatus = accountPayable["PaymentStatus"]?.ToString()?.Trim('"');
+            string rawMaterialID = accountPayable["RawMaterialID"]?.ToString()?.Trim('"');
             int rawMaterialQty = ((int)accountPayable["RawMaterialQty"]);
-            string vendorID = accountPayable["VendorID"]?.ToString();
+            string vendorID = accountPayable["VendorID"]?.ToString()?.Trim('"');
 
 
             bool isVisible = false;
@@ -190,7 +190,7 @@ public partial class APViewModel : ObservableObject
 
             string dueDateString = dueDate.ToShortDateString();
 
-            if (today >= dueDate)
+            if (today >= dueDate && paymentStatus == "Incomplete")
             {
                 isVisible = true;
                 pastDueColor = Colors.Red;

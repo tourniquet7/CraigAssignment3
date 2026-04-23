@@ -306,7 +306,7 @@ public class FisMySqlHelper
         {
             const string updateOrderedQuery = "UPDATE accounts_payable " +
                 "SET PaymentStatus = 'Paid' " +
-                "WHERE RawMaterialID = @ID;";
+                "WHERE AccountsPayableID = @ID;";
 
             using (MySqlCommand cmd = new MySqlCommand(updateOrderedQuery, conn))
             {
