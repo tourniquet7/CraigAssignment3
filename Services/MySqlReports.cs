@@ -1,15 +1,8 @@
 ﻿
-using FISSystem.Models;
-using FISSystem.Pages;
-using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
-using Mysqlx.Crud;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+
 using System.Text.Json.Nodes;
-using System.Threading;
-using System.Threading.Tasks;
+
 
 namespace FISSystem.Services;
 
@@ -21,6 +14,8 @@ public class FisMySqlHelperReports
         "password=WRU0ZgM78H4;";
 
     bool setPastDueNextTime = true;
+
+    FisMySqlHelperAccountsGeneral mysqlHelperGeneral = new FisMySqlHelperAccountsGeneral();
 
     public JsonArray GetAccountsPayable()
     {
@@ -39,22 +34,7 @@ public class FisMySqlHelperReports
                 {
                     while (reader.Read())
                     {
-                        var obj = new JsonObject();
-
-                        for (int i = 0; i < reader.FieldCount; i++)
-                        {
-                            var name = reader.GetName(i);
-                            if (reader.IsDBNull(i))
-                            {
-                                obj[name] = null;
-                            }
-                            else
-                            {
-                                var value = reader.GetValue(i);
-                                obj[name] = JsonValue.Create(value);
-                            }
-                        }
-
+                        var obj = mysqlHelperGeneral.GetObjectFromReader(reader);
                         results.Add(obj);
                     }
                 }
@@ -83,22 +63,7 @@ public class FisMySqlHelperReports
                 {
                     while (reader.Read())
                     {
-                        var obj = new JsonObject();
-
-                        for (int i = 0; i < reader.FieldCount; i++)
-                        {
-                            var name = reader.GetName(i);
-                            if (reader.IsDBNull(i))
-                            {
-                                obj[name] = null;
-                            }
-                            else
-                            {
-                                var value = reader.GetValue(i);
-                                obj[name] = JsonValue.Create(value);
-                            }
-                        }
-
+                        var obj = mysqlHelperGeneral.GetObjectFromReader(reader);
                         results.Add(obj);
                     }
                 }
@@ -127,22 +92,7 @@ public class FisMySqlHelperReports
                 {
                     while (reader.Read())
                     {
-                        var obj = new JsonObject();
-
-                        for (int i = 0; i < reader.FieldCount; i++)
-                        {
-                            var name = reader.GetName(i);
-                            if (reader.IsDBNull(i))
-                            {
-                                obj[name] = null;
-                            }
-                            else
-                            {
-                                var value = reader.GetValue(i);
-                                obj[name] = JsonValue.Create(value);
-                            }
-                        }
-
+                        var obj = mysqlHelperGeneral.GetObjectFromReader(reader);
                         results.Add(obj);
                     }
                 }

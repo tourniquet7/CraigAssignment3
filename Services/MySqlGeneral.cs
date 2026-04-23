@@ -1,15 +1,6 @@
-﻿
-using FISSystem.Models;
-using FISSystem.Pages;
-using Microsoft.Extensions.Logging;
-using MySql.Data.MySqlClient;
-using Mysqlx.Crud;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using MySql.Data.MySqlClient;
+using System.Data;
 using System.Text.Json.Nodes;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FISSystem.Services;
 
@@ -20,14 +11,30 @@ public class FisMySqlHelperAccountsGeneral
         "database=w109cdn_Assignment3;" +
         "password=WRU0ZgM78H4;";
 
+    public JsonObject GetObjectFromReader(IDataReader reader)
+    {
+        var obj = new JsonObject();
 
+        for (int i = 0; i < reader.FieldCount; i++)
+        {
+            var name = reader.GetName(i);
+            if (reader.IsDBNull(i))
+            {
+                obj[name] = null;
+            }
+            else
+            {
+                var value = reader.GetValue(i);
+                obj[name] = JsonValue.Create(value);
+            }
+        }
+        return obj;
+    }
 
     public void DeleteTableData()
     {
         using (MySqlConnection conn = new MySqlConnection(connStr))
         {
-
-
             string deleteQuery = "SET FOREIGN_KEY_CHECKS = 0;" +
                 "TRUNCATE TABLE accounts_receivable;" +
                 "TRUNCATE TABLE accounts_payable;" +
@@ -36,16 +43,10 @@ public class FisMySqlHelperAccountsGeneral
                 "SET FOREIGN_KEY_CHECKS = 1;";
             using (MySqlCommand cmd = new MySqlCommand(deleteQuery, conn))
             {
-
-                // open connection
                 conn.Open();
-
-                // run query
                 cmd.ExecuteNonQuery();
-
                 conn.Close();
             }
-
         }
     }
 }

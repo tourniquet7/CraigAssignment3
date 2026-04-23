@@ -1,15 +1,6 @@
 ﻿
-using FISSystem.Models;
-using FISSystem.Pages;
-using Microsoft.Extensions.Logging;
 using MySql.Data.MySqlClient;
-using Mysqlx.Crud;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json.Nodes;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace FISSystem.Services;
 
@@ -20,45 +11,13 @@ public class FisMySqlHelperAccountsPayable
         "database=w109cdn_Assignment3;" +
         "password=WRU0ZgM78H4;";
 
+    FisMySqlHelperAccountsGeneral mysqlHelperGeneral = new FisMySqlHelperAccountsGeneral();
+
     bool setPastDueNextTime = true;
-
-
-    public void DeleteTableData()
-    {
-        using (MySqlConnection conn = new MySqlConnection(connStr))
-        {
-
-
-            string deleteQuery = "SET FOREIGN_KEY_CHECKS = 0;" +
-                "TRUNCATE TABLE transactions;" +
-                "TRUNCATE TABLE accounts_payable;" +
-                "TRUNCATE TABLE accounts_receivable;" +
-                "TRUNCATE TABLE raw_material;" +
-                "SET FOREIGN_KEY_CHECKS = 1;";
-            using (MySqlCommand cmd = new MySqlCommand(deleteQuery, conn))
-            {
-
-                // open connection
-                conn.Open();
-
-                // run query
-                cmd.ExecuteNonQuery();
-
-                conn.Close();
-            }
-
-        }
-    }
-
-
     public void PopulateRawMaterialsTable(JsonNode items)
     {
         using (MySqlConnection conn = new MySqlConnection(connStr))
         {
-
-            
-
-            // define the SQL query to be used to get records
             string insertQuery = "INSERT INTO raw_material (RawMaterialID, PreferredVendorID, Name, UnitOfMeasurement, CurrentInventory, LowInventoryLevel, InventoryReplenishLevel, CurrentInventoryPlusOrdered)" +
                 "VALUES (@RAWMATERIALID, @PREFERREDVENDORID, @NAME, @UNITOFMEASUREMENT, @CURRENTINVENTORY, @LOWINVENTORYLEVEL, @INVENTORYREPLENISHLEVEL, @CURRENTINVENTORYPLUSORDERED);";
 
@@ -73,10 +32,8 @@ public class FisMySqlHelperAccountsPayable
                 var replenish = item["InventoryReplenishLevel"]?.GetValue<decimal>() ?? 0m;
                 var currentInventoryPlusOrdered = item["CurrentInventoryPlusOrdered"]?.GetValue<int>() ?? 0;
 
-
                 using (MySqlCommand cmd = new MySqlCommand(insertQuery, conn))
                 {
-
                     // setup parameters for the INSERT statement
                     cmd.Parameters.AddWithValue("@RAWMATERIALID", rawId);
                     cmd.Parameters.AddWithValue("@PREFERREDVENDORID", prefVendor);
@@ -87,17 +44,13 @@ public class FisMySqlHelperAccountsPayable
                     cmd.Parameters.AddWithValue("@INVENTORYREPLENISHLEVEL", replenish);
                     cmd.Parameters.AddWithValue("@CURRENTINVENTORYPLUSORDERED", currentInventoryPlusOrdered);
 
-                    // open connection
                     conn.Open();
 
-                    // run query
                     cmd.ExecuteNonQuery();
 
                     conn.Close();
                 }
             }
-
-
         }
     }
 
@@ -105,10 +58,6 @@ public class FisMySqlHelperAccountsPayable
     {
         using (MySqlConnection conn = new MySqlConnection(connStr))
         {
-
-
-
-            // define the SQL query to be used to get records
             string insertQuery = "INSERT INTO accounts_payable (EmployeeId, Amount, DueDate, PaymentStatus, EmployeeDirectDeposit)" +
                 "VALUES (@EMPLOYEEID, @AMOUNT, @DUEDATE, @PAYMENTSTATUS, @DIRECTDEPOSIT);";
 
@@ -120,56 +69,38 @@ public class FisMySqlHelperAccountsPayable
                 string paymentStatus = item["PaymentStatus"]?.GetValue<string>() ?? string.Empty;
                 bool directDeposit = item["EmployeeDirectDeposit"]?.GetValue<bool>() ?? false;
 
-
                 using (MySqlCommand cmd = new MySqlCommand(insertQuery, conn))
                 {
-
-                    // setup parameters for the INSERT statement
                     cmd.Parameters.AddWithValue("@EMPLOYEEID", employeeId);
                     cmd.Parameters.AddWithValue("@AMOUNT", amount);
                     cmd.Parameters.AddWithValue("@DUEDATE", dueDate);
                     cmd.Parameters.AddWithValue("@PAYMENTSTATUS", paymentStatus);
                     cmd.Parameters.AddWithValue("@DIRECTDEPOSIT", directDeposit);
 
-                    // open connection
                     conn.Open();
 
-                    // run query
                     cmd.ExecuteNonQuery();
 
                     conn.Close();
                 }
             }
-
-
         }
     }
-
-    public void PopulateTransactions(JsonNode items)
-    {
-        using (MySqlConnection conn = new MySqlConnection(connStr))
-        {
-
-            
-        }
-    }
-
 
     private double GenerateRandomMoneyAmount()
     {
         int min = 200;
         int max = 10000;
         double randomNumber = System.Random.Shared.Next(min, max);
-        double finalNumber = Math.Round(randomNumber, 2);
+        double randomMoneyAmount = Math.Round(randomNumber, 2);
 
-        return finalNumber;
+        return randomMoneyAmount;
     }
 
     public void CreateRawMaterialTransaction(string id, int orderAmount)
     {
         using (MySqlConnection conn = new MySqlConnection(connStr))
         {
-
             const string selectIndividualQuery = "SELECT PreferredVendorID " +
                 "FROM raw_material " +
                 "WHERE RawMaterialID = @ID";
@@ -178,24 +109,18 @@ public class FisMySqlHelperAccountsPayable
 
             using (MySqlCommand cmd = new MySqlCommand(selectIndividualQuery, conn))
             {
-
                 cmd.Parameters.AddWithValue("@ID", int.Parse(id));
 
-                // open connection
                 conn.Open();
 
-                // run query
                 using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())
                     {
                         vendorId = reader["PreferredVendorID"] != DBNull.Value ? reader["PreferredVendorID"].ToString() : null;
-                        
                     }
                 }
-
                 conn.Close();
-
             }
 
             const string insertTransactionQuery = "INSERT INTO accounts_payable (" +
@@ -214,7 +139,6 @@ public class FisMySqlHelperAccountsPayable
                     "@DUEDATE," +
                     "@PAYMENTSTATUS" +
                 ");";    
-
 
             using (MySqlCommand cmd = new MySqlCommand(insertTransactionQuery, conn))
             {
@@ -236,9 +160,6 @@ public class FisMySqlHelperAccountsPayable
 
                 setPastDueNextTime = !setPastDueNextTime;
 
-
-
-                // setup parameters for the INSERT statement
                 cmd.Parameters.AddWithValue("@RAWMATERIALID", id);
                 cmd.Parameters.AddWithValue("@QUANTITYORDER", orderAmount);
                 cmd.Parameters.AddWithValue("@VENDORID", vendorId);
@@ -246,10 +167,8 @@ public class FisMySqlHelperAccountsPayable
                 cmd.Parameters.AddWithValue("@DUEDATE", twoDaysFromNow);
                 cmd.Parameters.AddWithValue("@PAYMENTSTATUS", "Pending");
 
-                // open connection
                 conn.Open();
-
-                // run query
+  
                 cmd.ExecuteNonQuery();
 
                 conn.Close();
@@ -272,13 +191,8 @@ public class FisMySqlHelperAccountsPayable
                     "@DATE" +
                 ");";
 
-
-            
-
-
             using (MySqlCommand cmd = new MySqlCommand(insertTransactionQuery, conn))
             {
-
                 DateTime today = DateTime.Now;
 
                 // setup parameters for the INSERT statement
@@ -286,11 +200,8 @@ public class FisMySqlHelperAccountsPayable
                 cmd.Parameters.AddWithValue("@AMOUNT", -amount);
                 cmd.Parameters.AddWithValue("@DATE", today);
 
-
-                // open connection
                 conn.Open();
 
-                // run query
                 cmd.ExecuteNonQuery();
 
                 conn.Close();
@@ -313,10 +224,8 @@ public class FisMySqlHelperAccountsPayable
                 cmd.Parameters.AddWithValue("@ID", id);
                 cmd.Parameters.AddWithValue("@ORDERAMOUNT", orderAmount);
 
-                // open connection
                 conn.Open();
 
-                // run query
                 cmd.ExecuteNonQuery();
 
                 conn.Close();
@@ -334,14 +243,10 @@ public class FisMySqlHelperAccountsPayable
 
             using (MySqlCommand cmd = new MySqlCommand(updateOrderedQuery, conn))
             {
-
-                // setup parameters for the INSERT statement
                 cmd.Parameters.AddWithValue("@ID", id);
-
-                // open connection
+         
                 conn.Open();
 
-                // run query
                 cmd.ExecuteNonQuery();
 
                 conn.Close();
@@ -359,13 +264,10 @@ public class FisMySqlHelperAccountsPayable
                 "WHERE RawMaterialID = @ID";
             using (MySqlCommand cmd = new MySqlCommand(selectIndividualQuery, conn))
             {
-
                 cmd.Parameters.AddWithValue("@ID", int.Parse(id));
 
-                // open connection
                 conn.Open();
 
-                // run query
                 using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())
@@ -397,10 +299,8 @@ public class FisMySqlHelperAccountsPayable
 
                 cmd.Parameters.AddWithValue("@ID", int.Parse(id));
 
-                // open connection
                 conn.Open();
 
-                // run query
                 using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())
@@ -413,13 +313,10 @@ public class FisMySqlHelperAccountsPayable
                 }
 
                 conn.Close();
-
             }
         }
         return result;
     }
-
-
 
     public JsonArray GetRawMaterials()
     {
@@ -432,27 +329,11 @@ public class FisMySqlHelperAccountsPayable
             {
                 conn.Open();
 
-                // Use ExecuteReader to fetch rows (ExecuteNonQuery returns affected rows count)
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        var obj = new JsonObject();
-
-                        for (int i = 0; i < reader.FieldCount; i++)
-                        {
-                            var name = reader.GetName(i);
-                            if (reader.IsDBNull(i))
-                            {
-                                obj[name] = null;
-                            }
-                            else
-                            {
-                                var value = reader.GetValue(i);
-                                obj[name] = JsonValue.Create(value);
-                            }
-                        }
-
+                        var obj = mysqlHelperGeneral.GetObjectFromReader(reader);
                         results.Add(obj);
                     }
                 }
@@ -460,7 +341,6 @@ public class FisMySqlHelperAccountsPayable
                 conn.Close();
             }
         }
-
         return results;
     }
 
@@ -482,22 +362,7 @@ public class FisMySqlHelperAccountsPayable
                 {
                     while (reader.Read())
                     {
-                        var obj = new JsonObject();
-
-                        for (int i = 0; i < reader.FieldCount; i++)
-                        {
-                            var name = reader.GetName(i);
-                            if (reader.IsDBNull(i))
-                            {
-                                obj[name] = null;
-                            }
-                            else
-                            {
-                                var value = reader.GetValue(i);
-                                obj[name] = JsonValue.Create(value);
-                            }
-                        }
-
+                        var obj = mysqlHelperGeneral.GetObjectFromReader(reader);
                         results.Add(obj);
                     }
                 }
@@ -527,22 +392,7 @@ public class FisMySqlHelperAccountsPayable
                 {
                     while (reader.Read())
                     {
-                        var obj = new JsonObject();
-
-                        for (int i = 0; i < reader.FieldCount; i++)
-                        {
-                            var name = reader.GetName(i);
-                            if (reader.IsDBNull(i))
-                            {
-                                obj[name] = null;
-                            }
-                            else
-                            {
-                                var value = reader.GetValue(i);
-                                obj[name] = JsonValue.Create(value);
-                            }
-                        }
-
+                        var obj = mysqlHelperGeneral.GetObjectFromReader(reader);
                         results.Add(obj);
                     }
                 }
@@ -572,22 +422,7 @@ public class FisMySqlHelperAccountsPayable
                 {
                     while (reader.Read())
                     {
-                        var obj = new JsonObject();
-
-                        for (int i = 0; i < reader.FieldCount; i++)
-                        {
-                            var name = reader.GetName(i);
-                            if (reader.IsDBNull(i))
-                            {
-                                obj[name] = null;
-                            }
-                            else
-                            {
-                                var value = reader.GetValue(i);
-                                obj[name] = JsonValue.Create(value);
-                            }
-                        }
-
+                        var obj = mysqlHelperGeneral.GetObjectFromReader(reader);
                         results.Add(obj);
                     }
                 }

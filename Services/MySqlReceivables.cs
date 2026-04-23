@@ -20,6 +20,8 @@ public class FisMySqlHelperAccountsReceivable
         "database=w109cdn_Assignment3;" +
         "password=WRU0ZgM78H4;";
 
+    FisMySqlHelperAccountsGeneral mysqlHelperGeneral = new FisMySqlHelperAccountsGeneral();
+
 
     public void PopulateAccountsReceivable(JsonNode items)
     {
@@ -77,22 +79,7 @@ public class FisMySqlHelperAccountsReceivable
                 {
                     while (reader.Read())
                     {
-                        var obj = new JsonObject();
-
-                        for (int i = 0; i < reader.FieldCount; i++)
-                        {
-                            var name = reader.GetName(i);
-                            if (reader.IsDBNull(i))
-                            {
-                                obj[name] = null;
-                            }
-                            else
-                            {
-                                var value = reader.GetValue(i);
-                                obj[name] = JsonValue.Create(value);
-                            }
-                        }
-
+                        var obj = mysqlHelperGeneral.GetObjectFromReader(reader);
                         results.Add(obj);
                     }
                 }
@@ -122,22 +109,7 @@ public class FisMySqlHelperAccountsReceivable
                 {
                     while (reader.Read())
                     {
-                        var obj = new JsonObject();
-
-                        for (int i = 0; i < reader.FieldCount; i++)
-                        {
-                            var name = reader.GetName(i);
-                            if (reader.IsDBNull(i))
-                            {
-                                obj[name] = null;
-                            }
-                            else
-                            {
-                                var value = reader.GetValue(i);
-                                obj[name] = JsonValue.Create(value);
-                            }
-                        }
-
+                        var obj = mysqlHelperGeneral.GetObjectFromReader(reader);
                         results.Add(obj);
                     }
                 }
