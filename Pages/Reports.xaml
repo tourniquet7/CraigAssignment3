@@ -162,14 +162,13 @@
 
 
 
-                <CollectionView ItemsSource="{Binding AccountsPayableEverything}">
+                <CollectionView ItemsSource="{Binding AccountsReceivableModel}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
 
 
                             <Grid Padding="12,8">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="{Binding width}" />
                                     <ColumnDefinition Width="{Binding width}" />
                                     <ColumnDefinition Width="{Binding width}" />
                                     <ColumnDefinition Width="{Binding width}" />
