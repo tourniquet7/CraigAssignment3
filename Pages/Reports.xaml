@@ -49,6 +49,20 @@
 
 
             <VerticalStackLayout IsVisible="{Binding AccountsPayableVisible}">
+                <HorizontalStackLayout>
+
+                    <Label Text="Amount Paid = " />
+                    <Label Text="{Binding ApAmountPaid}" />
+                    <Label Text="    Amount Not Paid Yet = " />
+                    <Label Text="{Binding ApAmountNotPaid}" />
+                    <Label Text="    Amount Past Due = " />
+                    <Label Text="{Binding ApAmountPastDue}" />
+                    <Label Text="    Total accounts past due = " />
+                    <Label Text="{Binding ApAccountsPastDue}" />
+                    <Label Text="    Total amount in Accounts Payable = " />
+                    <Label Text="{Binding ApAmountTotal}" />
+                </HorizontalStackLayout>
+                
                 <Grid Padding="12,8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="{Binding width}" />

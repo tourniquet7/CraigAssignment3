@@ -43,6 +43,22 @@ public partial class ReportsViewModel : ObservableObject
     [ObservableProperty]
     private Color transactionsColor = Colors.LightGray;
 
+    [ObservableProperty]
+    private double apAmountPaid = 0;
+
+    [ObservableProperty]
+    private double apAmountNotPaid = 0;
+
+    [ObservableProperty]
+    private double apAmountPastDue = 0;
+
+    [ObservableProperty]
+    private double apAmountTotal = 0;
+
+    [ObservableProperty]
+    private int apAccountsPastDue = 0;
+
+
     public int width = 200;
 
 
@@ -58,11 +74,11 @@ public partial class ReportsViewModel : ObservableObject
 
     public ReportsViewModel()
     {
-        RefreshReportsButton = new Command<string>(RefreshReportsButtonFunction);
+        RefreshReportsButton = new Command(RefreshReportsButtonFunction);
         RefreshReports();
     }
 
-    private void RefreshReportsButtonFunction(string parameter)
+    private void RefreshReportsButtonFunction()
     {
         RefreshReports();
     }
@@ -82,8 +98,12 @@ public partial class ReportsViewModel : ObservableObject
         AccountsPayableEverything.Clear();
 
         double amountPaid = 0;
+        double amountNotPaid = 0;
         double amountPastDue = 0;
+        int accountsPastDue = 0;
         double amountTotal = 0;
+        //current date time
+        DateTime today = DateTime.Now;
 
         foreach (var accountPayable in response.AsArray())
         {
@@ -103,6 +123,24 @@ public partial class ReportsViewModel : ObservableObject
 
             string dueDateString = dueDate.ToShortDateString();
 
+            amountTotal = amountTotal + amount;
+
+            if (paymentStatus == "Paid")
+            {
+                amountPaid = amountPaid + amount;
+            } else {
+                amountNotPaid = amountNotPaid + amount;
+            }
+
+            if (today >= dueDate && paymentStatus == "Pending")
+            {
+                amountPastDue = amountPastDue + amount;
+                accountsPastDue = accountsPastDue + 1;
+            }
+
+
+
+
             AccountsPayableEverything.Add(new AccountsPayableEverything
             {
                 AccountsPayableID = accountsPayableID,
@@ -115,6 +153,13 @@ public partial class ReportsViewModel : ObservableObject
                 PaymentStatus = paymentStatus,
                 PastDueColor = pastDueColor
             });
+
+           
+            ApAmountPaid = amountPaid;
+            ApAmountNotPaid = amountNotPaid;
+            ApAmountPastDue = amountPastDue;
+            ApAmountTotal = amountTotal;
+            ApAccountsPastDue = accountsPastDue;
         }
     }
 
@@ -125,7 +170,7 @@ public partial class ReportsViewModel : ObservableObject
         if (response == null || response.Count == 0)
             return;
 
-        AccountsPayableEverything.Clear();
+        AccountsReceivableModel.Clear();
 
         double amountPaid = 0;
         double amountPastDue = 0;
