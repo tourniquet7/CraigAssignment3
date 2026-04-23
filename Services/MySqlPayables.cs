@@ -261,37 +261,17 @@ public class FisMySqlHelperAccountsPayable
     {
         using (MySqlConnection conn = new MySqlConnection(connStr))
         {
-            string insertTransactionQuery;
-
-            if (transactionType == "vendor")
-            {
-                insertTransactionQuery = "INSERT INTO transactions (" +
+            string insertTransactionQuery= "INSERT INTO transactions (" +
                     "AccountsPayableID," +
                     "Amount," +
-                    "Date," +
-                    "VendorID" +
+                    "Date" +
                 ") " +
-                "VALUES (" +
-                    "@ACCOUNTSID," +
-                    "@AMOUNT," +
-                    "@DATE," +
-                    "@PAYEEID" +
-                ");";
-            } else
-            {
-                insertTransactionQuery = "INSERT INTO transactions (" +
-                    "AccountsPayableID," +
-                    "Amount," +
-                    "Date," +
-                    "EmployeeId" +
-                ")" +
                 " VALUES (" +
                     "@ACCOUNTSID," +
                     "@AMOUNT," +
-                    "@DATE," +
-                    "@PAYEEID" +
+                    "@DATE" +
                 ");";
-            }
+
 
             
 
@@ -305,7 +285,7 @@ public class FisMySqlHelperAccountsPayable
                 cmd.Parameters.AddWithValue("@ACCOUNTSID", accountsID);
                 cmd.Parameters.AddWithValue("@AMOUNT", -amount);
                 cmd.Parameters.AddWithValue("@DATE", today);
-                cmd.Parameters.AddWithValue("@PAYEEID", payeeID);
+
 
                 // open connection
                 conn.Open();
@@ -581,7 +561,8 @@ public class FisMySqlHelperAccountsPayable
         using (MySqlConnection conn = new MySqlConnection(connStr))
         {
             const string selectQuery = "SELECT * FROM transactions " +
-                "WHERE AccountsPayableID IS NOT NULL;";
+                "WHERE AccountsPayableID IS NOT NULL " +
+                "ORDER BY Date DESC;";
             using (MySqlCommand cmd = new MySqlCommand(selectQuery, conn))
             {
                 conn.Open();

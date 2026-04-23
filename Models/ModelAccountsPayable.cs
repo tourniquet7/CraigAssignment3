@@ -45,13 +45,9 @@ public class AccountsPayableEmployee : AccountsPayable
     public bool EmployeeDirectDeposit { get; set; }
 }
 
-public class Transaction
+public class TransactionPayable : Transaction
 {
-    public string TransactionID { get; set; }
     public string AccountsPayableID { get; set; }
-    public double Amount { get; set; }
-    public DateTime Date { get; set; }
-    public string EmployeeId { get; set; }
-    public string VendorID { get; set; }
+
 }
 

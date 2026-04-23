@@ -33,6 +33,7 @@ public class FisMySqlHelperAccountsGeneral
                 "TRUNCATE TABLE accounts_payable;" +
                 "TRUNCATE TABLE accounts_receivable;" +
                 "TRUNCATE TABLE raw_material;" +
+                "TRUNCATE TABLE transactions;" +
                 "SET FOREIGN_KEY_CHECKS = 1;";
             using (MySqlCommand cmd = new MySqlCommand(deleteQuery, conn))
             {

@@ -51,7 +51,7 @@ public partial class APViewModel : ObservableObject
 
     public ObservableCollection<RawMaterial> RawMaterials { get; } = new();
     public ObservableCollection<AccountsPayableVendor> AccountsPayableVendor { get; } = new();
-    public ObservableCollection<Transaction> Transaction { get; } = new();
+    public ObservableCollection<TransactionPayable> TransactionPayable { get; } = new();
 
     public ObservableCollection<AccountsPayableEmployee> AccountsPayableEmployee { get; } = new();
 
@@ -293,7 +293,7 @@ public partial class APViewModel : ObservableObject
         if (response == null || response.Count == 0)
             return;
 
-        Transaction.Clear();
+        TransactionPayable.Clear();
 
         foreach (var transactions in response.AsArray())
         {
@@ -304,13 +304,12 @@ public partial class APViewModel : ObservableObject
             var employeeId = transactions["EmployeeId"]?.ToString();
             var vendorID = transactions["VendorID"]?.ToString();
 
-            Transaction.Add(new Transaction {
+            TransactionPayable.Add(new TransactionPayable
+            {
                 TransactionID = transactionID, 
                 AccountsPayableID = accountsPayableID, 
                 Amount = amount, 
-                Date = date, 
-                EmployeeId = employeeId, 
-                VendorID = vendorID
+                Date = date
             });
         }
     }

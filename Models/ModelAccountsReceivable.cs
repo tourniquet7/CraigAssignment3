@@ -10,4 +10,13 @@ public class AccountsReceivable
     public double Amount { get; set; }
     public DateTime DueDate { get; set; }
     public string PaymentStatus { get; set; }
+
+    public bool ButtonIsVisible { get; set; }
+    public Color PastDueColor { get; set; }
+}
+
+
+public class TransactionReceivable : Transaction
+{
+    public string AccountsReceivableID{ get; set; }
 }

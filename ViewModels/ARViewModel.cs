@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using FISSystem.Models;
 using FISSystem.Services;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace FISSystem.ViewModels;
 
@@ -28,19 +29,34 @@ public partial class ARViewModel : ObservableObject
 
     public ObservableCollection<AccountsReceivable> AccountsReceivable { get; } = new();
 
+    public ObservableCollection<TransactionReceivable> TransactionReceivable { get; } = new();
+
+    public ICommand SimulateOrder
+    {
+        get;
+    }
+
+
 
     public ARViewModel()
     {
+        SimulateOrder = new Command<string>(SimulateOrderFunction);
+        RefreshAccountsReceivable();
+    }
+
+    private void SimulateOrderFunction(string accountsReceivableID)
+    {
+        mysqlHelper.CreateCustomerPayment(accountsReceivableID);
         RefreshAccountsReceivable();
     }
 
     private void RefreshAccountsReceivable()
     {
-        ShowAccountsPayableVendor();
-        ShowAccountsPayableTransactions();
+        ShowAccountsReceivable();
+        ShowTransactions();
     }
 
-    private void ShowAccountsPayableTransactions()
+    private void ShowAccountsReceivable()
     {
         var response = mysqlHelper.GetAccountsReceivable();
         if (response == null || response.Count == 0)
@@ -48,25 +64,26 @@ public partial class ARViewModel : ObservableObject
 
         AccountsReceivable.Clear();
 
-        foreach (var accountReceivable in response.AsArray())
+        foreach (var accountsReceivable in response.AsArray())
         {
 
 
-            string accountsReceivableID = (accountReceivable["AccountsReceivableID"]?.ToString()?.Trim('"'));
-            string customerID = (accountReceivable["CustomerID"]?.ToString()?.Trim('"'));
-            double amount = double.Parse(accountReceivable["Amount"]?.ToString()?.Trim('"') ?? "0");
-            DateTime dueDate = ((DateTime)accountReceivable["DueDate"]);
-            string paymentStatus = accountReceivable["PaymentStatus"]?.ToString()?.Trim('"');
+            string accountsReceivableID = (accountsReceivable["AccountsReceivableID"]?.ToString()?.Trim('"'));
+            string customerID = (accountsReceivable["CustomerID"]?.ToString()?.Trim('"'));
+            double amount = double.Parse(accountsReceivable["Amount"]?.ToString()?.Trim('"') ?? "0");
+
+            DateTime dueDate = ((DateTime)accountsReceivable["DueDate"]);
+            string paymentStatus = accountsReceivable["PaymentStatus"]?.ToString()?.Trim('"');
 
 
-
-            bool isVisible = false;
+     
             Color pastDueColor = Colors.Gray;
-            DateTime today = DateTime.Now;
+           
 
             string dueDateString = dueDate.ToShortDateString();
+            bool isVisible = false;
 
-            if (today >= dueDate && paymentStatus == "Pending")
+            if (paymentStatus == "Pending")
             {
                 isVisible = true;
                 pastDueColor = Colors.Red;
@@ -79,59 +96,37 @@ public partial class ARViewModel : ObservableObject
                 CustomerID = customerID,
                 Amount = amount,
                 DueDate = dueDate,
-                PaymentStatus = paymentStatus
-            });
-        }
-    }
-
-    private void ShowAccountsPayableVendor()
-    {
-        var response = mysqlHelper.GetAccountsPayableVendor();
-        if (response == null || response.Count == 0)
-            return;
-
-        AccountsPayableVendor.Clear();
-
-        foreach (var accountPayable in response.AsArray())
-        {
-
-
-            string accountsPayableID = (accountPayable["AccountsPayableID"]?.ToString()?.Trim('"'));
-            double amount = double.Parse(accountPayable["Amount"]?.ToString()?.Trim('"') ?? "0");
-            DateTime dueDate = ((DateTime)accountPayable["DueDate"]);
-            string paymentStatus = accountPayable["PaymentStatus"]?.ToString()?.Trim('"');
-            string rawMaterialID = accountPayable["RawMaterialID"]?.ToString()?.Trim('"');
-            int rawMaterialQty = ((int)accountPayable["RawMaterialQty"]);
-            string vendorID = accountPayable["VendorID"]?.ToString()?.Trim('"');
-
-
-            bool isVisible = false;
-            Color pastDueColor = Colors.Gray;
-            DateTime today = DateTime.Now;
-
-            string dueDateString = dueDate.ToShortDateString();
-
-            if (today >= dueDate && paymentStatus == "Pending")
-            {
-                isVisible = true;
-                pastDueColor = Colors.Red;
-            }
-
-
-            AccountsPayableVendor.Add(new AccountsPayableVendor
-            {
-                AccountsPayableID = accountsPayableID,
-                Amount = amount,
-                DueDate = dueDateString,
                 PaymentStatus = paymentStatus,
-                RawMaterialID = rawMaterialID,
-                RawMaterialQty = rawMaterialQty,
-                VendorID = vendorID,
                 ButtonIsVisible = isVisible,
                 PastDueColor = pastDueColor
             });
         }
 
+    }
+
+    private void ShowTransactions()
+    {
+        var response = mysqlHelper.GetAccountsReceivableTransactions();
+        if (response == null || response.Count == 0)
+            return;
+
+        TransactionReceivable.Clear();
+        foreach (var transactions in response.AsArray())
+        {
+            var transactionID = transactions["TransactionID"]?.ToString();
+            var accountsReceivableID = transactions["AccountsReceivableID"]?.ToString();
+            double amount = double.Parse(transactions["Amount"]?.ToString() ?? "0");
+            DateTime date = ((DateTime)transactions["Date"]);
+        
+
+            TransactionReceivable.Add(new TransactionReceivable
+            {
+                TransactionID = transactionID,
+                AccountsReceivableID = accountsReceivableID,
+                Amount = amount,
+                Date = date
+            });
+        }
     }
 
     private void ARInvisible()
