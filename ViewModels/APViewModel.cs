@@ -4,15 +4,9 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FISSystem.Models;
-using FISSystem.Pages;
 using FISSystem.Services;
-using MySql.Data.MySqlClient;
 using System.Collections.ObjectModel;
-using System.Data;
-using System.Text.Json;
-using System.Text.Json.Nodes;
 using System.Windows.Input;
-
 namespace FISSystem.ViewModels;
 
 public partial class APViewModel : ObservableObject
@@ -50,12 +44,7 @@ public partial class APViewModel : ObservableObject
     public ObservableCollection<RawMaterial> RawMaterials { get; } = new();
     public ObservableCollection<AccountsPayableVendor> AccountsPayableVendor { get; } = new();
     public ObservableCollection<TransactionPayable> TransactionPayable { get; } = new();
-
     public ObservableCollection<AccountsPayableEmployee> AccountsPayableEmployee { get; } = new();
-
-    
-
-
 
     public ICommand OrderMaterial
     {
@@ -74,8 +63,6 @@ public partial class APViewModel : ObservableObject
 
     public APViewModel()
     {
-        
-        
         OrderMaterial = new Command<string>(OrderMaterialFunction);
         VendorTransaction = new Command<string>(VendorTransactionFunction);
         EmployeeTransaction = new Command<string>(EmployeeTransactionFunction);
@@ -94,17 +81,16 @@ public partial class APViewModel : ObservableObject
     {
         var rawMaterial = mysqlHelper.GetRawMaterial(rawId);
         if (rawMaterial == null) return;
+
         int currentInventoryPlusOrdered = ((int)rawMaterial["CurrentInventoryPlusOrdered"]);
         int lowInventoryLevel = ((int)rawMaterial["LowInventoryLevel"]);
         int inventoryReplenishLevel = ((int)rawMaterial["InventoryReplenishLevel"]);
-
 
         if (currentInventoryPlusOrdered < lowInventoryLevel)
         {
             int numberToOrder = inventoryReplenishLevel - currentInventoryPlusOrdered;
             mysqlHelper.CreateRawMaterialTransaction(rawId, numberToOrder);
             mysqlHelper.UpdateRawMaterialAfterOrder(rawId, numberToOrder);
-
             RefreshAccountsPayable();
         }
     }
@@ -121,8 +107,6 @@ public partial class APViewModel : ObservableObject
         mysqlHelper.UpdateAccountsPayableAfterTransaction(accountsPayableID);
 
         RefreshAccountsPayable();
-
-
     }
 
     private void EmployeeTransactionFunction(string id)
@@ -149,9 +133,6 @@ public partial class APViewModel : ObservableObject
 
         foreach (var rawMaterial in response.AsArray())
         {
-            
-            
-
             var rawMaterialId = rawMaterial["RawMaterialID"]?.ToString();
             var preferredVendorId = rawMaterial["PreferredVendorID"]?.ToString();
             var name = rawMaterial["Name"]?.ToString();
@@ -170,7 +151,6 @@ public partial class APViewModel : ObservableObject
                 inventoryTextColor = Colors.Red;
             }
 
-
             RawMaterials.Add(new RawMaterial { RawMaterialId = rawMaterialId, 
                 PreferredVendorId = preferredVendorId, 
                 Name = name, 
@@ -183,7 +163,6 @@ public partial class APViewModel : ObservableObject
                 CurrentInventoryPlusOrdered = currentInventoryPlusOrdered
             });
         }
-
     }
 
     private void ShowAccountsPayableVendor()
@@ -196,8 +175,6 @@ public partial class APViewModel : ObservableObject
 
         foreach (var accountPayable in response.AsArray())
         {
-            
-
             string accountsPayableID = (accountPayable["AccountsPayableID"]?.ToString()?.Trim('"'));
             double amount = double.Parse(accountPayable["Amount"]?.ToString()?.Trim('"') ?? "0");
             DateTime dueDate = ((DateTime)accountPayable["DueDate"]);
@@ -205,7 +182,6 @@ public partial class APViewModel : ObservableObject
             string rawMaterialID = accountPayable["RawMaterialID"]?.ToString()?.Trim('"');
             int rawMaterialQty = ((int)accountPayable["RawMaterialQty"]);
             string vendorID = accountPayable["VendorID"]?.ToString()?.Trim('"');
-
 
             bool isVisible = false;
             Color pastDueColor = Colors.Gray;
@@ -218,7 +194,6 @@ public partial class APViewModel : ObservableObject
                 isVisible = true;
                 pastDueColor = Colors.Red;
             }
-
 
             AccountsPayableVendor.Add(new AccountsPayableVendor
             {
@@ -233,7 +208,6 @@ public partial class APViewModel : ObservableObject
                 PastDueColor = pastDueColor
             });
         }
-
     }
 
     private void ShowAccountsPayableEmployee()
@@ -246,16 +220,12 @@ public partial class APViewModel : ObservableObject
 
         foreach (var accountPayable in response.AsArray())
         {
-
-
             string accountsPayableID = (accountPayable["AccountsPayableID"]?.ToString()?.Trim('"'));
             double amount = double.Parse(accountPayable["Amount"]?.ToString()?.Trim('"') ?? "0");
             DateTime dueDate = ((DateTime)accountPayable["DueDate"]);
             string paymentStatus = accountPayable["PaymentStatus"]?.ToString()?.Trim('"');
             string employeeId = accountPayable["EmployeeId"]?.ToString()?.Trim('"');
             bool employeeDirectDeposit = accountPayable["EmployeeDirectDeposit"]?.GetValue<bool>() ?? false;
-
-
 
             bool isVisible = false;
             Color pastDueColor = Colors.Gray;
@@ -269,7 +239,6 @@ public partial class APViewModel : ObservableObject
                 pastDueColor = Colors.Red;
             }
 
-
             AccountsPayableEmployee.Add(new AccountsPayableEmployee
             {
                 AccountsPayableID = accountsPayableID,
@@ -282,7 +251,6 @@ public partial class APViewModel : ObservableObject
                 PastDueColor = pastDueColor
             });
         }
-
     }
 
     private void ShowTransactions()

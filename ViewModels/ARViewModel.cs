@@ -1,7 +1,4 @@
-﻿// App:     Amortization calculator
-// Element: ViewModel
-
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FISSystem.Models;
 using FISSystem.Services;
@@ -36,8 +33,6 @@ public partial class ARViewModel : ObservableObject
         get;
     }
 
-
-
     public ARViewModel()
     {
         SimulateOrder = new Command<string>(SimulateOrderFunction);
@@ -66,20 +61,15 @@ public partial class ARViewModel : ObservableObject
 
         foreach (var accountsReceivable in response.AsArray())
         {
-
-
             string accountsReceivableID = (accountsReceivable["AccountsReceivableID"]?.ToString()?.Trim('"'));
             string customerID = (accountsReceivable["CustomerID"]?.ToString()?.Trim('"'));
             double amount = double.Parse(accountsReceivable["Amount"]?.ToString()?.Trim('"') ?? "0");
 
             DateTime dueDate = ((DateTime)accountsReceivable["DueDate"]);
             string paymentStatus = accountsReceivable["PaymentStatus"]?.ToString()?.Trim('"');
-
-
-     
+                 
             Color pastDueColor = Colors.Gray;
            
-
             string dueDateString = dueDate.ToShortDateString();
             bool isVisible = false;
 
@@ -88,7 +78,6 @@ public partial class ARViewModel : ObservableObject
                 isVisible = true;
                 pastDueColor = Colors.Red;
             }
-
 
             AccountsReceivableModel.Add(new AccountsReceivableModel
             {
@@ -101,7 +90,6 @@ public partial class ARViewModel : ObservableObject
                 PastDueColor = pastDueColor
             });
         }
-
     }
 
     private void ShowTransactions()
@@ -118,7 +106,6 @@ public partial class ARViewModel : ObservableObject
             double amount = double.Parse(transactions["Amount"]?.ToString() ?? "0");
             DateTime date = ((DateTime)transactions["Date"]);
         
-
             TransactionReceivable.Add(new TransactionReceivable
             {
                 TransactionID = transactionID,

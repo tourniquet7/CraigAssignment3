@@ -1,15 +1,6 @@
-﻿
-using FISSystem.Models;
-using FISSystem.Pages;
-using Microsoft.Extensions.Logging;
-using MySql.Data.MySqlClient;
-using Mysqlx.Crud;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using MySql.Data.MySqlClient;
 using System.Text.Json.Nodes;
-using System.Threading;
-using System.Threading.Tasks;
+
 
 namespace FISSystem.Services;
 

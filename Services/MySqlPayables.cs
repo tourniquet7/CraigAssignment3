@@ -1,5 +1,4 @@
-﻿
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using System.Text.Json.Nodes;
 
 namespace FISSystem.Services;
@@ -387,7 +386,7 @@ public class FisMySqlHelperAccountsPayable
             {
                 conn.Open();
 
-                // Use ExecuteReader to fetch rows (ExecuteNonQuery returns affected rows count)
+                
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -417,7 +416,7 @@ public class FisMySqlHelperAccountsPayable
             {
                 conn.Open();
 
-                // Use ExecuteReader to fetch rows (ExecuteNonQuery returns affected rows count)
+                
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())

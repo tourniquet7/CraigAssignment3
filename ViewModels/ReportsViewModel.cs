@@ -1,26 +1,14 @@
-﻿// App:     Amortization calculator
-// Element: ViewModel
-
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using FISSystem.Models;
-using FISSystem.Pages;
 using FISSystem.Services;
-using MySql.Data.MySqlClient;
 using System.Collections.ObjectModel;
-using System.Data;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Windows.Input;
 
 namespace FISSystem.ViewModels;
 
 public partial class ReportsViewModel : ObservableObject
 {
-
     FisMySqlHelperReports mysqlHelper = new FisMySqlHelperReports();
-
-  
 
     [ObservableProperty]
     private bool accountsPayableVisible = true;
@@ -30,9 +18,6 @@ public partial class ReportsViewModel : ObservableObject
 
     [ObservableProperty]
     private bool transactionsVisible = false;
-
-
-   
 
     [ObservableProperty]
     private Color accountsPayableColor = Colors.Green;
@@ -85,9 +70,7 @@ public partial class ReportsViewModel : ObservableObject
     [ObservableProperty]
     private double trRevenueMinusExpenses = 0;
 
-
     public int width = 200;
-
 
     public ObservableCollection<AccountsPayableEverything> AccountsPayableEverything { get; } = new();
 
@@ -96,14 +79,10 @@ public partial class ReportsViewModel : ObservableObject
     public ObservableCollection<TransactionEverything> TransactionEverything { get; } = new();
 
 
-
     public ReportsViewModel()
     {
-       
         RefreshReports();
     }
-
-
 
     [RelayCommand]
     private void RefreshReports()
@@ -131,8 +110,6 @@ public partial class ReportsViewModel : ObservableObject
 
         foreach (var accountPayable in response.AsArray())
         {
-
-
             string accountsPayableID = (accountPayable["AccountsPayableID"]?.ToString()?.Trim('"'));
             string rawMaterialID = (accountPayable["RawMaterialID"]?.ToString()?.Trim('"'));
             int rawMaterialQty = int.Parse(accountPayable["RawMaterialQty"]?.ToString()?.Trim('"') ?? "0");
@@ -162,9 +139,6 @@ public partial class ReportsViewModel : ObservableObject
                 accountsPastDue = accountsPastDue + 1;
             }
 
-
-
-
             AccountsPayableEverything.Add(new AccountsPayableEverything
             {
                 AccountsPayableID = accountsPayableID,
@@ -177,7 +151,6 @@ public partial class ReportsViewModel : ObservableObject
                 PaymentStatus = paymentStatus,
                 PastDueColor = pastDueColor
             });
-
            
             ApAmountPaid = amountPaid;
             ApAmountNotPaid = amountNotPaid;
@@ -187,7 +160,6 @@ public partial class ReportsViewModel : ObservableObject
         }
     }
 
-
     private void ShowAccountsReceivable()
     {
         var response = mysqlHelper.GetAccountsReceivable();
@@ -195,8 +167,6 @@ public partial class ReportsViewModel : ObservableObject
             return;
 
         AccountsReceivableModel.Clear();
-
-    
 
         double amountPaid = 0;
         double amountNotPaid = 0;
@@ -208,14 +178,11 @@ public partial class ReportsViewModel : ObservableObject
 
         foreach (var accountReceivable in response.AsArray())
         {
-
-
             string accountsReceivableID = (accountReceivable["AccountsReceivableID"]?.ToString()?.Trim('"'));
             string customerID = (accountReceivable["CustomerID"]?.ToString()?.Trim('"'));
             double amount = double.Parse(accountReceivable["Amount"]?.ToString()?.Trim('"') ?? "0");
             DateTime dueDate = ((DateTime)accountReceivable["DueDate"]);
             string paymentStatus = accountReceivable["PaymentStatus"]?.ToString()?.Trim('"');
-
 
             amountTotal = amountTotal + amount;
 
@@ -248,8 +215,6 @@ public partial class ReportsViewModel : ObservableObject
             ArAmountPastDue = amountPastDue;
             ArAmountTotal = amountTotal;
             ArAccountsPastDue = accountsPastDue;
-
-
         }
     }
 
@@ -275,11 +240,11 @@ public partial class ReportsViewModel : ObservableObject
             if (accountsPayableID != null)
             {
                 totalPaid = totalPaid + amount;
-            } else if (accountsReceivableID != null)
+            } 
+            else if (accountsReceivableID != null)
             {
                 totalReceived = totalReceived + amount;
             }
-
 
             TransactionEverything.Add(new TransactionEverything
             {
@@ -297,9 +262,6 @@ public partial class ReportsViewModel : ObservableObject
         TrTotalReceived = totalReceived;
         TrRevenueMinusExpenses = revenueMinusExpenses;
     }
-
-
-
 
     private void ReportsInvisible()
     {

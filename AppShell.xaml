@@ -7,7 +7,6 @@
     xmlns:pages="clr-namespace:FISSystem.Pages"
     Title="FISSystem">
 
-
     <TabBar>
         <Tab Title="Accounts Payable">
             <ShellContent ContentTemplate="{DataTemplate pages:AccountsPayable}" />
@@ -20,5 +19,4 @@
             <ShellContent ContentTemplate="{DataTemplate pages:Reports}" />
         </Tab>
     </TabBar>
-
 </Shell>

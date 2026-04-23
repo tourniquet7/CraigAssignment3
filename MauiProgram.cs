@@ -3,7 +3,6 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using FISSystem.Services;
 
-
 namespace FISSystem
 {
     public static class MauiProgram
@@ -28,7 +27,6 @@ namespace FISSystem
             return builder.Build();
         }
 
-
         private static void LoadConfig()
         {
             FisMySqlHelperAccountsReceivable mySqlHelperAccountsReceivable = new FisMySqlHelperAccountsReceivable();
@@ -41,7 +39,6 @@ namespace FISSystem
             var jsonRawMaterials = readerRawMaterials.ReadToEnd();
 
             var jsonParseRawMaterials = JsonNode.Parse(jsonRawMaterials);
-
 
             mysqlHelperAccountsPayable.PopulateRawMaterialsTable(jsonParseRawMaterials);
 
@@ -60,8 +57,6 @@ namespace FISSystem
             var jsonParseCustomer = JsonNode.Parse(jsonCustomer);
 
             mySqlHelperAccountsReceivable.PopulateAccountsReceivable(jsonParseCustomer);
-
-
         }
     }
 }
