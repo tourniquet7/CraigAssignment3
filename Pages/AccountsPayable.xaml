@@ -4,7 +4,7 @@
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:FISSystem.ViewModels"
-             x:Name="RootPage"
+             x:Name="AccountsPayablePage"
              Title="Accounts Payable"
              IconImageSource="home.png">
 
@@ -96,7 +96,7 @@
                                 <Label Grid.Column="5" Text="{Binding CurrentInventoryPlusOrdered}" FontSize="14" TextColor="{Binding CurrentInventoryColor}"/>
                                 <Label Grid.Column="6" Text="{Binding LowInventoryLevel}" FontSize="14" TextColor="Gray"/>
                                 <Label Grid.Column="7" Text="{Binding InventoryReplenishLevel}" FontSize="14" TextColor="Gray"/>
-                                <Button Grid.Column="8" Text="Order" Command="{Binding BindingContext.OrderMaterial, Source={x:Reference RootPage}}" CommandParameter="{Binding RawMaterialId}" IsVisible="{Binding ButtonIsVisible}" FontSize="14" BackgroundColor="Green" TextColor="White"/>
+                                <Button Grid.Column="8" Text="Order" Command="{Binding BindingContext.OrderMaterial, Source={x:Reference AccountsPayablePage}}" CommandParameter="{Binding RawMaterialId}" IsVisible="{Binding ButtonIsVisible}" FontSize="14" BackgroundColor="Green" TextColor="White"/>
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
@@ -155,8 +155,8 @@
                                 <Label Grid.Column="4" Text="{Binding RawMaterialQty}" FontSize="14" TextColor="{Binding CurrentInventoryColor}"/>
                                 <Label Grid.Column="5" Text="{Binding VendorID}" FontSize="14" TextColor="Gray"/>
                                 <Label Grid.Column="6" Text="{Binding PaymentStatus}" FontSize="14" TextColor="Gray"/>
-                            
-                                <Button Grid.Column="7" Text="Pay Vendor" Command="{Binding BindingContext.VendorTransaction, Source={x:Reference RootPage}}" CommandParameter="{Binding AccountsPayableID}" IsVisible="{Binding ButtonIsVisible}" FontSize="14" BackgroundColor="Green" TextColor="White"/>
+
+                                <Button Grid.Column="7" Text="Pay Vendor" Command="{Binding BindingContext.VendorTransaction, Source={x:Reference AccountsPayablePage}}" CommandParameter="{Binding AccountsPayableID}" IsVisible="{Binding ButtonIsVisible}" FontSize="14" BackgroundColor="Green" TextColor="White"/>
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
@@ -211,7 +211,7 @@
                                 <Label Grid.Column="4" Text="{Binding EmployeeDirectDeposit}" FontSize="14" TextColor="Gray"/>
                                 <Label Grid.Column="5" Text="{Binding PaymentStatus}" FontSize="14" TextColor="Gray"/>
 
-                                <Button Grid.Column="6" Text="Pay Employee" Command="{Binding BindingContext.EmployeeTransaction, Source={x:Reference RootPage}}" CommandParameter="{Binding AccountsPayableID}" IsVisible="{Binding ButtonIsVisible}" FontSize="14" BackgroundColor="Green" TextColor="White"/>
+                                <Button Grid.Column="6" Text="Pay Employee" Command="{Binding BindingContext.EmployeeTransaction, Source={x:Reference AccountsPayablePage}}" CommandParameter="{Binding AccountsPayableID}" IsVisible="{Binding ButtonIsVisible}" FontSize="14" BackgroundColor="Green" TextColor="White"/>
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

@@ -16,6 +16,9 @@
         <Tab Title="Accounts Receivable">
             <ShellContent ContentTemplate="{DataTemplate pages:AccountsReceivable}" />
         </Tab>
+        <Tab Title="Reports">
+            <ShellContent ContentTemplate="{DataTemplate pages:Reports}" />
+        </Tab>
     </TabBar>
 
 </Shell>

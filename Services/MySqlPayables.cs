@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace FISSystem.Services;
 
-public class FisMySqlHelper
+public class FisMySqlHelperAccountsPayable
 {
     string connStr = "server=misdb.wright.edu;" +
         "user=w109cdn;" +

@@ -4,6 +4,7 @@
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:FISSystem.ViewModels"
+             x:Name="AccountsReceivablePage"
              Title="Accounts Receivable"
              IconImageSource="home.png">
 
@@ -29,7 +30,53 @@
             </HorizontalStackLayout>
 
             <VerticalStackLayout IsVisible="{Binding UpcomingPaymentsVisible}">
-                <Button Text="Upcoming Payments Button" />
+
+                <Grid Padding="12,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Text="Accounts Receivable ID" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="1" Text="Customer ID" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="2" Text="Amount" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="3" Text="Due Date" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="4" Text="Payment Status" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="5" Text="Simulate Payment" FontSize="14" TextColor="Black"/>
+                </Grid>
+
+
+
+                <CollectionView ItemsSource="{Binding RawMaterials}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+
+
+                            <Grid Padding="12,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Column="0" Text="{Binding AccountsReceivableID}" FontSize="14"/>
+                                <Label Grid.Column="1" Text="{Binding CustomerID}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="2" Text="{Binding Amount}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="3" Text="{Binding DueDate}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="4" Text="{Binding PaymentStatus}" FontSize="14" TextColor="Gray"/>
+
+                                <Button Grid.Column="5" Text="Order" Command="{Binding BindingContext.OrderMaterial, Source={x:Reference AccountsReceivablePage}}" CommandParameter="{Binding RawMaterialId}" IsVisible="{Binding ButtonIsVisible}" FontSize="14" BackgroundColor="Green" TextColor="White"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
             </VerticalStackLayout>
 
             <VerticalStackLayout IsVisible="{Binding TransactionsVisible}">

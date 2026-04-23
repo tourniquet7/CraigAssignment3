@@ -18,7 +18,7 @@ namespace FISSystem.ViewModels;
 public partial class APViewModel : ObservableObject
 {
 
-    FisMySqlHelper mysqlHelper = new FisMySqlHelper();
+    FisMySqlHelperAccountsPayable mysqlHelper = new FisMySqlHelperAccountsPayable();
 
     [ObservableProperty]
     private bool rawVisible = true;

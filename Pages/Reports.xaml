@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage x:Class="FISSystem.Pages.Reports"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:FISSystem.ViewModels"
+             x:Name="RootPage"
+             Title="Reports"
+             IconImageSource="home.png">
+
+
+    <ContentPage.BindingContext>
+        <viewModels:APViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <!-- Input Fields -->
+        <VerticalStackLayout>
+
+            <!-- Tab Buttons -->
+            <HorizontalStackLayout Spacing="10" Padding="10">
+
+                <Button Text="Raw Materials"
+                    Command="{Binding APViewSelectedCommand}"
+                    CommandParameter="raw"
+                    BackgroundColor="{Binding RawButtonColor}"/>
+
+                <Button Text="Vendor Payables"
+                        Command="{Binding APViewSelectedCommand}"
+                        CommandParameter="vendor"
+                        BackgroundColor="{Binding VendorButtonColor}"/>
+
+                <Button Text="Employee Payables"
+                        Command="{Binding APViewSelectedCommand}"
+                        CommandParameter="employee" 
+                        BackgroundColor="{Binding EmployeeButtonColor}"/>
+
+                <Button Text="Transactions"
+                        Command="{Binding APViewSelectedCommand}"
+                        CommandParameter="transactions" 
+                        BackgroundColor="{Binding TransactionsButtonColor}"/>
+
+            </HorizontalStackLayout>
+            
+            
+            
+
+            <VerticalStackLayout IsVisible="{Binding RawVisible}">
+
+            </VerticalStackLayout>
+            
+            
+            
+
+            <VerticalStackLayout IsVisible="{Binding VendorVisible}">
+                
+            </VerticalStackLayout>
+            
+            
+            
+
+            <VerticalStackLayout IsVisible="{Binding EmployeeVisible}">
+                
+            </VerticalStackLayout>
+
+            
+            
+            <VerticalStackLayout IsVisible="{Binding TransactionsVisible}">
+                
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

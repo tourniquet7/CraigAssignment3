@@ -1,0 +1,103 @@
+[
+  {
+    "CustomerID": 101,
+    "Amount": 1200.00,
+    "DueDate": "2026-04-15"
+  },
+  {
+    "CustomerID": 102,
+    "Amount": 850.00,
+    "DueDate": "2026-04-15"
+  },
+  {
+    "CustomerID": 103,
+    "Amount": 640.00,
+    "DueDate": "2026-04-15"
+  },
+  {
+    "CustomerID": 101,
+    "Amount": 980.00,
+    "DueDate": "2026-04-15"
+  },
+  {
+    "CustomerID": 104,
+    "Amount": 1500.00,
+    "DueDate": "2026-04-15"
+  },
+  {
+    "CustomerID": 105,
+    "Amount": 430.00,
+    "DueDate": "2026-04-15"
+  },
+  {
+    "CustomerID": 102,
+    "Amount": 770.00,
+    "DueDate": "2026-04-15"
+  },
+  {
+    "CustomerID": 106,
+    "Amount": 2100.00,
+    "DueDate": "2026-04-15"
+  },
+  {
+    "CustomerID": 103,
+    "Amount": 560.00,
+    "DueDate": "2026-04-15"
+  },
+  {
+    "CustomerID": 107,
+    "Amount": 1320.00,
+    "DueDate": "2026-04-15"
+  },
+
+  {
+    "CustomerID": 101,
+    "Amount": 890.00,
+    "DueDate": "2026-04-29"
+  },
+  {
+    "CustomerID": 108,
+    "Amount": 660.00,
+    "DueDate": "2026-04-29"
+  },
+  {
+    "CustomerID": 109,
+    "Amount": 1450.00,
+    "DueDate": "2026-04-29"
+  },
+  {
+    "CustomerID": 102,
+    "Amount": 720.00,
+    "DueDate": "2026-04-29"
+  },
+  {
+    "CustomerID": 110,
+    "Amount": 980.00,
+    "DueDate": "2026-04-29"
+  },
+  {
+    "CustomerID": 103,
+    "Amount": 540.00,
+    "DueDate": "2026-04-29"
+  },
+  {
+    "CustomerID": 111,
+    "Amount": 3100.00,
+    "DueDate": "2026-04-29"
+  },
+  {
+    "CustomerID": 104,
+    "Amount": 1250.00,
+    "DueDate": "2026-04-29"
+  },
+  {
+    "CustomerID": 105,
+    "Amount": 670.00,
+    "DueDate": "2026-04-29"
+  },
+  {
+    "CustomerID": 106,
+    "Amount": 1990.00,
+    "DueDate": "2026-04-29"
+  }
+]

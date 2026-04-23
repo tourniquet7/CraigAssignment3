@@ -31,9 +31,10 @@ namespace FISSystem
 
         private static void LoadConfig()
         {
-
-            FisMySqlHelper mysqlHelper = new FisMySqlHelper();
-            mysqlHelper.DeleteTableData();
+            FisMySqlHelperAccountsReceivable mySqlHelperAccountsReceivable = new FisMySqlHelperAccountsReceivable();
+            FisMySqlHelperAccountsGeneral mysqlHelperGeneral = new FisMySqlHelperAccountsGeneral();
+            FisMySqlHelperAccountsPayable mysqlHelperAccountsPayable = new FisMySqlHelperAccountsPayable();
+            mysqlHelperGeneral.DeleteTableData();
 
             using var streamRawMaterials = FileSystem.OpenAppPackageFileAsync("RawMaterials.json").Result;
             using var readerRawMaterials = new StreamReader(streamRawMaterials);
@@ -41,8 +42,8 @@ namespace FISSystem
 
             var jsonParseRawMaterials = JsonNode.Parse(jsonRawMaterials);
 
-            
-            mysqlHelper.PopulateRawMaterialsTable(jsonParseRawMaterials);
+
+            mysqlHelperAccountsPayable.PopulateRawMaterialsTable(jsonParseRawMaterials);
 
             using var streamEmployee = FileSystem.OpenAppPackageFileAsync("EmployeePayables.json").Result;
             using var readerEmployee = new StreamReader(streamEmployee);
@@ -50,7 +51,15 @@ namespace FISSystem
 
             var jsonParseEmployee = JsonNode.Parse(jsonEmployee);
 
-            mysqlHelper.PopulateAccountsPayableWithEmployeeData(jsonParseEmployee);
+            mysqlHelperAccountsPayable.PopulateAccountsPayableWithEmployeeData(jsonParseEmployee);
+
+            using var streamCustomer = FileSystem.OpenAppPackageFileAsync("CustomerData.json").Result;
+            using var readerCustomer = new StreamReader(streamCustomer);
+            var jsonCustomer = readerCustomer.ReadToEnd();
+
+            var jsonParseCustomer = JsonNode.Parse(jsonCustomer);
+
+            mySqlHelperAccountsReceivable.PopulateAccountsReceivable(jsonParseCustomer);
 
 
         }

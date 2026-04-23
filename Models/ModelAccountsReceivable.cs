@@ -3,11 +3,11 @@
 
 namespace FISSystem.Models;
 
-public class ModelAccountsReceivable
+public class AccountsReceivable
 {
-    public int PayNumber { get; set; }
-    public decimal PayAmount { get; set; }
-    public decimal Principal { get; set; }
-    public decimal Interest { get; set; }
-    public decimal Balance { get; set; }
+    public string AccountsReceivableID { get; set; }
+    public string CustomerID { get; set; }
+    public double Amount { get; set; }
+    public DateTime DueDate { get; set; }
+    public string PaymentStatus { get; set; }
 }
