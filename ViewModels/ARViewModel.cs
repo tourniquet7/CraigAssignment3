@@ -27,7 +27,7 @@ public partial class ARViewModel : ObservableObject
     [ObservableProperty]
     private Color transactionsButtonColor = Colors.LightGray;
 
-    public ObservableCollection<AccountsReceivable> AccountsReceivable { get; } = new();
+    public ObservableCollection<AccountsReceivableModel> AccountsReceivableModel { get; } = new();
 
     public ObservableCollection<TransactionReceivable> TransactionReceivable { get; } = new();
 
@@ -62,7 +62,7 @@ public partial class ARViewModel : ObservableObject
         if (response == null || response.Count == 0)
             return;
 
-        AccountsReceivable.Clear();
+        AccountsReceivableModel.Clear();
 
         foreach (var accountsReceivable in response.AsArray())
         {
@@ -90,7 +90,7 @@ public partial class ARViewModel : ObservableObject
             }
 
 
-            AccountsReceivable.Add(new AccountsReceivable
+            AccountsReceivableModel.Add(new AccountsReceivableModel
             {
                 AccountsReceivableID = accountsReceivableID,
                 CustomerID = customerID,

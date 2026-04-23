@@ -31,7 +31,6 @@ public class FisMySqlHelperAccountsGeneral
             string deleteQuery = "SET FOREIGN_KEY_CHECKS = 0;" +
                 "TRUNCATE TABLE accounts_receivable;" +
                 "TRUNCATE TABLE accounts_payable;" +
-                "TRUNCATE TABLE accounts_receivable;" +
                 "TRUNCATE TABLE raw_material;" +
                 "TRUNCATE TABLE transactions;" +
                 "SET FOREIGN_KEY_CHECKS = 1;";

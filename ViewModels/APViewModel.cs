@@ -46,8 +46,6 @@ public partial class APViewModel : ObservableObject
 
     public int width = 200;
 
-    [ObservableProperty]
-    DataTable raw_tbl = new DataTable("raw");
 
     public ObservableCollection<RawMaterial> RawMaterials { get; } = new();
     public ObservableCollection<AccountsPayableVendor> AccountsPayableVendor { get; } = new();

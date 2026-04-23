@@ -51,7 +51,7 @@
 
 
 
-                <CollectionView ItemsSource="{Binding AccountsReceivable}">
+                <CollectionView ItemsSource="{Binding AccountsReceivableModel}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
 

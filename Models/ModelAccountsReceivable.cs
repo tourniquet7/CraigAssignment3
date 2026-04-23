@@ -3,7 +3,7 @@
 
 namespace FISSystem.Models;
 
-public class AccountsReceivable
+public class AccountsReceivableModel
 {
     public string AccountsReceivableID { get; set; }
     public string CustomerID { get; set; }

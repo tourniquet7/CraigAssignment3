@@ -21,25 +21,17 @@ public class RawMaterial
 
 }
 
-public class AccountsPayable
-{
-    public string AccountsPayableID { get; set; }
-    public double Amount { get; set; }
-    public string DueDate { get; set; }
-    public string PaymentStatus { get; set; }
-    public bool ButtonIsVisible { get; set; }
-    public Color PastDueColor { get; set; }
 
-}
 
-public class AccountsPayableVendor : AccountsPayable
+
+public class AccountsPayableVendor : AccountsPayableModel
 {
     public string RawMaterialID { get; set; }
     public int RawMaterialQty { get; set; }
     public string VendorID { get; set; }
 }
 
-public class AccountsPayableEmployee : AccountsPayable
+public class AccountsPayableEmployee : AccountsPayableModel
 {
     public string EmployeeId { get; set; }
     public bool EmployeeDirectDeposit { get; set; }
