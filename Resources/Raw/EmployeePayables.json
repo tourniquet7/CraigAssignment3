@@ -1,0 +1,143 @@
+﻿[
+  {
+    "EmployeeId": 1,
+    "Amount": 500.00,
+    "DueDate": "2026-04-15",
+    "PaymentStatus": "Pending",
+    "EmployeeDirectDeposit": true
+  },
+  {
+    "EmployeeId": 2,
+    "Amount": 750.00,
+    "DueDate": "2026-04-15",
+    "PaymentStatus": "Pending",
+    "EmployeeDirectDeposit": false
+  },
+  {
+    "EmployeeId": 3,
+    "Amount": 620.00,
+    "DueDate": "2026-04-15",
+    "PaymentStatus": "Pending",
+    "EmployeeDirectDeposit": true
+  },
+  {
+    "EmployeeId": 4,
+    "Amount": 880.00,
+    "DueDate": "2026-04-15",
+    "PaymentStatus": "Pending",
+    "EmployeeDirectDeposit": null
+  },
+  {
+    "EmployeeId": 5,
+    "Amount": 430.00,
+    "DueDate": "2026-04-15",
+    "PaymentStatus": "Pending",
+    "EmployeeDirectDeposit": false
+  },
+  {
+    "EmployeeId": 6,
+    "Amount": 990.00,
+    "DueDate": "2026-04-15",
+    "PaymentStatus": "Pending",
+    "EmployeeDirectDeposit": true
+  },
+  {
+    "EmployeeId": 7,
+    "Amount": 710.00,
+    "DueDate": "2026-04-15",
+    "PaymentStatus": "Pending",
+    "EmployeeDirectDeposit": false
+  },
+  {
+    "EmployeeId": 8,
+    "Amount": 560.00,
+    "DueDate": "2026-04-15",
+    "PaymentStatus": "Pending",
+    "EmployeeDirectDeposit": true
+  },
+  {
+    "EmployeeId": 9,
+    "Amount": 1200.00,
+    "DueDate": "2026-04-15",
+    "PaymentStatus": "Pending",
+    "EmployeeDirectDeposit": false
+  },
+  {
+    "EmployeeId": 10,
+    "Amount": 670.00,
+    "DueDate": "2026-04-15",
+    "PaymentStatus": "Pending",
+    "EmployeeDirectDeposit": true
+  },
+
+  {
+    "EmployeeId": 11,
+    "Amount": 540.00,
+    "DueDate": "2026-04-29",
+    "PaymentStatus": "Pending",
+    "EmployeeDirectDeposit": false
+  },
+  {
+    "EmployeeId": 12,
+    "Amount": 860.00,
+    "DueDate": "2026-04-29",
+    "PaymentStatus": "Pending",
+    "EmployeeDirectDeposit": true
+  },
+  {
+    "EmployeeId": 13,
+    "Amount": 480.00,
+    "DueDate": "2026-04-29",
+    "PaymentStatus": "Pending",
+    "EmployeeDirectDeposit": null
+  },
+  {
+    "EmployeeId": 14,
+    "Amount": 910.00,
+    "DueDate": "2026-04-29",
+    "PaymentStatus": "Pending",
+    "EmployeeDirectDeposit": true
+  },
+  {
+    "EmployeeId": 15,
+    "Amount": 760.00,
+    "DueDate": "2026-04-29",
+    "PaymentStatus": "Pending",
+    "EmployeeDirectDeposit": false
+  },
+  {
+    "EmployeeId": 16,
+    "Amount": 1100.00,
+    "DueDate": "2026-04-29",
+    "PaymentStatus": "Pending",
+    "EmployeeDirectDeposit": true
+  },
+  {
+    "EmployeeId": 17,
+    "Amount": 390.00,
+    "DueDate": "2026-04-29",
+    "PaymentStatus": "Pending",
+    "EmployeeDirectDeposit": false
+  },
+  {
+    "EmployeeId": 18,
+    "Amount": 1250.00,
+    "DueDate": "2026-04-29",
+    "PaymentStatus": "Pending",
+    "EmployeeDirectDeposit": true
+  },
+  {
+    "EmployeeId": 19,
+    "Amount": 980.00,
+    "DueDate": "2026-04-29",
+    "PaymentStatus": "Pending",
+    "EmployeeDirectDeposit": false
+  },
+  {
+    "EmployeeId": 20,
+    "Amount": 870.00,
+    "DueDate": "2026-04-29",
+    "PaymentStatus": "Pending",
+    "EmployeeDirectDeposit": true
+  }
+]

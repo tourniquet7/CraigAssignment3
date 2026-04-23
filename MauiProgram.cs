@@ -35,14 +35,22 @@ namespace FISSystem
             FisMySqlHelper mysqlHelper = new FisMySqlHelper();
             mysqlHelper.DeleteTableData();
 
-            using var stream = FileSystem.OpenAppPackageFileAsync("RawMaterials.json").Result;
-            using var reader = new StreamReader(stream);
-            var json = reader.ReadToEnd();
+            using var streamRawMaterials = FileSystem.OpenAppPackageFileAsync("RawMaterials.json").Result;
+            using var readerRawMaterials = new StreamReader(streamRawMaterials);
+            var jsonRawMaterials = readerRawMaterials.ReadToEnd();
 
-            var jsonParse = JsonNode.Parse(json);
+            var jsonParseRawMaterials = JsonNode.Parse(jsonRawMaterials);
 
             
-            mysqlHelper.PopulateRawMaterialsTable(jsonParse);
+            mysqlHelper.PopulateRawMaterialsTable(jsonParseRawMaterials);
+
+            using var streamEmployee = FileSystem.OpenAppPackageFileAsync("EmployeePayables.json").Result;
+            using var readerEmployee = new StreamReader(streamEmployee);
+            var jsonEmployee = readerEmployee.ReadToEnd();
+
+            var jsonParseEmployee = JsonNode.Parse(jsonEmployee);
+
+            mysqlHelper.PopulateAccountsPayableWithEmployeeData(jsonParseEmployee);
 
 
         }

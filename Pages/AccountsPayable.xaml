@@ -13,216 +13,268 @@
         <viewModels:APViewModel />
     </ContentPage.BindingContext>
 
+    <ScrollView>
     <!-- Input Fields -->
-    <VerticalStackLayout>
+        <VerticalStackLayout>
 
-        <!-- Tab Buttons -->
-        <HorizontalStackLayout Spacing="10" Padding="10">
+            <!-- Tab Buttons -->
+            <HorizontalStackLayout Spacing="10" Padding="10">
 
-            <Button Text="Raw Materials"
-                Command="{Binding APViewSelectedCommand}"
-                CommandParameter="raw"
-                BackgroundColor="{Binding RawButtonColor}"/>
-
-            <Button Text="Vendor Payables"
+                <Button Text="Raw Materials"
                     Command="{Binding APViewSelectedCommand}"
-                    CommandParameter="vendor"
-                    BackgroundColor="{Binding VendorButtonColor}"/>
+                    CommandParameter="raw"
+                    BackgroundColor="{Binding RawButtonColor}"/>
 
-            <Button Text="Employee Payables"
-                    Command="{Binding APViewSelectedCommand}"
-                    CommandParameter="employee" 
-                    BackgroundColor="{Binding EmployeeButtonColor}"/>
+                <Button Text="Vendor Payables"
+                        Command="{Binding APViewSelectedCommand}"
+                        CommandParameter="vendor"
+                        BackgroundColor="{Binding VendorButtonColor}"/>
 
-            <Button Text="Transactions"
-                    Command="{Binding APViewSelectedCommand}"
-                    CommandParameter="transactions" 
-                    BackgroundColor="{Binding TransactionsButtonColor}"/>
+                <Button Text="Employee Payables"
+                        Command="{Binding APViewSelectedCommand}"
+                        CommandParameter="employee" 
+                        BackgroundColor="{Binding EmployeeButtonColor}"/>
 
-        </HorizontalStackLayout>
+                <Button Text="Transactions"
+                        Command="{Binding APViewSelectedCommand}"
+                        CommandParameter="transactions" 
+                        BackgroundColor="{Binding TransactionsButtonColor}"/>
 
-        <VerticalStackLayout IsVisible="{Binding RawVisible}">
+            </HorizontalStackLayout>
 
-            <Grid Padding="12,8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                </Grid.ColumnDefinitions>
+            <VerticalStackLayout IsVisible="{Binding RawVisible}">
 
-                <Label Grid.Column="0" Text="Raw Material ID" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="1" Text="Preferred Vendor ID" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="2" Text="Name" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="3" Text="Unit Of Measurement" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="4" Text="Current Inventory" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="5" Text="Current Inventory Plus Ordered" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="6" Text="Low Inventory Level" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="7" Text="Inventory Replenish Level" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="8" Text="Action" FontSize="14" TextColor="Black"/>
-            </Grid>
+                <Grid Padding="12,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Text="Raw Material ID" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="1" Text="Preferred Vendor ID" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="2" Text="Name" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="3" Text="Unit Of Measurement" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="4" Text="Current Inventory" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="5" Text="Current Inventory Plus Ordered" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="6" Text="Low Inventory Level" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="7" Text="Inventory Replenish Level" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="8" Text="Action" FontSize="14" TextColor="Black"/>
+                </Grid>
         
 
 
-            <CollectionView ItemsSource="{Binding RawMaterials}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
+                <CollectionView ItemsSource="{Binding RawMaterials}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
 
 
-                        <Grid Padding="12,8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                            </Grid.ColumnDefinitions>
+                            <Grid Padding="12,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                </Grid.ColumnDefinitions>
 
-                            <Label Grid.Column="0" Text="{Binding RawMaterialId}" FontSize="14"/>
-                            <Label Grid.Column="1" Text="{Binding PreferredVendorId}" FontSize="14" TextColor="Gray"/>
-                            <Label Grid.Column="2" Text="{Binding Name}" FontSize="14" TextColor="Gray"/>
-                            <Label Grid.Column="3" Text="{Binding UnitOfMeasurement}" FontSize="14" TextColor="Gray"/>
-                            <Label Grid.Column="4" Text="{Binding CurrentInventory}" FontSize="14" TextColor="Gray"/>
-                            <Label Grid.Column="5" Text="{Binding CurrentInventoryPlusOrdered}" FontSize="14" TextColor="{Binding CurrentInventoryColor}"/>
-                            <Label Grid.Column="6" Text="{Binding LowInventoryLevel}" FontSize="14" TextColor="Gray"/>
-                            <Label Grid.Column="7" Text="{Binding InventoryReplenishLevel}" FontSize="14" TextColor="Gray"/>
-                            <Button Grid.Column="8" Text="Order" Command="{Binding BindingContext.OrderMaterial, Source={x:Reference RootPage}}" CommandParameter="{Binding RawMaterialId}" IsVisible="{Binding ButtonIsVisible}" FontSize="14" BackgroundColor="Green" TextColor="White"/>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
+                                <Label Grid.Column="0" Text="{Binding RawMaterialId}" FontSize="14"/>
+                                <Label Grid.Column="1" Text="{Binding PreferredVendorId}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="2" Text="{Binding Name}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="3" Text="{Binding UnitOfMeasurement}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="4" Text="{Binding CurrentInventory}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="5" Text="{Binding CurrentInventoryPlusOrdered}" FontSize="14" TextColor="{Binding CurrentInventoryColor}"/>
+                                <Label Grid.Column="6" Text="{Binding LowInventoryLevel}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="7" Text="{Binding InventoryReplenishLevel}" FontSize="14" TextColor="Gray"/>
+                                <Button Grid.Column="8" Text="Order" Command="{Binding BindingContext.OrderMaterial, Source={x:Reference RootPage}}" CommandParameter="{Binding RawMaterialId}" IsVisible="{Binding ButtonIsVisible}" FontSize="14" BackgroundColor="Green" TextColor="White"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
                 
-            </CollectionView>
+                </CollectionView>
     
-        </VerticalStackLayout>
+            </VerticalStackLayout>
 
-        <VerticalStackLayout IsVisible="{Binding VendorVisible}">
-            <Grid Padding="12,8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                </Grid.ColumnDefinitions>
+            <VerticalStackLayout IsVisible="{Binding VendorVisible}">
+                <Grid Padding="12,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                    </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" Text="Accounts Payable ID" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="1" Text="Amount" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="2" Text="Due Date" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="3" Text="Raw Material ID" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="4" Text="Raw Material Qty" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="5" Text="Vendor ID" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="6" Text="Payment Status" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="7" Text="Pay Invoice" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="0" Text="Accounts Payable ID" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="1" Text="Amount" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="2" Text="Due Date" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="3" Text="Raw Material ID" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="4" Text="Raw Material Qty" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="5" Text="Vendor ID" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="6" Text="Payment Status" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="7" Text="Pay Invoice" FontSize="14" TextColor="Black"/>
              
-            </Grid>
+                </Grid>
 
 
 
-            <CollectionView ItemsSource="{Binding AccountsPayableVendor}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
+                <CollectionView ItemsSource="{Binding AccountsPayableVendor}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
 
 
-                        <Grid Padding="12,8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                            </Grid.ColumnDefinitions>
+                            <Grid Padding="12,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                </Grid.ColumnDefinitions>
 
-                            <Label Grid.Column="0" Text="{Binding AccountsPayableID}" FontSize="14"/>
-                            <Label Grid.Column="1" Text="{Binding Amount}" FontSize="14" TextColor="Gray"/>
-                            <Label Grid.Column="2" Text="{Binding DueDate}" FontSize="14" TextColor="{Binding PastDueColor}"/>
-                            <Label Grid.Column="3" Text="{Binding RawMaterialID}" FontSize="14" TextColor="Gray"/>
-                            <Label Grid.Column="4" Text="{Binding RawMaterialQty}" FontSize="14" TextColor="{Binding CurrentInventoryColor}"/>
-                            <Label Grid.Column="5" Text="{Binding VendorID}" FontSize="14" TextColor="Gray"/>
-                            <Label Grid.Column="6" Text="{Binding PaymentStatus}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="0" Text="{Binding AccountsPayableID}" FontSize="14"/>
+                                <Label Grid.Column="1" Text="{Binding Amount}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="2" Text="{Binding DueDate}" FontSize="14" TextColor="{Binding PastDueColor}"/>
+                                <Label Grid.Column="3" Text="{Binding RawMaterialID}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="4" Text="{Binding RawMaterialQty}" FontSize="14" TextColor="{Binding CurrentInventoryColor}"/>
+                                <Label Grid.Column="5" Text="{Binding VendorID}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="6" Text="{Binding PaymentStatus}" FontSize="14" TextColor="Gray"/>
                             
-                            <Button Grid.Column="7" Text="Pay Vendor" Command="{Binding BindingContext.VendorTransaction, Source={x:Reference RootPage}}" CommandParameter="{Binding AccountsPayableID}" IsVisible="{Binding ButtonIsVisible}" FontSize="14" BackgroundColor="Green" TextColor="White"/>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
+                                <Button Grid.Column="7" Text="Pay Vendor" Command="{Binding BindingContext.VendorTransaction, Source={x:Reference RootPage}}" CommandParameter="{Binding AccountsPayableID}" IsVisible="{Binding ButtonIsVisible}" FontSize="14" BackgroundColor="Green" TextColor="White"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
 
-            </CollectionView>
+                </CollectionView>
+
+            </VerticalStackLayout>
+
+            <VerticalStackLayout IsVisible="{Binding EmployeeVisible}">
+                <Grid Padding="12,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Text="Accounts Payable ID" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="1" Text="Amount" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="2" Text="Due Date" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="3" Text="Employee ID" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="4" Text="Employee Direct Deposit" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="5" Text="Payment Status" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="6" Text="Pay Invoice" FontSize="14" TextColor="Black"/>
+                </Grid>
+
+
+
+                <CollectionView ItemsSource="{Binding AccountsPayableEmployee}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+
+
+                            <Grid Padding="12,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Column="0" Text="{Binding AccountsPayableID}" FontSize="14"/>
+                                <Label Grid.Column="1" Text="{Binding Amount}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="2" Text="{Binding DueDate}" FontSize="14" TextColor="{Binding PastDueColor}"/>
+                                <Label Grid.Column="3" Text="{Binding EmployeeId}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="4" Text="{Binding EmployeeDirectDeposit}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="5" Text="{Binding PaymentStatus}" FontSize="14" TextColor="Gray"/>
+
+                                <Button Grid.Column="6" Text="Pay Employee" Command="{Binding BindingContext.EmployeeTransaction, Source={x:Reference RootPage}}" CommandParameter="{Binding AccountsPayableID}" IsVisible="{Binding ButtonIsVisible}" FontSize="14" BackgroundColor="Green" TextColor="White"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+
+            </VerticalStackLayout>
+
+            <VerticalStackLayout IsVisible="{Binding TransactionsVisible}">
+                <Grid Padding="12,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Text="Transaction ID" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="1" Text="Accounts Payable ID" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="2" Text="Accounts Receivable ID" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="3" Text="Amount" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="4" Text="Date" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="5" Text="Employee ID" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="6" Text="Vendor ID" FontSize="14" TextColor="Black"/>
+                </Grid>
+
+
+
+                <CollectionView ItemsSource="{Binding Transaction}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+
+
+                            <Grid Padding="12,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Column="0" Text="{Binding TransactionID}" FontSize="14"/>
+                                <Label Grid.Column="1" Text="{Binding AccountsPayableID}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="2" Text="{Binding AccountsReceivableID}" FontSize="14" TextColor="{Binding PastDueColor}"/>
+                                <Label Grid.Column="3" Text="{Binding Amount}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="4" Text="{Binding Date}" FontSize="14" TextColor="{Binding CurrentInventoryColor}"/>
+                                <Label Grid.Column="5" Text="{Binding EmployeeId}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="6" Text="{Binding VendorID}" FontSize="14" TextColor="Gray"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+            </VerticalStackLayout>
 
         </VerticalStackLayout>
-
-        <VerticalStackLayout IsVisible="{Binding EmployeeVisible}">
-            
-           
-        </VerticalStackLayout>
-
-        <VerticalStackLayout IsVisible="{Binding TransactionsVisible}">
-            <Grid Padding="12,8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                    <ColumnDefinition Width="{Binding width}" />
-                </Grid.ColumnDefinitions>
-
-                <Label Grid.Column="0" Text="Transaction ID" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="1" Text="Accounts Payable ID" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="2" Text="Accounts Receivable ID" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="3" Text="Amount" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="4" Text="Date" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="5" Text="Employee ID" FontSize="14" TextColor="Black"/>
-                <Label Grid.Column="6" Text="Vendor ID" FontSize="14" TextColor="Black"/>
-            </Grid>
-
-
-
-            <CollectionView ItemsSource="{Binding Transaction}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-
-
-                        <Grid Padding="12,8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                                <ColumnDefinition Width="{Binding width}" />
-                            </Grid.ColumnDefinitions>
-
-                            <Label Grid.Column="0" Text="{Binding TransactionID}" FontSize="14"/>
-                            <Label Grid.Column="1" Text="{Binding AccountsPayableID}" FontSize="14" TextColor="Gray"/>
-                            <Label Grid.Column="2" Text="{Binding AccountsReceivableID}" FontSize="14" TextColor="{Binding PastDueColor}"/>
-                            <Label Grid.Column="3" Text="{Binding Amount}" FontSize="14" TextColor="Gray"/>
-                            <Label Grid.Column="4" Text="{Binding Date}" FontSize="14" TextColor="{Binding CurrentInventoryColor}"/>
-                            <Label Grid.Column="5" Text="{Binding EmployeeID}" FontSize="14" TextColor="Gray"/>
-                            <Label Grid.Column="6" Text="{Binding VendorID}" FontSize="14" TextColor="Gray"/>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-
-            </CollectionView>
-        </VerticalStackLayout>
-
-    </VerticalStackLayout>
-
+    </ScrollView>
 
 </ContentPage>

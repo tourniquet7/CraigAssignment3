@@ -7,47 +7,34 @@
              Title="Accounts Receivable"
              IconImageSource="home.png">
 
-
     <ContentPage.BindingContext>
         <viewModels:ARViewModel />
     </ContentPage.BindingContext>
 
-    <!-- Input Fields -->
-    <VerticalStackLayout>
+    <ScrollView>
+        <!-- Input Fields -->
+        <VerticalStackLayout>
+            <!-- Tab Buttons -->
+            <HorizontalStackLayout Spacing="10" Padding="10">
+                <Button Text="Upcoming Payments"
+                        Command="{Binding ARViewSelectedCommand}"
+                        CommandParameter="upcomingPayments"
+                        BackgroundColor="{Binding UpcomingPaymentsButtonColor}"/>
 
-        <!-- Tab Buttons -->
-        <HorizontalStackLayout Spacing="10" Padding="10">
+                <Button Text="Transactions"
+                        Command="{Binding ARViewSelectedCommand}"
+                        CommandParameter="transactions" 
+                        BackgroundColor="{Binding TransactionsButtonColor}"/>
 
-            <Button Text="Upcoming Payments"
-                    Command="{Binding ARViewSelectedCommand}"
-                    CommandParameter="upcomingPayments"
-                    BackgroundColor="{Binding UpcomingPaymentsButtonColor}"/>
+            </HorizontalStackLayout>
 
-            <Button Text="Transactions"
-                    Command="{Binding ARViewSelectedCommand}"
-                    CommandParameter="transactions" 
-                    BackgroundColor="{Binding TransactionsButtonColor}"/>
+            <VerticalStackLayout IsVisible="{Binding UpcomingPaymentsVisible}">
+                <Button Text="Upcoming Payments Button" />
+            </VerticalStackLayout>
 
-
-        </HorizontalStackLayout>
-
-        <VerticalStackLayout IsVisible="{Binding UpcomingPaymentsVisible}" 
-                             >
-
-            <Button Text="Upcoming Payments Button"
-            />
+            <VerticalStackLayout IsVisible="{Binding TransactionsVisible}">
+                <Button Text="Transactions Button" />
+            </VerticalStackLayout>
         </VerticalStackLayout>
-
-        <VerticalStackLayout IsVisible="{Binding TransactionsVisible}" 
-                             >
-
-            <Button Text="Transactions Button"
-           />
-        </VerticalStackLayout>
-
-    
-
-    </VerticalStackLayout>
-
-
+    </ScrollView>
 </ContentPage>

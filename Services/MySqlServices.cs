@@ -101,6 +101,50 @@ public class FisMySqlHelper
         }
     }
 
+    public void PopulateAccountsPayableWithEmployeeData(JsonNode items)
+    {
+        using (MySqlConnection conn = new MySqlConnection(connStr))
+        {
+
+
+
+            // define the SQL query to be used to get records
+            string insertQuery = "INSERT INTO accounts_payable (EmployeeId, Amount, DueDate, PaymentStatus, EmployeeDirectDeposit)" +
+                "VALUES (@EMPLOYEEID, @AMOUNT, @DUEDATE, @PAYMENTSTATUS, @DIRECTDEPOSIT);";
+
+            foreach (var item in items.AsArray())
+            {
+                int employeeId = item["EmployeeId"]?.GetValue<int>() ?? 0;
+                double amount = double.Parse(item["Amount"]?.ToString() ?? "0");
+                var dueDate = item["DueDate"]?.GetValue<DateTime>() ?? DateTime.MinValue;
+                string paymentStatus = item["PaymentStatus"]?.GetValue<string>() ?? string.Empty;
+                bool directDeposit = item["EmployeeDirectDeposit"]?.GetValue<bool>() ?? false;
+
+
+                using (MySqlCommand cmd = new MySqlCommand(insertQuery, conn))
+                {
+
+                    // setup parameters for the INSERT statement
+                    cmd.Parameters.AddWithValue("@EMPLOYEEID", employeeId);
+                    cmd.Parameters.AddWithValue("@AMOUNT", amount);
+                    cmd.Parameters.AddWithValue("@DUEDATE", dueDate);
+                    cmd.Parameters.AddWithValue("@PAYMENTSTATUS", paymentStatus);
+                    cmd.Parameters.AddWithValue("@DIRECTDEPOSIT", directDeposit);
+
+                    // open connection
+                    conn.Open();
+
+                    // run query
+                    cmd.ExecuteNonQuery();
+
+                    conn.Close();
+                }
+            }
+
+
+        }
+    }
+
     public void PopulateTransactions(JsonNode items)
     {
         using (MySqlConnection conn = new MySqlConnection(connStr))
@@ -200,7 +244,7 @@ public class FisMySqlHelper
                 cmd.Parameters.AddWithValue("@VENDORID", vendorId);
                 cmd.Parameters.AddWithValue("@AMOUNT", amount);
                 cmd.Parameters.AddWithValue("@DUEDATE", twoDaysFromNow);
-                cmd.Parameters.AddWithValue("@PAYMENTSTATUS", "Incomplete");
+                cmd.Parameters.AddWithValue("@PAYMENTSTATUS", "Pending");
 
                 // open connection
                 conn.Open();
@@ -236,10 +280,10 @@ public class FisMySqlHelper
             } else
             {
                 insertTransactionQuery = "INSERT INTO transactions (" +
-                    "AccountsReceivableID," +
+                    "AccountsPayableID," +
                     "Amount," +
                     "Date," +
-                    "VendorID" +
+                    "EmployeeId" +
                 ")" +
                 " VALUES (" +
                     "@ACCOUNTSID," +
@@ -259,7 +303,7 @@ public class FisMySqlHelper
 
                 // setup parameters for the INSERT statement
                 cmd.Parameters.AddWithValue("@ACCOUNTSID", accountsID);
-                cmd.Parameters.AddWithValue("@AMOUNT", amount);
+                cmd.Parameters.AddWithValue("@AMOUNT", -amount);
                 cmd.Parameters.AddWithValue("@DATE", today);
                 cmd.Parameters.AddWithValue("@PAYEEID", payeeID);
 
@@ -448,6 +492,51 @@ public class FisMySqlHelper
         {
             const string selectQuery = "SELECT * FROM accounts_payable " +
                 "WHERE VendorID IS NOT NULL " +
+                "ORDER BY DueDate ASC;";
+            using (MySqlCommand cmd = new MySqlCommand(selectQuery, conn))
+            {
+                conn.Open();
+
+                // Use ExecuteReader to fetch rows (ExecuteNonQuery returns affected rows count)
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var obj = new JsonObject();
+
+                        for (int i = 0; i < reader.FieldCount; i++)
+                        {
+                            var name = reader.GetName(i);
+                            if (reader.IsDBNull(i))
+                            {
+                                obj[name] = null;
+                            }
+                            else
+                            {
+                                var value = reader.GetValue(i);
+                                obj[name] = JsonValue.Create(value);
+                            }
+                        }
+
+                        results.Add(obj);
+                    }
+                }
+
+                conn.Close();
+            }
+        }
+
+        return results;
+    }
+
+    public JsonArray GetAccountsPayableEmployee()
+    {
+        var results = new JsonArray();
+
+        using (MySqlConnection conn = new MySqlConnection(connStr))
+        {
+            const string selectQuery = "SELECT * FROM accounts_payable " +
+                "WHERE EmployeeId IS NOT NULL " +
                 "ORDER BY DueDate ASC;";
             using (MySqlCommand cmd = new MySqlCommand(selectQuery, conn))
             {

@@ -52,7 +52,11 @@ public partial class APViewModel : ObservableObject
     public ObservableCollection<RawMaterial> RawMaterials { get; } = new();
     public ObservableCollection<AccountsPayableVendor> AccountsPayableVendor { get; } = new();
     public ObservableCollection<Transaction> Transaction { get; } = new();
- 
+
+    public ObservableCollection<AccountsPayableEmployee> AccountsPayableEmployee { get; } = new();
+
+    
+
 
 
     public ICommand OrderMaterial
@@ -65,20 +69,27 @@ public partial class APViewModel : ObservableObject
         get;
     }
 
+    public ICommand EmployeeTransaction
+    {
+        get;
+    }
+
     public APViewModel()
     {
         
         
         OrderMaterial = new Command<string>(OrderMaterialFunction);
         VendorTransaction = new Command<string>(VendorTransactionFunction);
+        EmployeeTransaction = new Command<string>(EmployeeTransactionFunction);
         RefreshAccountsPayable();
     }
 
     private void RefreshAccountsPayable()
     {
         ShowRawMaterials();
-        ShowAccountsPayable();
+        ShowAccountsPayableVendor();
         ShowTransactions();
+        ShowAccountsPayableEmployee();
     }
 
     private void OrderMaterialFunction(string rawId)
@@ -114,6 +125,20 @@ public partial class APViewModel : ObservableObject
         RefreshAccountsPayable();
 
 
+    }
+
+    private void EmployeeTransactionFunction(string id)
+    {
+        var accountPayable = mysqlHelper.GetAccountPayable(id);
+        if (accountPayable == null) return;
+        string accountsPayableID = (accountPayable["AccountsPayableID"]?.ToString());
+        string employeeId = (accountPayable["EmployeeId"]?.ToString());
+        double amount = double.Parse(accountPayable["Amount"]?.ToString() ?? "0");
+
+        mysqlHelper.CreateAccountsPayableTransaction(accountsPayableID, employeeId, amount, "employee");
+        mysqlHelper.UpdateAccountsPayableAfterTransaction(accountsPayableID);
+
+        RefreshAccountsPayable();
     }
 
     private void ShowRawMaterials()
@@ -163,7 +188,7 @@ public partial class APViewModel : ObservableObject
 
     }
 
-    private void ShowAccountsPayable()
+    private void ShowAccountsPayableVendor()
     {
         var response = mysqlHelper.GetAccountsPayableVendor();
         if (response == null || response.Count == 0)
@@ -190,7 +215,7 @@ public partial class APViewModel : ObservableObject
 
             string dueDateString = dueDate.ToShortDateString();
 
-            if (today >= dueDate && paymentStatus == "Incomplete")
+            if (today >= dueDate && paymentStatus == "Pending")
             {
                 isVisible = true;
                 pastDueColor = Colors.Red;
@@ -213,6 +238,55 @@ public partial class APViewModel : ObservableObject
 
     }
 
+    private void ShowAccountsPayableEmployee()
+    {
+        var response = mysqlHelper.GetAccountsPayableEmployee();
+        if (response == null || response.Count == 0)
+            return;
+
+        AccountsPayableEmployee.Clear();
+
+        foreach (var accountPayable in response.AsArray())
+        {
+
+
+            string accountsPayableID = (accountPayable["AccountsPayableID"]?.ToString()?.Trim('"'));
+            double amount = double.Parse(accountPayable["Amount"]?.ToString()?.Trim('"') ?? "0");
+            DateTime dueDate = ((DateTime)accountPayable["DueDate"]);
+            string paymentStatus = accountPayable["PaymentStatus"]?.ToString()?.Trim('"');
+            string employeeId = accountPayable["EmployeeId"]?.ToString()?.Trim('"');
+            bool employeeDirectDeposit = accountPayable["EmployeeDirectDeposit"]?.GetValue<bool>() ?? false;
+
+
+
+            bool isVisible = false;
+            Color pastDueColor = Colors.Gray;
+            DateTime today = DateTime.Now;
+
+            string dueDateString = dueDate.ToShortDateString();
+
+            if (today >= dueDate && paymentStatus == "Pending")
+            {
+                isVisible = true;
+                pastDueColor = Colors.Red;
+            }
+
+
+            AccountsPayableEmployee.Add(new AccountsPayableEmployee
+            {
+                AccountsPayableID = accountsPayableID,
+                Amount = amount,
+                DueDate = dueDateString,
+                PaymentStatus = paymentStatus,
+                EmployeeId = employeeId,
+                EmployeeDirectDeposit = employeeDirectDeposit,
+                ButtonIsVisible = isVisible,
+                PastDueColor = pastDueColor
+            });
+        }
+
+    }
+
     private void ShowTransactions()
     {
         var response = mysqlHelper.GetAccountsPayableTransactions();
@@ -227,7 +301,7 @@ public partial class APViewModel : ObservableObject
             var accountsPayableID = transactions["AccountsPayableID"]?.ToString();
             double amount = double.Parse(transactions["Amount"]?.ToString() ?? "0");
             DateTime date = ((DateTime)transactions["Date"]);
-            var employeeID = transactions["EmployeeID"]?.ToString();
+            var employeeId = transactions["EmployeeId"]?.ToString();
             var vendorID = transactions["VendorID"]?.ToString();
 
             Transaction.Add(new Transaction {
@@ -235,7 +309,7 @@ public partial class APViewModel : ObservableObject
                 AccountsPayableID = accountsPayableID, 
                 Amount = amount, 
                 Date = date, 
-                EmployeeId = employeeID, 
+                EmployeeId = employeeId, 
                 VendorID = vendorID
             });
         }

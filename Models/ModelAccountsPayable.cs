@@ -42,6 +42,7 @@ public class AccountsPayableVendor : AccountsPayable
 public class AccountsPayableEmployee : AccountsPayable
 {
     public string EmployeeId { get; set; }
+    public bool EmployeeDirectDeposit { get; set; }
 }
 
 public class Transaction
