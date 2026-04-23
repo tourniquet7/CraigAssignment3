@@ -40,7 +40,7 @@
                         BackgroundColor="{Binding TransactionsColor}"/>
 
                 <Button Text="Refresh Reports"
-                     Command="{Binding RefreshReportsButtonCommand}"
+                     Command="{Binding RefreshReportsCommand}"
                      BackgroundColor="Blue"/>
 
             </HorizontalStackLayout>
@@ -128,7 +128,66 @@
 
 
             <VerticalStackLayout IsVisible="{Binding AccountsReceivableVisible}">
-                
+                <HorizontalStackLayout>
+
+                    <Label Text="Amount Paid = " />
+                    <Label Text="{Binding ArAmountPaid}" />
+                    <Label Text="    Amount Not Paid Yet = " />
+                    <Label Text="{Binding ArAmountNotPaid}" />
+                    <Label Text="    Amount Past Due = " />
+                    <Label Text="{Binding ArAmountPastDue}" />
+                    <Label Text="    Total accounts past due = " />
+                    <Label Text="{Binding ArAccountsPastDue}" />
+                    <Label Text="    Total amount in Accounts Receivable = " />
+                    <Label Text="{Binding ArAmountTotal}" />
+                </HorizontalStackLayout>
+
+                <Grid Padding="12,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Text="Accounts Receivable ID" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="1" Text="Customer ID" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="2" Text="Amount" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="3" Text="Due Date" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="4" Text="Payment Status" FontSize="14" TextColor="Black"/>
+
+                </Grid>
+
+
+
+                <CollectionView ItemsSource="{Binding AccountsPayableEverything}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+
+
+                            <Grid Padding="12,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                </Grid.ColumnDefinitions>
+
+
+                                <Label Grid.Column="0" Text="{Binding AccountsReceivableID}" FontSize="14"/>
+                                <Label Grid.Column="1" Text="{Binding CustomerID}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="2" Text="{Binding Amount}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="3" Text="{Binding DueDate}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="5" Text="{Binding PaymentStatus}" FontSize="14" TextColor="Gray"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
             </VerticalStackLayout>
             
             

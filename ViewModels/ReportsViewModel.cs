@@ -58,6 +58,21 @@ public partial class ReportsViewModel : ObservableObject
     [ObservableProperty]
     private int apAccountsPastDue = 0;
 
+    [ObservableProperty]
+    private double arAmountPaid = 0;
+
+    [ObservableProperty]
+    private double arAmountNotPaid = 0;
+
+    [ObservableProperty]
+    private double arAmountPastDue = 0;
+
+    [ObservableProperty]
+    private double arAmountTotal = 0;
+
+    [ObservableProperty]
+    private int arAccountsPastDue = 0;
+
 
     public int width = 200;
 
@@ -66,23 +81,17 @@ public partial class ReportsViewModel : ObservableObject
 
     public ObservableCollection<AccountsReceivableModel> AccountsReceivableModel { get; } = new();
 
-    public ICommand RefreshReportsButton
-    {
-        get;
-    }
 
 
     public ReportsViewModel()
     {
-        RefreshReportsButton = new Command(RefreshReportsButtonFunction);
+       
         RefreshReports();
     }
 
-    private void RefreshReportsButtonFunction()
-    {
-        RefreshReports();
-    }
 
+
+    [RelayCommand]
     private void RefreshReports()
     {
         ShowAccountsPayable();
@@ -172,9 +181,15 @@ public partial class ReportsViewModel : ObservableObject
 
         AccountsReceivableModel.Clear();
 
+    
+
         double amountPaid = 0;
+        double amountNotPaid = 0;
         double amountPastDue = 0;
+        int accountsPastDue = 0;
         double amountTotal = 0;
+        //current date time
+        DateTime today = DateTime.Now;
 
         foreach (var accountReceivable in response.AsArray())
         {
@@ -187,6 +202,23 @@ public partial class ReportsViewModel : ObservableObject
             string paymentStatus = accountReceivable["PaymentStatus"]?.ToString()?.Trim('"');
 
 
+            amountTotal = amountTotal + amount;
+
+            if (paymentStatus == "Paid")
+            {
+                amountPaid = amountPaid + amount;
+            }
+            else
+            {
+                amountNotPaid = amountNotPaid + amount;
+            }
+
+            if (today >= dueDate && paymentStatus == "Pending")
+            {
+                amountPastDue = amountPastDue + amount;
+                accountsPastDue = accountsPastDue + 1;
+            }
+
             AccountsReceivableModel.Add(new AccountsReceivableModel
             {
                 AccountsReceivableID = accountsReceivableID,
@@ -195,6 +227,14 @@ public partial class ReportsViewModel : ObservableObject
                 DueDate = dueDate,
                 PaymentStatus = paymentStatus
             });
+
+            ArAmountPaid = amountPaid;
+            ArAmountNotPaid = amountNotPaid;
+            ArAmountPastDue = amountPastDue;
+            ArAmountTotal = amountTotal;
+            ArAccountsPastDue = accountsPastDue;
+
+
         }
     }
 
