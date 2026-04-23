@@ -8,49 +8,32 @@
              Title="Reports"
              IconImageSource="home.png">
 
-
     <ContentPage.BindingContext>
         <viewModels:ReportsViewModel />
     </ContentPage.BindingContext>
 
     <ScrollView>
-        <!-- Input Fields -->
-
-
         <VerticalStackLayout>
-
-            <!-- Tab Buttons -->
             <HorizontalStackLayout Spacing="10" Padding="10">
-
                 <Button Text="Accounts Payable"
                      Command="{Binding ReportsViewSelectedCommand}"
                      CommandParameter="accountsPayable"
                      BackgroundColor="{Binding AccountsPayableColor}"/>
-
                 <Button Text="Accounts Receivable"
                     Command="{Binding ReportsViewSelectedCommand}"
                     CommandParameter="accountsReceivable"
                     BackgroundColor="{Binding AccountsReceivableColor}"/>
-
-
-
                 <Button Text="Transactions"
                         Command="{Binding ReportsViewSelectedCommand}"
                         CommandParameter="transactions"
                         BackgroundColor="{Binding TransactionsColor}"/>
-
                 <Button Text="Refresh Reports"
                      Command="{Binding RefreshReportsCommand}"
                      BackgroundColor="Blue"/>
-
             </HorizontalStackLayout>
-
-
-
 
             <VerticalStackLayout IsVisible="{Binding AccountsPayableVisible}">
                 <HorizontalStackLayout>
-
                     <Label Text="Amount Paid = " />
                     <Label Text="{Binding ApAmountPaid}" />
                     <Label Text="    Amount Not Paid Yet = " />
@@ -85,16 +68,11 @@
                     <Label Grid.Column="6" Text="Due Date" FontSize="14" TextColor="Black"/>
                     <Label Grid.Column="7" Text="Payment Status" FontSize="14" TextColor="Black"/>
                     <Label Grid.Column="8" Text="Direct Deposit" FontSize="14" TextColor="Black"/>
-
                 </Grid>
-
-
 
                 <CollectionView ItemsSource="{Binding AccountsPayableEverything}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-
-
                             <Grid Padding="12,8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="{Binding width}" />
@@ -110,7 +88,7 @@
 
                                 <Label Grid.Column="0" Text="{Binding AccountsPayableID}" FontSize="14"/>
                                 <Label Grid.Column="1" Text="{Binding RawMaterialID}" FontSize="14" TextColor="Gray"/>
-                                <Label Grid.Column="2" Text="{Binding RawMaterialQty}" FontSize="14" TextColor="{Binding CurrentInventoryColor}"/>
+                                <Label Grid.Column="2" Text="{Binding RawMaterialQty}" FontSize="14" TextColor="Gray"/>
                                 <Label Grid.Column="3" Text="{Binding VendorID}" FontSize="14" TextColor="Gray"/>
                                 <Label Grid.Column="4" Text="{Binding EmployeeId}" FontSize="14" TextColor="Gray"/>
                                 <Label Grid.Column="5" Text="{Binding Amount}" FontSize="14" TextColor="Gray"/>
@@ -120,16 +98,11 @@
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
-
                 </CollectionView>
             </VerticalStackLayout>
 
-
-
-
             <VerticalStackLayout IsVisible="{Binding AccountsReceivableVisible}">
                 <HorizontalStackLayout>
-
                     <Label Text="Amount Paid = " />
                     <Label Text="{Binding ArAmountPaid}" />
                     <Label Text="    Amount Not Paid Yet = " />
@@ -157,16 +130,11 @@
                     <Label Grid.Column="2" Text="Amount" FontSize="14" TextColor="Black"/>
                     <Label Grid.Column="3" Text="Due Date" FontSize="14" TextColor="Black"/>
                     <Label Grid.Column="4" Text="Payment Status" FontSize="14" TextColor="Black"/>
-
                 </Grid>
-
-
 
                 <CollectionView ItemsSource="{Binding AccountsReceivableModel}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-
-
                             <Grid Padding="12,8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="{Binding width}" />
@@ -176,7 +144,6 @@
                                     <ColumnDefinition Width="{Binding width}" />
                                 </Grid.ColumnDefinitions>
 
-
                                 <Label Grid.Column="0" Text="{Binding AccountsReceivableID}" FontSize="14"/>
                                 <Label Grid.Column="1" Text="{Binding CustomerID}" FontSize="14" TextColor="Gray"/>
                                 <Label Grid.Column="2" Text="{Binding Amount}" FontSize="14" TextColor="Gray"/>
@@ -185,12 +152,8 @@
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
-
                 </CollectionView>
             </VerticalStackLayout>
-
-
-
 
             <VerticalStackLayout IsVisible="{Binding TransactionsVisible}">
                 <HorizontalStackLayout>
@@ -216,8 +179,6 @@
                     <Label Grid.Column="3" Text="Amount" FontSize="14" TextColor="Black"/>
                     <Label Grid.Column="4" Text="Date" FontSize="14" TextColor="Black"/>
                 </Grid>
-
-
 
                 <CollectionView ItemsSource="{Binding TransactionEverything}">
                     <CollectionView.ItemTemplate>

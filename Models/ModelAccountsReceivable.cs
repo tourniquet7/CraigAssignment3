@@ -1,7 +1,4 @@
-﻿// App:     Amortization calculator
-// Element: Model
-
-namespace FISSystem.Models;
+﻿namespace FISSystem.Models;
 
 public class AccountsReceivableModel
 {
@@ -14,7 +11,6 @@ public class AccountsReceivableModel
     public bool ButtonIsVisible { get; set; }
     public Color PastDueColor { get; set; }
 }
-
 
 public class TransactionReceivable : Transaction
 {

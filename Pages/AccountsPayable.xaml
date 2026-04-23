@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-    
+
 <ContentPage x:Class="FISSystem.Pages.AccountsPayable"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -8,42 +8,32 @@
              Title="Accounts Payable"
              IconImageSource="home.png">
 
-
     <ContentPage.BindingContext>
         <viewModels:APViewModel />
     </ContentPage.BindingContext>
 
     <ScrollView>
-    <!-- Input Fields -->
         <VerticalStackLayout>
-
-            <!-- Tab Buttons -->
             <HorizontalStackLayout Spacing="10" Padding="10">
-
                 <Button Text="Raw Materials"
                     Command="{Binding APViewSelectedCommand}"
                     CommandParameter="raw"
                     BackgroundColor="{Binding RawButtonColor}"/>
-
                 <Button Text="Vendor Payables"
                         Command="{Binding APViewSelectedCommand}"
                         CommandParameter="vendor"
                         BackgroundColor="{Binding VendorButtonColor}"/>
-
                 <Button Text="Employee Payables"
                         Command="{Binding APViewSelectedCommand}"
                         CommandParameter="employee" 
                         BackgroundColor="{Binding EmployeeButtonColor}"/>
-
                 <Button Text="Transactions"
                         Command="{Binding APViewSelectedCommand}"
                         CommandParameter="transactions" 
                         BackgroundColor="{Binding TransactionsButtonColor}"/>
-
             </HorizontalStackLayout>
 
             <VerticalStackLayout IsVisible="{Binding RawVisible}">
-
                 <Grid Padding="12,8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="{Binding width}" />
@@ -67,14 +57,10 @@
                     <Label Grid.Column="7" Text="Inventory Replenish Level" FontSize="14" TextColor="Black"/>
                     <Label Grid.Column="8" Text="Action" FontSize="14" TextColor="Black"/>
                 </Grid>
-        
-
 
                 <CollectionView ItemsSource="{Binding RawMaterials}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-
-
                             <Grid Padding="12,8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="{Binding width}" />
@@ -100,9 +86,7 @@
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
-                
                 </CollectionView>
-    
             </VerticalStackLayout>
 
             <VerticalStackLayout IsVisible="{Binding VendorVisible}">
@@ -126,16 +110,11 @@
                     <Label Grid.Column="5" Text="Vendor ID" FontSize="14" TextColor="Black"/>
                     <Label Grid.Column="6" Text="Payment Status" FontSize="14" TextColor="Black"/>
                     <Label Grid.Column="7" Text="Pay Invoice" FontSize="14" TextColor="Black"/>
-             
                 </Grid>
-
-
 
                 <CollectionView ItemsSource="{Binding AccountsPayableVendor}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-
-
                             <Grid Padding="12,8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="{Binding width}" />
@@ -160,9 +139,7 @@
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
-
                 </CollectionView>
-
             </VerticalStackLayout>
 
             <VerticalStackLayout IsVisible="{Binding EmployeeVisible}">
@@ -186,13 +163,9 @@
                     <Label Grid.Column="6" Text="Pay Invoice" FontSize="14" TextColor="Black"/>
                 </Grid>
 
-
-
                 <CollectionView ItemsSource="{Binding AccountsPayableEmployee}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-
-
                             <Grid Padding="12,8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="{Binding width}" />
@@ -215,9 +188,7 @@
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
-
                 </CollectionView>
-
             </VerticalStackLayout>
 
             <VerticalStackLayout IsVisible="{Binding TransactionsVisible}">
@@ -235,13 +206,9 @@
                     <Label Grid.Column="3" Text="Date" FontSize="14" TextColor="Black"/>
                 </Grid>
 
-
-
                 <CollectionView ItemsSource="{Binding TransactionPayable}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-
-
                             <Grid Padding="12,8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="{Binding width}" />
@@ -253,15 +220,12 @@
                                 <Label Grid.Column="0" Text="{Binding TransactionID}" FontSize="14"/>
                                 <Label Grid.Column="1" Text="{Binding AccountsPayableID}" FontSize="14" TextColor="Gray"/>
                                 <Label Grid.Column="2" Text="{Binding Amount}" FontSize="14" TextColor="Gray"/>
-                                <Label Grid.Column="3" Text="{Binding Date}" FontSize="14" TextColor="{Binding CurrentInventoryColor}"/>
+                                <Label Grid.Column="3" Text="{Binding Date}" FontSize="14" TextColor="Gray"/>
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
-
                 </CollectionView>
             </VerticalStackLayout>
-
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>

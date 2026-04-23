@@ -1,9 +1,4 @@
-﻿// App:     Amortization calculator
-// Element: Model
-
-
-
-namespace FISSystem.Models;
+﻿namespace FISSystem.Models;
 
 public class RawMaterial
 {
@@ -20,9 +15,6 @@ public class RawMaterial
     public Color CurrentInventoryColor { get; set; }
 
 }
-
-
-
 
 public class AccountsPayableVendor : AccountsPayableModel
 {
