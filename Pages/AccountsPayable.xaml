@@ -175,7 +175,6 @@
                         <ColumnDefinition Width="{Binding width}" />
                         <ColumnDefinition Width="{Binding width}" />
                         <ColumnDefinition Width="{Binding width}" />
-                        <ColumnDefinition Width="{Binding width}" />
                     </Grid.ColumnDefinitions>
 
                     <Label Grid.Column="0" Text="Accounts Payable ID" FontSize="14" TextColor="Black"/>
@@ -230,16 +229,14 @@
                         <ColumnDefinition Width="{Binding width}" />
                         <ColumnDefinition Width="{Binding width}" />
                         <ColumnDefinition Width="{Binding width}" />
-                        <ColumnDefinition Width="{Binding width}" />
                     </Grid.ColumnDefinitions>
 
                     <Label Grid.Column="0" Text="Transaction ID" FontSize="14" TextColor="Black"/>
                     <Label Grid.Column="1" Text="Accounts Payable ID" FontSize="14" TextColor="Black"/>
-                    <Label Grid.Column="2" Text="Accounts Receivable ID" FontSize="14" TextColor="Black"/>
-                    <Label Grid.Column="3" Text="Amount" FontSize="14" TextColor="Black"/>
-                    <Label Grid.Column="4" Text="Date" FontSize="14" TextColor="Black"/>
-                    <Label Grid.Column="5" Text="Employee ID" FontSize="14" TextColor="Black"/>
-                    <Label Grid.Column="6" Text="Vendor ID" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="2" Text="Amount" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="3" Text="Date" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="4" Text="Employee ID" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="5" Text="Vendor ID" FontSize="14" TextColor="Black"/>
                 </Grid>
 
 
@@ -257,12 +254,10 @@
                                     <ColumnDefinition Width="{Binding width}" />
                                     <ColumnDefinition Width="{Binding width}" />
                                     <ColumnDefinition Width="{Binding width}" />
-                                    <ColumnDefinition Width="{Binding width}" />
                                 </Grid.ColumnDefinitions>
 
                                 <Label Grid.Column="0" Text="{Binding TransactionID}" FontSize="14"/>
                                 <Label Grid.Column="1" Text="{Binding AccountsPayableID}" FontSize="14" TextColor="Gray"/>
-                                <Label Grid.Column="2" Text="{Binding AccountsReceivableID}" FontSize="14" TextColor="{Binding PastDueColor}"/>
                                 <Label Grid.Column="3" Text="{Binding Amount}" FontSize="14" TextColor="Gray"/>
                                 <Label Grid.Column="4" Text="{Binding Date}" FontSize="14" TextColor="{Binding CurrentInventoryColor}"/>
                                 <Label Grid.Column="5" Text="{Binding EmployeeId}" FontSize="14" TextColor="Gray"/>
