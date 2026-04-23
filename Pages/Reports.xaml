@@ -15,8 +15,8 @@
 
     <ScrollView>
         <!-- Input Fields -->
-       
-        
+
+
         <VerticalStackLayout>
 
             <!-- Tab Buttons -->
@@ -32,7 +32,7 @@
                     CommandParameter="accountsReceivable"
                     BackgroundColor="{Binding AccountsReceivableColor}"/>
 
-               
+
 
                 <Button Text="Transactions"
                         Command="{Binding ReportsViewSelectedCommand}"
@@ -62,7 +62,7 @@
                     <Label Text="    Total amount in Accounts Payable = " />
                     <Label Text="{Binding ApAmountTotal}" />
                 </HorizontalStackLayout>
-                
+
                 <Grid Padding="12,8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="{Binding width}" />
@@ -188,16 +188,59 @@
 
                 </CollectionView>
             </VerticalStackLayout>
-            
-            
-            
+
+
+
 
             <VerticalStackLayout IsVisible="{Binding TransactionsVisible}">
-                
+                <HorizontalStackLayout>
+                    <Label Text="Total Paid = " />
+                    <Label Text="{Binding TrTotalPaid}" />
+                    <Label Text="    Total Received = " />
+                    <Label Text="{Binding TrTotalReceived}" />
+                    <Label Text="    Amount Past Due = " />
+                    <Label Text="{Binding TrRevenueMinusExpenses}" />
+                </HorizontalStackLayout>
+                <Grid Padding="12,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                        <ColumnDefinition Width="{Binding width}" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Text="Transaction ID" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="1" Text="Accounts Payable ID" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="2" Text="Accounts Receivable ID" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="3" Text="Amount" FontSize="14" TextColor="Black"/>
+                    <Label Grid.Column="4" Text="Date" FontSize="14" TextColor="Black"/>
+                </Grid>
+
+
+
+                <CollectionView ItemsSource="{Binding TransactionEverything}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="12,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                    <ColumnDefinition Width="{Binding width}" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Column="0" Text="{Binding TransactionID}" FontSize="14"/>
+                                <Label Grid.Column="1" Text="{Binding AccountsPayableID}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="2" Text="{Binding AccountsReceivableID}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="3" Text="{Binding Amount}" FontSize="14" TextColor="Gray"/>
+                                <Label Grid.Column="4" Text="{Binding Date}" FontSize="14"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
             </VerticalStackLayout>
-
-
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>

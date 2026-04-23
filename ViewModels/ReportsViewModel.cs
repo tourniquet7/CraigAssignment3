@@ -73,6 +73,18 @@ public partial class ReportsViewModel : ObservableObject
     [ObservableProperty]
     private int arAccountsPastDue = 0;
 
+    [ObservableProperty]
+    private double tAmountPastDue = 0;
+
+    [ObservableProperty]
+    private double trTotalPaid = 0;
+
+    [ObservableProperty]
+    private double trTotalReceived = 0;
+
+    [ObservableProperty]
+    private double trRevenueMinusExpenses = 0;
+
 
     public int width = 200;
 
@@ -80,6 +92,8 @@ public partial class ReportsViewModel : ObservableObject
     public ObservableCollection<AccountsPayableEverything> AccountsPayableEverything { get; } = new();
 
     public ObservableCollection<AccountsReceivableModel> AccountsReceivableModel { get; } = new();
+
+    public ObservableCollection<TransactionEverything> TransactionEverything { get; } = new();
 
 
 
@@ -96,6 +110,7 @@ public partial class ReportsViewModel : ObservableObject
     {
         ShowAccountsPayable();
         ShowAccountsReceivable();
+        ShowTransactions();
     }
 
     private void ShowAccountsPayable()
@@ -238,7 +253,50 @@ public partial class ReportsViewModel : ObservableObject
         }
     }
 
+    private void ShowTransactions()
+    {
+        var response = mysqlHelper.GetTransactions();
+        if (response == null || response.Count == 0)
+            return;
 
+        TransactionEverything.Clear();
+
+        double totalPaid = 0;
+        double totalReceived = 0;
+
+        foreach (var transaction in response.AsArray())
+        {
+            string transactionID = transaction["TransactionID"]?.ToString();
+            string accountsPayableID = transaction["AccountsPayableID"]?.ToString();
+            string accountsReceivableID = transaction["AccountsReceivableID"]?.ToString();
+            double amount = double.Parse(transaction["Amount"]?.ToString() ?? "0");
+            DateTime date = ((DateTime)transaction["Date"]);
+
+            if (accountsPayableID != null)
+            {
+                totalPaid = totalPaid + amount;
+            } else if (accountsReceivableID != null)
+            {
+                totalReceived = totalReceived + amount;
+            }
+
+
+            TransactionEverything.Add(new TransactionEverything
+            {
+                TransactionID = transactionID,
+                AccountsPayableID = accountsPayableID,
+                AccountsReceivableID = accountsReceivableID,
+                Amount = amount,
+                Date = date
+            });
+        }
+
+        var revenueMinusExpenses = totalReceived - totalPaid;
+
+        TrTotalPaid = totalPaid;
+        TrTotalReceived = totalReceived;
+        TrRevenueMinusExpenses = revenueMinusExpenses;
+    }
 
 
 
